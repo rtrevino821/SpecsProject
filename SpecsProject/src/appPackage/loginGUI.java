@@ -128,6 +128,7 @@ public class loginGUI extends JFrame {
     userNameLabel.setHorizontalAlignment(SwingConstants.CENTER);
     // Sets font
     userNameLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
+    userNameLabel.setForeground(new Color(0,70,116));
     // Positions the label
     userNameLabel.setBounds(new Rectangle(508, 376, 442, 65));
     // Displays "Password" in the pawwordField
@@ -156,13 +157,14 @@ public class loginGUI extends JFrame {
     passwordLabel.setHorizontalAlignment(SwingConstants.CENTER);
     // Sets the font of the textfield
     passwordLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
+    passwordLabel.setForeground(new Color(0,70,116));
     // Set the bounds of the etxtField
     passwordLabel.setBounds(new Rectangle(508, 476, 442, 65));
     // Displays "Login" on the JButton
     blogin = new JButton("Login");
     // sets the color of the button
     blogin.setForeground(Color.WHITE);
-    blogin.setBackground(Color.BLACK);
+    blogin.setBackground(new Color(0, 70, 116));
     // sets the font for the button
     blogin.setFont(new Font("Tahoma", Font.BOLD, 18));
     // sets the Bounds for the button
