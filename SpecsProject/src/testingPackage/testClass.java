@@ -7,6 +7,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -71,7 +72,6 @@ public class testClass {
 		JPanel panel = new JPanel();
 		panel.setBounds(6, 6, 1418, 814);
 		frame.getContentPane().add(panel);
-		panel.setLayout(null);
 		
 		 
 
@@ -79,6 +79,7 @@ public class testClass {
 
 		
 		JButton btnNewButton = new JButton("Insert");
+		btnNewButton.setBounds(20, 24, 89, 23);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -89,19 +90,25 @@ public class testClass {
 				}
 			}
 		});
-	
-	
-		btnNewButton.setBounds(20, 24, 89, 23);
+		panel.setLayout(null);
 		panel.add(btnNewButton);
 		
+		//DELETE
 		JButton btnDelete = new JButton("Delete");
+		btnDelete.setBounds(133, 24, 89, 23);
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int[] row = testTable.getSelectedRows();
-				System.out.println(testTable.getSelectedRows());
+				int row = testTable.getSelectedRow();
+				  if (row != -1) {
+			            try {
+							deleteRow(row);
+						} catch (SQLException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+			        }
 			}
 		});
-		btnDelete.setBounds(133, 24, 89, 23);
 		panel.add(btnDelete);
 		
 		JButton btnUpdate = new JButton("Update");
@@ -128,14 +135,27 @@ public class testClass {
 		testTable = new JTable();
 		scrollPane.setViewportView(testTable);
 		testTable.setAutoCreateColumnsFromModel(true);
+		
+		JButton btnExportExcel = new JButton("Export Excel");
+		btnExportExcel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					ConvertExcel.convertToExcel(testTable);
+					ConvertExcel.convertApachi(testTable);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		btnExportExcel.setBounds(433, 21, 90, 28);
+		panel.add(btnExportExcel);
 
 		
 	}
 	
 	public static void UpDateTable() 
 	{
-		
-		
 		try 
 		{
 			Connection conn = sqliteConnectionTEST.dbConnector();
@@ -149,7 +169,6 @@ public class testClass {
 			testTable.setModel(dm);
 			
 			//testTable.setModel(DbUtils.resultSetToTableModel(rsTest));
-		    DefaultTableModel tableModel = (DefaultTableModel) testTable.getModel();
 
 			//Refresh the table
 		   // tableModel.fireTableStructureChanged();
@@ -157,7 +176,7 @@ public class testClass {
 			testTable.revalidate();
 			testTable.repaint();
 			testTable.validate();//			
-			System.out.println(tableModel.getRowCount());
+			//System.out.println(tableModel.getRowCount());
 			conn.close();
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e);
@@ -165,36 +184,25 @@ public class testClass {
 	}
 	
 	
-//	public static void deleteRow()
-//	{
-//		 DefaultTableModel dm = new DefaultTableModel();
-//
-//		 dm.removeRow(row);
-//		
-//		 JTable table = (JTable)e.getSource();
-//	        int modelRow = Integer.valueOf( e.getActionCommand() );
-//	        ((DefaultTableModel)table.getModel()).removeRow(modelRow);
-//		  
-//		  for(int i =0; i<row.length;i++)
-//		  {
-//			  
-//		  }
+	public static void deleteRow(int row) throws SQLException
+	{
+		// remove selected row from the model
+		DefaultTableModel dm = (DefaultTableModel) testTable.getModel();
+		dm.removeRow(row);
 		
 		
-//		try {
-//			Connection conn = sqliteConnectionTEST.dbConnector();
-//			PreparedStatement pst;
-//	          pst = conn
-//	              .prepareStatement("DELETE FROM Electronics WHERE EmployeeName = ?");
-//	          pst.setString(1, empName.getText());
-//	          pst.executeUpdate();
-//	          JOptionPane.showMessageDialog(null, "Removed");
-//
-//	        } catch (Exception e) {
-//	          JOptionPane.showMessageDialog(null, e);
-//	        }
-//	        UpDateTable();
-//	      }
+		testTable.setModel(dm);
+		String delRowString  = (dm.getValueAt(row-1, 0).toString());//row-1 because db starts at 1
+		System.out.println("Data: " + delRowString);
+		//System.out.println(testTable.getSelectedRow());
+		Connection conn = sqliteConnectionTEST.dbConnector();
+		String query = "DELETE FROM  Electronics WHERE ID = ? ";
+		PreparedStatement prepareDel = conn.prepareStatement(query);
+		prepareDel.setString(1, delRowString);
+		prepareDel.executeUpdate();
+		UpDateTable();
+
+	}
 	
 	
 	public static void addRowsAndColumns(ResultSet rs, DefaultTableModel dm) throws SQLException
@@ -216,8 +224,4 @@ public class testClass {
             dm.addRow(row);
         }
 	}
-	
-	
-	
-	
 }

@@ -59,7 +59,7 @@ public class TestInsert extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		System.out.println(System.getProperty("user.dir"));
+		
 		/////Variables
 		Connection conn = sqliteConnectionTEST.dbConnector();
 		String query = "Insert into Electronics(ID, Room, Price, Date_Purchase, Expiration_Date, Type)"
