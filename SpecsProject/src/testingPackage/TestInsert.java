@@ -66,7 +66,8 @@ public class TestInsert extends JFrame {
 		+ "values(?,?,?,?,?,?)";
 		PreparedStatement prepare = conn.prepareStatement(query);
 		
-		
+		System.out.println(System.getProperty("user.dir") + "\\TestDB.sqlite");
+
 		JLabel lblNewLabel = new JLabel("Insert Data Into Table Test");
 		lblNewLabel.setBounds(47, 11, 162, 25);
 		contentPane.add(lblNewLabel);
@@ -194,13 +195,14 @@ public class TestInsert extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					prepare.execute();
-					new testClass().UpDateTable();
+					testClass.UpDateTable();
 					dispose();
 					
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
+
 			}
 		});
 		btnSubmit.setBounds(152, 227, 89, 23);
