@@ -53,7 +53,7 @@ public class TestInsert extends JFrame {
 	public TestInsert() throws SQLException {
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 264, 326);
+		setBounds(100, 100, 273, 317);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -84,7 +84,7 @@ public class TestInsert extends JFrame {
 				}
 			}
 		});
-		textField.setBounds(152, 47, 86, 20);
+		textField.setBounds(152, 47, 86, 25);
 		contentPane.add(textField);
 		textField.setColumns(10);
 		
@@ -100,7 +100,7 @@ public class TestInsert extends JFrame {
 				}
 			}
 		});
-		textField_1.setBounds(152, 79, 86, 20);
+		textField_1.setBounds(152, 79, 86, 25);
 		contentPane.add(textField_1);
 		textField_1.setColumns(10);
 		
@@ -116,7 +116,7 @@ public class TestInsert extends JFrame {
 				}
 			}
 		});
-		textField_2.setBounds(152, 110, 86, 20);
+		textField_2.setBounds(152, 110, 86, 25);
 		contentPane.add(textField_2);
 		textField_2.setColumns(10);
 		
@@ -132,7 +132,7 @@ public class TestInsert extends JFrame {
 				}
 			}
 		});
-		textField_3.setBounds(152, 133, 86, 20);
+		textField_3.setBounds(152, 142, 86, 25);
 		contentPane.add(textField_3);
 		textField_3.setColumns(10);
 		
@@ -149,7 +149,7 @@ public class TestInsert extends JFrame {
 				}
 			}
 		});
-		textField_4.setBounds(152, 165, 86, 20);
+		textField_4.setBounds(152, 172, 86, 25);
 		contentPane.add(textField_4);
 		textField_4.setColumns(10);
 		
@@ -162,7 +162,7 @@ public class TestInsert extends JFrame {
 		contentPane.add(lblNewLabel_1);
 		
 		lblDatepurchace = new JLabel("Date_Purchase");
-		lblDatepurchace.setBounds(47, 136, 93, 14);
+		lblDatepurchace.setBounds(47, 145, 93, 14);
 		contentPane.add(lblDatepurchace);
 		
 		lblPrice = new JLabel("Price");
@@ -170,7 +170,7 @@ public class TestInsert extends JFrame {
 		contentPane.add(lblPrice);
 		
 		lblType = new JLabel("Type");
-		lblType.setBounds(47, 198, 46, 14);
+		lblType.setBounds(47, 204, 46, 14);
 		contentPane.add(lblType);
 		
 		textField_5 = new JTextField();
@@ -186,7 +186,7 @@ public class TestInsert extends JFrame {
 				
 			}
 		});
-		textField_5.setBounds(152, 197, 86, 20);
+		textField_5.setBounds(152, 203, 86, 25);
 		contentPane.add(textField_5);
 		textField_5.setColumns(10);
 		
@@ -194,8 +194,9 @@ public class TestInsert extends JFrame {
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					prepare.execute();
-					testClass.UpDateTable();
+					prepare.executeUpdate();
+					TestMain.UpDateTable();
+					conn.close();
 					dispose();
 					
 				} catch (SQLException e1) {
@@ -205,11 +206,11 @@ public class TestInsert extends JFrame {
 
 			}
 		});
-		btnSubmit.setBounds(152, 227, 89, 23);
+		btnSubmit.setBounds(149, 240, 89, 23);
 		contentPane.add(btnSubmit);
 		
 		JLabel lblExpiration = new JLabel("Expiration_Date");
-		lblExpiration.setBounds(47, 162, 93, 16);
+		lblExpiration.setBounds(47, 169, 93, 25);
 		contentPane.add(lblExpiration);
 		
 	

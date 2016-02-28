@@ -22,7 +22,7 @@ import net.proteanit.sql.DbUtils;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
 
-public class testClass {
+public class TestMain {
 	 
 
 	private JFrame frame;
@@ -40,7 +40,7 @@ public class testClass {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					testClass window = new testClass();
+					TestMain window = new TestMain();
 					window.frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -53,7 +53,7 @@ public class testClass {
 	 * Create the application.
 	 * @throws SQLException 
 	 */
-	public testClass() throws SQLException {
+	public TestMain() throws SQLException {
 		Connection conn = sqliteConnectionTEST.dbConnector();
 		initialize();
 		UpDateTable();
@@ -133,22 +133,22 @@ public class testClass {
 		
 		
 		testTable = new JTable();
+		testTable.putClientProperty("terminateEditOnFocusLost", true);
 		scrollPane.setViewportView(testTable);
-		testTable.setAutoCreateColumnsFromModel(true);
+		//testTable.setAutoCreateColumnsFromModel(true);
 		
 		JButton btnExportExcel = new JButton("Export Excel");
 		btnExportExcel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					ConvertExcel.convertToExcel(testTable);
-					ConvertExcel.convertApachi(testTable);
+					ConvertExcel.writeExcel(testTable);
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
 		});
-		btnExportExcel.setBounds(433, 21, 90, 28);
+		btnExportExcel.setBounds(433, 21, 113, 28);
 		panel.add(btnExportExcel);
 
 		
@@ -183,6 +183,31 @@ public class testClass {
 		}
 	}
 	
+	public static void addRowsAndColumns(ResultSet rs, DefaultTableModel dm) throws SQLException
+	{
+        ResultSetMetaData rsmd=rs.getMetaData();
+        //Coding to get columns-
+        int cols=rsmd.getColumnCount();
+        String c[]=new String[cols];
+        for(int i=0;i<cols;i++){
+            c[i]=rsmd.getColumnName(i+1);
+            dm.addColumn(c[i]);
+        }
+        
+        Object row[]=new Object[cols];
+        while(rs.next()){
+             for(int i=0;i<cols;i++){
+                    row[i]=rs.getString(i+1);
+                }
+            dm.addRow(row);
+        }
+	}
+	
+	public static void CellEdits()
+	{
+		
+	}
+	
 	
 	public static void deleteRow(int row) throws SQLException
 	{
@@ -204,24 +229,5 @@ public class testClass {
 
 	}
 	
-	
-	public static void addRowsAndColumns(ResultSet rs, DefaultTableModel dm) throws SQLException
-	{
-        ResultSetMetaData rsmd=rs.getMetaData();
-        //Coding to get columns-
-        int cols=rsmd.getColumnCount();
-        String c[]=new String[cols];
-        for(int i=0;i<cols;i++){
-            c[i]=rsmd.getColumnName(i+1);
-            dm.addColumn(c[i]);
-        }
-        
-        Object row[]=new Object[cols];
-        while(rs.next()){
-             for(int i=0;i<cols;i++){
-                    row[i]=rs.getString(i+1);
-                }
-            dm.addRow(row);
-        }
-	}
-}
+}//end of TestMain	
+
