@@ -71,7 +71,7 @@ public class mainDashboard {
 		frame.setContentPane(new JLabel(new ImageIcon("src/mainDashBG.jpg")));
 		frame.setVisible(true);
 
-		//JTable Cell Spacing Height
+		// JTable Cell Spacing Height
 		int gap = 20;
 
 		// Application Icon Image
@@ -89,7 +89,6 @@ public class mainDashboard {
 		mainTabbedPane.setBounds(15, 186, 1388, 526);
 		mainTabbedPane.setFont(new Font("Tahoma", Font.BOLD, 16));
 		frame.getContentPane().add(mainTabbedPane);
-		
 
 		////////////////////////// MAIN DASH TAB ///////////////////////////////
 
@@ -116,7 +115,7 @@ public class mainDashboard {
 		});
 		mainDashTab.add(websiteButton);
 
-		//Main Dashboard Tab Background Image
+		// Main Dashboard Tab Background Image
 		JLabel label = new JLabel("");
 		label.setBounds(0, 0, 1383, 492);
 		mainDashTab.add(label);
@@ -136,8 +135,6 @@ public class mainDashboard {
 		statusLabel.setHorizontalAlignment(SwingConstants.LEFT);
 		statusPanel.add(statusLabel);
 
-		
-		
 		////////////////////////// CHECKOUT TAB ///////////////////////////////
 
 		JPanel checkoutTab = new JPanel();
@@ -149,7 +146,7 @@ public class mainDashboard {
 		scrollPaneCheckout.setBounds(776, 74, 592, 377);
 		checkoutTab.add(scrollPaneCheckout);
 
-		//Checkout Table
+		// Checkout Table
 		checkoutTable = new JTable() {
 			@Override
 			public boolean isCellEditable(int row, int column) {
@@ -162,7 +159,7 @@ public class mainDashboard {
 		checkoutTable.setRowHeight(checkoutTable.getRowHeight() + 10);
 		scrollPaneCheckout.setViewportView(checkoutTable);
 
-		//Table Headers
+		// Table Headers
 		Object[] columns = { "Product Name", "Price" };
 		model = new DefaultTableModel();
 		model.setColumnIdentifiers(columns);
@@ -173,7 +170,7 @@ public class mainDashboard {
 		// create an array of objects to set the row data
 		row = new Object[2];
 
-		//Font styling for Labels
+		// Font styling for Labels
 		Font labelFont = new Font("Tahoma", Font.BOLD, 18);
 
 		JLabel lblOrderSummary = new JLabel("Order Summary");
@@ -185,8 +182,8 @@ public class mainDashboard {
 		lblProductList.setFont(labelFont);
 		lblProductList.setBounds(39, 16, 189, 39);
 		checkoutTab.add(lblProductList);
-		
-		//Font styling for textfields
+
+		// Font styling for textfields
 		Font textFieldFont = new Font("Tahoma", Font.BOLD, 20);
 
 		JLabel lblTotal = new JLabel("Total:");
@@ -204,7 +201,7 @@ public class mainDashboard {
 		lblSubTotal.setBounds(39, 371, 102, 20);
 		checkoutTab.add(lblSubTotal);
 
-		//Print order button
+		// Print order button
 		JButton btnNewButton = new JButton("Print Order");
 		btnNewButton.setBackground(Color.BLACK);
 		btnNewButton.setForeground(Color.WHITE);
@@ -240,9 +237,9 @@ public class mainDashboard {
 		productListTable.setFont(new Font("Tahoma", Font.BOLD, 16));
 		productListTable.setRowHeight(productListTable.getRowHeight() + 10);
 		scrollPane_6.setViewportView(productListTable);
-		//end product list table
+		// end product list table
 
-		//Add Item Button
+		// Add Item Button
 		JButton btnAddItem2 = new JButton("Add Item");
 		btnAddItem2.setForeground(Color.WHITE);
 		btnAddItem2.setBackground(Color.BLACK);
@@ -258,7 +255,7 @@ public class mainDashboard {
 		btnAddItem2.setBounds(608, 167, 130, 29);
 		checkoutTab.add(btnAddItem2);
 
-		//Remove Item Button
+		// Remove Item Button
 		JButton btnRemoveItem = new JButton("Remove Item");
 		btnRemoveItem.setForeground(Color.WHITE);
 		btnRemoveItem.setBackground(Color.BLACK);
@@ -274,7 +271,7 @@ public class mainDashboard {
 		btnRemoveItem.setBounds(608, 228, 130, 29);
 		checkoutTab.add(btnRemoveItem);
 
-		//Refresh Product List
+		// Refresh Product List
 		JButton btnRefreshProducts = new JButton("Refresh");
 		btnRefreshProducts.setForeground(Color.WHITE);
 		btnRefreshProducts.setBackground(Color.BLACK);
@@ -299,7 +296,7 @@ public class mainDashboard {
 		btnRefreshProducts.setBounds(404, 16, 175, 42);
 		checkoutTab.add(btnRefreshProducts);
 
-		//SubTotal Field
+		// SubTotal Field
 		textField_subTotal = new JTextField();
 		textField_subTotal.setFont(new Font("Tahoma", Font.BOLD, 18));
 		textField_subTotal.setEditable(false);
@@ -307,7 +304,7 @@ public class mainDashboard {
 		checkoutTab.add(textField_subTotal);
 		textField_subTotal.setColumns(10);
 
-		//Tax Field
+		// Tax Field
 		textField_tax = new JTextField();
 		textField_tax.setFont(new Font("Tahoma", Font.BOLD, 18));
 		textField_tax.setEditable(false);
@@ -315,14 +312,14 @@ public class mainDashboard {
 		checkoutTab.add(textField_tax);
 		textField_tax.setColumns(10);
 
-		//Total Field
+		// Total Field
 		textField_total = new JTextField();
 		textField_total.setFont(new Font("Tahoma", Font.BOLD, 20));
 		textField_total.setEditable(false);
 		textField_total.setBounds(162, 441, 146, 26);
 		checkoutTab.add(textField_total);
 		textField_total.setColumns(10);
-		
+
 		////////////////////////// END OF CHECKOUT TAB /////////////////////////
 
 		////////////////////////// INVENTORY TAB ///////////////////////////////
@@ -336,7 +333,7 @@ public class mainDashboard {
 		inventorySubPane.setFont(new Font("Tahoma", Font.BOLD, 16));
 		inventoryTab.add(inventorySubPane);
 
-		//All Products Sub Tabs
+		// All Products Sub Tabs
 		JPanel allProductsTab = new JPanel();
 		inventorySubPane.addTab("All Products", null, allProductsTab, null);
 		allProductsTab.setLayout(null);
@@ -345,7 +342,7 @@ public class mainDashboard {
 		scrollPane.setBounds(0, 0, 1348, 396);
 		allProductsTab.add(scrollPane);
 
-		//All Products Table
+		// All Products Table
 		allProductsTable = new JTable() {
 			@Override
 			public boolean isCellEditable(int row, int column) {
@@ -357,7 +354,7 @@ public class mainDashboard {
 		allProductsTable.setRowHeight(allProductsTable.getRowHeight() + 20);
 		scrollPane.setViewportView(allProductsTable);
 
-		//Engine Parts sub category tab
+		// Engine Parts sub category tab
 		JPanel engineTab = new JPanel();
 		inventorySubPane.addTab("Engine Parts", null, engineTab, null);
 		engineTab.setLayout(null);
@@ -378,7 +375,7 @@ public class mainDashboard {
 		enginePartsTable.setRowHeight(enginePartsTable.getRowHeight() + gap);
 		scrollPane_1.setViewportView(enginePartsTable);
 
-		//Alternator Parts sub category tab
+		// Alternator Parts sub category tab
 		JPanel alternatorsTab = new JPanel();
 		inventorySubPane.addTab("Alternators", null, alternatorsTab, null);
 		alternatorsTab.setLayout(null);
@@ -387,7 +384,7 @@ public class mainDashboard {
 		scrollPane_2.setBounds(15, 16, 1318, 364);
 		alternatorsTab.add(scrollPane_2);
 
-		//Alternator Tables
+		// Alternator Tables
 		alternatorsTable = new JTable() {
 			@Override
 			public boolean isCellEditable(int row, int column) {
@@ -399,7 +396,7 @@ public class mainDashboard {
 		alternatorsTable.setRowHeight(alternatorsTable.getRowHeight() + gap);
 		scrollPane_2.setViewportView(alternatorsTable);
 
-		//Filter Parts sub category tab
+		// Filter Parts sub category tab
 		JPanel filtersTab = new JPanel();
 		inventorySubPane.addTab("Filters", null, filtersTab, null);
 		filtersTab.setLayout(null);
@@ -408,7 +405,7 @@ public class mainDashboard {
 		scrollPane_3.setBounds(15, 16, 1318, 364);
 		filtersTab.add(scrollPane_3);
 
-		//Filter Table
+		// Filter Table
 		filtersTable = new JTable() {
 			@Override
 			public boolean isCellEditable(int row, int column) {
@@ -420,7 +417,7 @@ public class mainDashboard {
 		filtersTable.setRowHeight(filtersTable.getRowHeight() + gap);
 		scrollPane_3.setViewportView(filtersTable);
 
-		//Tire Parts sub category tab
+		// Tire Parts sub category tab
 		JPanel tiresTab = new JPanel();
 		inventorySubPane.addTab("Tires", null, tiresTab, null);
 		tiresTab.setLayout(null);
@@ -429,7 +426,7 @@ public class mainDashboard {
 		scrollPane_4.setBounds(15, 16, 1318, 364);
 		tiresTab.add(scrollPane_4);
 
-		//Tires Table
+		// Tires Table
 		tiresTable = new JTable() {
 			@Override
 			public boolean isCellEditable(int row, int column) {
@@ -502,7 +499,7 @@ public class mainDashboard {
 		btnRefreshInventory.setFont(new Font("Tahoma", Font.BOLD, 16));
 		btnRefreshInventory.setBounds(15, 1, 194, 38);
 		inventoryTab.add(btnRefreshInventory);
-		
+
 		//////////////////////////// END OF INVENTORY TAB //////////////////////
 
 		//////////////////////////// MANAGER TAB ///////////////////////////////
@@ -511,13 +508,13 @@ public class mainDashboard {
 		mainTabbedPane.addTab("Manager Login", managerIcon, managerPanel, "Manager Login");
 		managerPanel.setLayout(null);
 
-		//Manager label above login fields
+		// Manager label above login fields
 		JLabel lblNewLabel = new JLabel("Manager Login");
 		lblNewLabel.setFont(new Font("Tahoma", Font.BOLD, 18));
 		lblNewLabel.setBounds(618, 62, 142, 20);
 		managerPanel.add(lblNewLabel);
-		
-		//Username Field
+
+		// Username Field
 		userNameLabel = new JTextField("Username");
 		userNameLabel.addFocusListener(new FocusListener() {
 			@Override
@@ -539,7 +536,7 @@ public class mainDashboard {
 		userNameLabel.setBounds(new Rectangle(468, 93, 442, 65));
 		managerPanel.add(userNameLabel);
 
-		//Password Field
+		// Password Field
 		passwordLabel = new JPasswordField("Password");
 		passwordLabel.addFocusListener(new FocusListener() {
 			@Override
@@ -561,7 +558,7 @@ public class mainDashboard {
 		passwordLabel.setBounds(new Rectangle(468, 174, 442, 65));
 		managerPanel.add(passwordLabel);
 
-		//Login Button
+		// Login Button
 		blogin = new JButton("Login");
 		blogin.setFont(new Font("Tahoma", Font.BOLD, 18));
 		blogin.setBounds(new Rectangle(589, 255, 200, 45));
@@ -572,12 +569,13 @@ public class mainDashboard {
 		label_1.setBounds(0, 0, 1383, 492);
 		managerPanel.add(label_1);
 
-		//Login method Call
+		// Login method Call
 		actionlogin();
-		
+
 	}
 
-	//Increments stock quantity when an Item is removed from order summary table
+	// Increments stock quantity when an Item is removed from order summary
+	// table
 	public void incrementStock(String productName) {
 		for (int i = 0; i < productListTable.getRowCount(); i++) {
 			if (productListTable.getValueAt(i, 0).equals(productName)) {
@@ -588,7 +586,7 @@ public class mainDashboard {
 		}
 	}
 
-	//Decrements stock quantity when an Item is added to order summary table
+	// Decrements stock quantity when an Item is added to order summary table
 	public void decrementStock() {
 		int i = productListTable.getSelectedRow();
 		int tempStock = (int) productListTable.getValueAt(i, 2);
@@ -596,7 +594,7 @@ public class mainDashboard {
 		productListTable.setValueAt(tempStock, i, 2);
 	}
 
-	//While sufficient in stock, copy item from inventory list to order summary
+	// While sufficient in stock, copy item from inventory list to order summary
 	public void addItem() {
 		int i = productListTable.getSelectedRow();
 		if (i >= 0) {
@@ -615,7 +613,7 @@ public class mainDashboard {
 		}
 	}
 
-	//While Item is selected and cart not empty, remove from order summary
+	// While Item is selected and cart not empty, remove from order summary
 	public void removeItem() {
 		// i = the index of the selected row
 		int i = checkoutTable.getSelectedRow();
@@ -630,7 +628,7 @@ public class mainDashboard {
 		}
 	}
 
-	//Update Subtotal, Tax, and Totals
+	// Update Subtotal, Tax, and Totals
 	public void updateCheckout() {
 		double subTotal = 0;
 
@@ -647,16 +645,15 @@ public class mainDashboard {
 		textField_total.setText("$" + Double.toString(round(total)));
 	}
 
-	//Format to two Decimal places // Example: 458.9930495 ===> 458.99
+	// Format to two Decimal places // Example: 458.9930495 ===> 458.99
 	public double round(double value) {
 		BigDecimal bd = new BigDecimal(value);
 		bd = bd.setScale(2, RoundingMode.HALF_UP);
 		return bd.doubleValue();
 	}
 
-	
 	public void UpdateTable() {
-		///////////////Load Products ///////////////
+		/////////////// Load Products ///////////////
 		try {
 			String queryAllProducts = "select Name, price, inStock from InventoryList";
 			PreparedStatement pstAllProducts = connection.prepareStatement(queryAllProducts);
@@ -726,18 +723,20 @@ public class mainDashboard {
 			JOptionPane.showMessageDialog(null, e);
 		}
 	}
-	
-	//Open URL Connection
+
+	// Open URL Connection
 	public void open(URI uri) {
 		if (Desktop.isDesktopSupported()) {
 			try {
 				Desktop.getDesktop().browse(uri);
 			} catch (IOException e) {
-				System.out.println("Seems there was an error connecting to the internet!"); }
-		} else {}
+				System.out.println("Seems there was an error connecting to the internet!");
+			}
+		} else {
+		}
 	}
 
-	//Execute Login and check credentials
+	// Execute Login and check credentials
 	public void actionlogin() {
 		blogin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
