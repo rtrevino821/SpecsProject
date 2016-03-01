@@ -101,7 +101,7 @@ public class TestMain {
 				int row = testTable.getSelectedRow();
 				  if (row != -1) {
 			            try {
-							deleteRow(row);
+							deleteRow(row+1);
 						} catch (SQLException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
