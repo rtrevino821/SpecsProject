@@ -21,15 +21,13 @@ import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
+import java.awt.Font;
 
 public class TestMain {
 	 
 
 	private JFrame frame;
 	private static JTable testTable;
-	private TableModelListener tableModelListener;
 	
 	/**
 	 * Launch the application.
@@ -73,7 +71,7 @@ public class TestMain {
 		frame.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
-		panel.setBounds(6, 6, 1418, 814);
+		panel.setBounds(6, 6, 1418, 768);
 		frame.getContentPane().add(panel);
 		
 		 
@@ -82,7 +80,8 @@ public class TestMain {
 
 		
 		JButton btnNewButton = new JButton("Insert");
-		btnNewButton.setBounds(20, 24, 89, 23);
+		btnNewButton.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 18));
+		btnNewButton.setBounds(171, 21, 140, 40);
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
@@ -98,7 +97,8 @@ public class TestMain {
 		
 		//DELETE
 		JButton btnDelete = new JButton("Delete");
-		btnDelete.setBounds(133, 24, 89, 23);
+		btnDelete.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 18));
+		btnDelete.setBounds(482, 21, 140, 40);
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int row = testTable.getSelectedRow();
@@ -115,7 +115,8 @@ public class TestMain {
 		panel.add(btnDelete);
 		
 		JButton btnUpdate = new JButton("Update");
-		btnUpdate.setBounds(254, 24, 89, 23);
+		btnUpdate.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 18));
+		btnUpdate.setBounds(793, 21, 140, 40);
 		panel.add(btnUpdate);
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -129,20 +130,22 @@ public class TestMain {
 		});
 		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(6, 55, 1406, 773);
+		scrollPane.setBounds(6, 97, 1406, 665);
 		panel.add(scrollPane);
 		
 		
 		
-		//TestTable
-		testTable = new JTable();
-		testTable.putClientProperty("terminateEditOnFocusLost", true);
-        testTable.setCellSelectionEnabled(true);
-		scrollPane.setViewportView(testTable);
 		
+		testTable = new JTable();
+		testTable.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 22));
+		testTable.getTableHeader().setFont(new Font("Segoe UI Semilight", Font.PLAIN, 22));
+		testTable.setRowHeight(testTable.getRowHeight() + 20);
+		testTable.putClientProperty("terminateEditOnFocusLost", true);
+		scrollPane.setViewportView(testTable);
 		//testTable.setAutoCreateColumnsFromModel(true);
-		setTableModelListener();
+		
 		JButton btnExportExcel = new JButton("Export Excel");
+		btnExportExcel.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 18));
 		btnExportExcel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -153,7 +156,7 @@ public class TestMain {
 				}
 			}
 		});
-		btnExportExcel.setBounds(433, 21, 113, 28);
+		btnExportExcel.setBounds(1104, 21, 140, 40);
 		panel.add(btnExportExcel);
 
 		
@@ -208,30 +211,10 @@ public class TestMain {
         }
 	}
 	
-	private void setTableModelListener() {
-        tableModelListener = new TableModelListener() {
-
-            @Override
-            public void tableChanged(TableModelEvent e) {
-                if (e.getType() == TableModelEvent.UPDATE) {
-                    System.out.println("Cell " + e.getFirstRow() + ", "
-                            + e.getColumn() + " changed. The new value: "
-                            + testTable.getModel().getValueAt(e.getFirstRow(),
-                            e.getColumn()));
-                    int row = e.getFirstRow();
-                    int column = e.getColumn();
-                    if (column == 1 || column == 2) {
-                        TableModel model = testTable.getModel();
-                        int quantity = ((Integer) model.getValueAt(row, 1)).intValue();
-                        double price = ((Double) model.getValueAt(row, 2)).doubleValue();
-                        Double value = new Double(quantity * price);
-                        model.setValueAt(value, row, 3);
-                    }
-                }
-            }
-        };
-        testTable.getModel().addTableModelListener(tableModelListener);
-    }
+	public static void CellEdits()
+	{
+		
+	}
 	
 	
 	public static void deleteRow(int row) throws SQLException
@@ -239,6 +222,7 @@ public class TestMain {
 		// remove selected row from the model
 		DefaultTableModel dm = (DefaultTableModel) testTable.getModel();
 		dm.removeRow(row);
+		
 		
 		testTable.setModel(dm);
 		String delRowString  = (dm.getValueAt(row-1, 0).toString());//row-1 because db starts at 1
