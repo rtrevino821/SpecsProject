@@ -1,5 +1,5 @@
 package appPackage;
-//blah
+//new
 
 //EventQueue is a platform-independent class that queues events
 import java.awt.EventQueue;
