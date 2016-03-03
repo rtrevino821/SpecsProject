@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import net.proteanit.sql.DbUtils;
+import testingPackage.TestMain;
 
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -26,6 +27,7 @@ import java.awt.Cursor;
 import java.awt.Desktop;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import javax.swing.JFrame;
 
 public class mainScreen {
 
@@ -120,6 +122,17 @@ public class mainScreen {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				reportIconLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+			}
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				try {
+
+					//TestMain.intialize
+					new TestMain();
+					//report.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 		reportIconLabel.setIcon(new ImageIcon(mainScreen.class.getResource("/Resources/reportIcon.png")));

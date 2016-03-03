@@ -66,6 +66,7 @@ public class TestMain {
 
 	private void initialize() throws SQLException {
 		frame = new JFrame();
+		frame.setVisible(true);
 		frame.setSize(1440, 865);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
