@@ -21,12 +21,15 @@ import javax.swing.table.TableModel;
 import net.proteanit.sql.DbUtils;
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 
 public class TestMain {
 	 
 
 	private JFrame frame;
 	private static JTable testTable;
+	private TableModelListener tableModelListener;
 	
 	/**
 	 * Launch the application.
@@ -131,12 +134,14 @@ public class TestMain {
 		
 		
 		
-		
+		//TestTable
 		testTable = new JTable();
 		testTable.putClientProperty("terminateEditOnFocusLost", true);
+        testTable.setCellSelectionEnabled(true);
 		scrollPane.setViewportView(testTable);
-		//testTable.setAutoCreateColumnsFromModel(true);
 		
+		//testTable.setAutoCreateColumnsFromModel(true);
+		setTableModelListener();
 		JButton btnExportExcel = new JButton("Export Excel");
 		btnExportExcel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -203,10 +208,30 @@ public class TestMain {
         }
 	}
 	
-	public static void CellEdits()
-	{
-		
-	}
+	private void setTableModelListener() {
+        tableModelListener = new TableModelListener() {
+
+            @Override
+            public void tableChanged(TableModelEvent e) {
+                if (e.getType() == TableModelEvent.UPDATE) {
+                    System.out.println("Cell " + e.getFirstRow() + ", "
+                            + e.getColumn() + " changed. The new value: "
+                            + testTable.getModel().getValueAt(e.getFirstRow(),
+                            e.getColumn()));
+                    int row = e.getFirstRow();
+                    int column = e.getColumn();
+                    if (column == 1 || column == 2) {
+                        TableModel model = testTable.getModel();
+                        int quantity = ((Integer) model.getValueAt(row, 1)).intValue();
+                        double price = ((Double) model.getValueAt(row, 2)).doubleValue();
+                        Double value = new Double(quantity * price);
+                        model.setValueAt(value, row, 3);
+                    }
+                }
+            }
+        };
+        testTable.getModel().addTableModelListener(tableModelListener);
+    }
 	
 	
 	public static void deleteRow(int row) throws SQLException
@@ -214,7 +239,6 @@ public class TestMain {
 		// remove selected row from the model
 		DefaultTableModel dm = (DefaultTableModel) testTable.getModel();
 		dm.removeRow(row);
-		
 		
 		testTable.setModel(dm);
 		String delRowString  = (dm.getValueAt(row-1, 0).toString());//row-1 because db starts at 1

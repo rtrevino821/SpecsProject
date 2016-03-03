@@ -3,6 +3,8 @@ package testingPackage;
 import java.awt.Desktop;
 import java.awt.Label;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -11,16 +13,26 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Iterator;
 
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.CreationHelper;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.joda.time.DateTime;
 
@@ -33,7 +45,7 @@ public class ConvertExcel {
 		JTable table = new JTable();
 	    DateTime dt = new DateTime();
 	    UpDateTable(table);
-
+	    
 	    String date = getDate();
 
 	    String excelName = excelName();
@@ -56,6 +68,8 @@ public class ConvertExcel {
 	        	if(table.getColumnName(cols).equals(colName[cols]) )
 	        	{
 	            	String columnString = colName[cols];
+	            	//System.out.println(colName[cols]);
+	            	//System.out.println((model.getValueAt(rows, cols)));
 	            	if(isColumnIntType(columnString))
 	            	{//writes cell as doubles
 	            		XSSFCell cell = (XSSFCell) row.createCell(cols);//create a cell at the row,col location
@@ -105,7 +119,7 @@ public class ConvertExcel {
 	        	{
 	            	String columnString = colName[cols];
 	            	if(isColumnIntType(columnString))
-	            	{//writes cell as doubles
+	            	{//writes cell as doubles to remove error checking from excel
 	            		XSSFCell cell = (XSSFCell) row.createCell(cols);//create a cell at the row,col location
 	            		double x = Double.parseDouble((String) (model.getValueAt(rows, cols)));//get he  value from table
 			            cell.setCellValue(x);
@@ -120,7 +134,6 @@ public class ConvertExcel {
 
 	        	}
 	        }
-
 	        //Set the row to the next one in the sequence 
 	        row = sheet.createRow((rows + 1)); 
 	    }//end of row loop
@@ -128,19 +141,163 @@ public class ConvertExcel {
 	    openExcel(file);
 	}//end of method
 	
-	
-	
-	public static void readExcel()
+	public static void readExcel() throws SQLException
 	{
+		FileInputStream file = null;
+		try {
+			file = new FileInputStream(new File("Excel\\Inventory_Project_Specifications.xlsx"));
+		} catch (FileNotFoundException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+	     
+	    //Get the workbook instance for XLS file 
+		XSSFWorkbook workbook = null;
+		try {
+			workbook = new XSSFWorkbook(file);
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
 		
-	}
+		
+	    //Get first sheet from the workbook
+	    XSSFSheet sheet = workbook.getSheetAt(0);
+	     
+	    //Iterate through each rows from first sheet
+	    Iterator<Row> rowIterator = sheet.iterator();
+        Row row = sheet.getRow(0);
+        int rowsCount = sheet.getLastRowNum();
+        
+        String [] colHeader =  new String[rowsCount];
+        for(int count = 0; count < row.getLastCellNum(); count++)
+        {//get column headers from excel
+        	Cell cell = row.getCell(count);
+        	colHeader[count] = cell.getStringCellValue();
+        	System.out.println(colHeader[count]);
+        }
+	    
+	    
+        System.out.println("Total Number of Rows: " + (rowsCount + 1));
+        for (int i = 3; i <= rowsCount; i++) {//start at 1 to skip column
+            row = sheet.getRow(i);
+            int colCounts = row.getLastCellNum();//null pointer needs to be handled
+            Cell [] cellArray = new Cell[colCounts];
+            System.out.println("Total Number of Cols: " + colCounts);
+            for (int j = 0; j < colCounts; j++) {
+            	if (row.getCell(j) == null)
+            	{
+            		//break;
+                    System.out.println("NULL");
+
+            	}
+            	else
+            		cellArray[j] = row.getCell(j);
+               //System.out.println("[" + i + "," + j + "]=" + cell.getStringCellValue());
+            }// end of j loop
+            InsertToDatabase(cellArray);
+			
+        }//end of i loop
+	    try {
+			file.close();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	   
+}//end of method
 	
+	public static void InsertToDatabase(Cell[] cellArray)
+	{
+		 Connection conn = sqliteConnectionTEST.dbConnector();
+			PreparedStatement prepare = null;
+//     	String query = "insert into Presidents(AlphaID,Years,Presidents,VP,TermLeft) "
+//					+ "values(?,?,?,?,?)";
+     	String query = "insert into Artwork(\"group\",Asset,Property_Description,Date_In_Service,Price)"
+				+ "values(?,?,?,?,?)";
+			try {
+				prepare = conn.prepareStatement(query);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//begin parsing to send to sqlite //1
+			String cellTempString = cellArray[0].getStringCellValue();
+			try {
+				prepare.setString(1, cellTempString);
+				System.out.println("Group: "+cellTempString);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//2
+			double cellTempDbl = cellArray[1].getNumericCellValue();
+			int cellTempInt = (int) cellTempDbl;
+			try {
+				prepare.setInt(2, cellTempInt);
+				System.out.println("Asset: "+cellTempInt);
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//3
+			cellTempString = cellArray[2].getStringCellValue();
+			try {
+				prepare.setString(3, cellTempString);
+				System.out.println("Property: "+cellTempString);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//4
+			//new SimpleDateFormat("dd/MM/yyyy").parse(yourDateString);
+		    DateFormat cellTempDate = new SimpleDateFormat("MM/dd/yyyy");
+		    Date today =  cellArray[3].getDateCellValue();
+		    String reportDate = cellTempDate.format(today);
+			try {
+				prepare.setString(4, reportDate);
+				System.out.println("Date: "+reportDate);
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//5
+			cellTempDbl = cellArray[4].getNumericCellValue();
+			try {
+				prepare.setDouble(5, cellTempDbl);
+				System.out.println("Price: " + cellTempDbl);
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			try {
+				prepare.executeUpdate();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			try {
+				conn.close();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}		
+	}//end of method
 	
-	
+		
 	public static void main(String args[]) throws IOException
 	{
-		//convertToExcel();
-		writeExcel();
+		//writeExcel();
+		try {
+			readExcel();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println("SUCCESS");
 		
 	}
@@ -187,7 +344,7 @@ public class ConvertExcel {
 
 			if(fileName.equals(listOfFiles[i].toString()))
 			{
-				file = new File("Excel\\Form" + "(" + (i) +")" + ".xlsx");
+				file = new File("Excel\\Form" + "(" + (i) +")" + ".xlsx");//need to change i to i plus 1
 				fileName = (file.toString());
 				break;
 			}
@@ -203,7 +360,7 @@ public class ConvertExcel {
 	}
 	
 	public static void UpDateTable(JTable table) 
-	{
+	{//Duplicate
 		try 
 		{
 			Connection conn = sqliteConnectionTEST.dbConnector();
