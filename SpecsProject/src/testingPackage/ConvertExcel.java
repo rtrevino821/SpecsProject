@@ -28,10 +28,13 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.CreationHelper;
+import org.apache.poi.ss.usermodel.DataFormat;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFCell;
+import org.apache.poi.xssf.usermodel.XSSFDataFormat;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.joda.time.DateTime;
@@ -129,7 +132,12 @@ public class ConvertExcel {
 	            	{
 	            		XSSFCell cell = (XSSFCell) row.createCell(cols);//create a cell at the row,col location
 	            		String x = (String) (model.getValueAt(rows, cols));//get he  value from table
-			            cell.setCellValue(x);
+	            		//cell.setCellType(Cell.CELL_TYPE_STRING);
+			            DataFormatter dfTemp = new DataFormatter();
+	            		cell.setCellValue(x);
+	            		cell.setCellValue( dfTemp.formatCellValue(cell));
+
+			           
 	            	}
 
 	        	}
@@ -141,7 +149,7 @@ public class ConvertExcel {
 	    openExcel(file);
 	}//end of method
 	
-	public static void readExcel() throws SQLException
+	public static void importExcel() throws SQLException
 	{
 		FileInputStream file = null;
 		try {
@@ -293,7 +301,7 @@ public class ConvertExcel {
 	{
 		//writeExcel();
 		try {
-			readExcel();
+			importExcel();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

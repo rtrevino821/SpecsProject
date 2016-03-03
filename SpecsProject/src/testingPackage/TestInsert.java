@@ -6,15 +6,19 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.MaskFormatter;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
 import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
+
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
@@ -31,7 +35,8 @@ public class TestInsert extends JFrame {
 	private JLabel lblPrice;
 	private JLabel lblType;
 	private JTextField textField_5;
-
+	private MaskFormatter formatter;
+	private String yearAdd2;
 	/**
 	 * Launch the application.
 	 */
@@ -68,6 +73,7 @@ public class TestInsert extends JFrame {
 		String query = "Insert into Electronics(ID, Room, Price, Date_Purchase, Expiration_Date, Type)"
 		+ "values(?,?,?,?,?,?)";
 		PreparedStatement prepare = conn.prepareStatement(query);
+		
 		
 		System.out.println(System.getProperty("user.dir") + "\\TestDB.sqlite");
 
@@ -127,13 +133,22 @@ public class TestInsert extends JFrame {
 		contentPane.add(textField_2);
 		textField_2.setColumns(10);
 		
-		textField_3 = new JTextField();
+	    try {//formats date input 
+			formatter = new MaskFormatter("##'/##'/####");
+			
+		} catch (ParseException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		textField_3 = new JFormattedTextField(formatter);
 		textField_3.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 18));
 		textField_3.addKeyListener(new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				try {
 					prepare.setString(4, String.valueOf(textField_3.getText()));
+					yearAdd2 = textField_3.getText().substring(6, 10);
+					System.out.println(yearAdd2);
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -144,7 +159,13 @@ public class TestInsert extends JFrame {
 		contentPane.add(textField_3);
 		textField_3.setColumns(10);
 		
-		textField_4 = new JTextField();
+		try {
+			formatter = new MaskFormatter("##'/##'/####");
+		} catch (ParseException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		textField_4 = new JFormattedTextField(formatter);
 		textField_4.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 18));
 		textField_4.addKeyListener(new KeyAdapter() {
 			
