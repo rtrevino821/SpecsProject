@@ -66,6 +66,7 @@ public class TestMain {
 
 	private void initialize() throws SQLException {
 		frame = new JFrame();
+		frame.setVisible(true);
 		frame.setSize(1440, 865);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -102,14 +103,29 @@ public class TestMain {
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int row = testTable.getSelectedRow();
-				  if (row != -1) {
+				int rowCount = testTable.getRowCount();
+				
+				  if (row != -1 && !(rowCount >= row)) {
 			            try {
+			            	System.out.println("Row Count: " + rowCount);
 							deleteRow(row+1);
 						} catch (SQLException e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
-			        }
+			        }// end of if condition
+				  else{
+					  try {
+			            System.out.println("Num of Rows in Else: " + rowCount);
+			            deleteLastRow(row);
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+					  
+				  }
+						
+
 			}
 		});
 		panel.add(btnDelete);
@@ -143,6 +159,7 @@ public class TestMain {
 		testTable.putClientProperty("terminateEditOnFocusLost", true);
 		scrollPane.setViewportView(testTable);
 		//testTable.setAutoCreateColumnsFromModel(true);
+		testTable.setAutoCreateRowSorter(true);
 		
 		JButton btnExportExcel = new JButton("Export Excel");
 		btnExportExcel.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 18));
@@ -169,7 +186,7 @@ public class TestMain {
 			Connection conn = sqliteConnectionTEST.dbConnector();
 			DefaultTableModel dm = new DefaultTableModel();
 	        //query and resultset
-			String testTable_String = "Select * from Electronics";
+			String testTable_String = "Select * from Artwork";
 			PreparedStatement showTestTable = conn.prepareStatement(testTable_String);
 			ResultSet rsTest = showTestTable.executeQuery();
 			addRowsAndColumns(rsTest, dm);
@@ -216,20 +233,18 @@ public class TestMain {
 		
 	}
 	
-	
-	public static void deleteRow(int row) throws SQLException
+	public static void deleteLastRow(int row) throws SQLException 
 	{
 		// remove selected row from the model
 		DefaultTableModel dm = (DefaultTableModel) testTable.getModel();
-		dm.removeRow(row);
+		String delRowString;
 		
-		
-		testTable.setModel(dm);
-		String delRowString  = (dm.getValueAt(row-1, 0).toString());//row-1 because db starts at 1
+		delRowString  = (dm.getValueAt(row, 1).toString());//row-1 because db starts at 1
+
 		System.out.println("Data: " + delRowString);
 		//System.out.println(testTable.getSelectedRow());
 		Connection conn = sqliteConnectionTEST.dbConnector();
-		String query = "DELETE FROM  Electronics WHERE ID = ? ";
+		String query = "DELETE FROM Artwork WHERE Asset = ? ";
 		PreparedStatement prepareDel = conn.prepareStatement(query);
 		prepareDel.setString(1, delRowString);
 		prepareDel.executeUpdate();
@@ -237,5 +252,26 @@ public class TestMain {
 
 	}
 	
+	public static void deleteRow(int row) throws SQLException
+	{
+		// remove selected row from the model
+		DefaultTableModel dm = (DefaultTableModel) testTable.getModel();
+		String delRowString;
+		
+		dm.removeRow(row);
+		testTable.setModel(dm);
+		delRowString  = (dm.getValueAt(row-1, 1).toString());//row-1 because db starts at 1
+
+		
+		System.out.println("Data: " + delRowString);
+		//System.out.println(testTable.getSelectedRow());
+		Connection conn = sqliteConnectionTEST.dbConnector();
+		String query = "DELETE FROM Artwork WHERE Asset = ? ";
+		PreparedStatement prepareDel = conn.prepareStatement(query);
+		prepareDel.setString(1, delRowString);
+		prepareDel.executeUpdate();
+		UpDateTable();
+
+	}
 }//end of TestMain	
 
