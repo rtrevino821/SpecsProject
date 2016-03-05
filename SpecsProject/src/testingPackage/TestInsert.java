@@ -7,7 +7,6 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.text.MaskFormatter;
-<<<<<<< HEAD
 
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
@@ -16,8 +15,6 @@ import org.joda.time.format.DateTimeFormatter;
 
 import com.nitido.utils.toaster.Toaster;
 
-=======
->>>>>>> 03c5e143e81d9847ec35d4aa04da312bb3d5f079
 import javax.swing.JLabel;
 import javax.swing.JTextField;
 import javax.swing.UIManager;
@@ -30,11 +27,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.text.ParseException;
-<<<<<<< HEAD
 import java.text.SimpleDateFormat;
 import java.util.Date;
-=======
->>>>>>> 03c5e143e81d9847ec35d4aa04da312bb3d5f079
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.Font;
@@ -53,7 +47,6 @@ public class TestInsert extends JFrame {
 	private JLabel lblType;
 	private JTextField textField_5;
 	private MaskFormatter formatter;
-<<<<<<< HEAD
 	private String DatePurchaseString;
 	private String DateExpirationString;
 	private PreparedStatement prepare;
@@ -61,9 +54,6 @@ public class TestInsert extends JFrame {
 	private Toaster toasterManager;
 
 
-=======
-	private String yearAdd2;
->>>>>>> 03c5e143e81d9847ec35d4aa04da312bb3d5f079
 	/**
 	 * Launch the application.
 	 */
@@ -103,7 +93,6 @@ public class TestInsert extends JFrame {
 		insertTextFields();
 		insertButtons();
 		
-<<<<<<< HEAD
 	
 	}//end of TestInsert
 	
@@ -128,10 +117,6 @@ public class TestInsert extends JFrame {
 		btnSubmit.setBounds(151, 315, 140, 40);
 		contentPane.add(btnSubmit);
 	}
-=======
-		
-		System.out.println(System.getProperty("user.dir") + "\\TestDB.sqlite");
->>>>>>> 03c5e143e81d9847ec35d4aa04da312bb3d5f079
 
 	public void insertLabels()
 	{
@@ -226,19 +211,12 @@ public class TestInsert extends JFrame {
 			}
 		});
 		
-<<<<<<< HEAD
 		try {
 			formatter = new MaskFormatter("##'/##'/####");
-=======
-	    try {//formats date input 
-			formatter = new MaskFormatter("##'/##'/####");
-			
->>>>>>> 03c5e143e81d9847ec35d4aa04da312bb3d5f079
 		} catch (ParseException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
-<<<<<<< HEAD
 		
 		textField_3 = new JFormattedTextField(formatter);
 		textField_3.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 18));
@@ -247,37 +225,6 @@ public class TestInsert extends JFrame {
 		textField_3.setColumns(10);
 		//Date in Service
 		textField_3.addKeyListener(new KeyAdapter() {
-=======
-		textField_3 = new JFormattedTextField(formatter);
-		textField_3.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 18));
-		textField_3.addKeyListener(new KeyAdapter() {
-			@Override
-			public void keyReleased(KeyEvent e) {
-				try {
-					prepare.setString(4, String.valueOf(textField_3.getText()));
-					yearAdd2 = textField_3.getText().substring(6, 10);
-					System.out.println(yearAdd2);
-				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-			}
-		});
-		textField_3.setBounds(182, 195, 211, 35);
-		contentPane.add(textField_3);
-		textField_3.setColumns(10);
-		
-		try {
-			formatter = new MaskFormatter("##'/##'/####");
-		} catch (ParseException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-		textField_4 = new JFormattedTextField(formatter);
-		textField_4.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 18));
-		textField_4.addKeyListener(new KeyAdapter() {
-			
->>>>>>> 03c5e143e81d9847ec35d4aa04da312bb3d5f079
 			@Override
 			public void keyReleased(KeyEvent e) {
 				try {
