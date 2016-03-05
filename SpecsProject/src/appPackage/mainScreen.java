@@ -25,6 +25,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Desktop;
+import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
@@ -57,6 +58,23 @@ public class mainScreen {
 	 * Create the Main Application.
 	 * 
 	 */
+	
+	public static void main(String[] args) {
+
+		EventQueue.invokeLater(new Runnable() {
+			// run() is used to initialize the program
+			public void run() {
+				try {
+
+					mainScreen frame = new mainScreen();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	
+	
 	public mainScreen() throws URISyntaxException {
 		connection = sqliteConnection.dbConnector();
 		initialize();
@@ -68,6 +86,7 @@ public class mainScreen {
 	 */
 	private void initialize() throws URISyntaxException {
 		frame = new JFrame();
+		frame.setVisible(true);
 		frame.getContentPane().setBackground(new Color(244, 244, 244));
 		frame.setBackground(Color.WHITE);
 		frame.setTitle("GFP Asset Report System");
@@ -154,7 +173,7 @@ public class mainScreen {
 		frame.getContentPane().add(lblHelloSteve);
 		
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(mainScreen.class.getResource("/Resources/pieChart.jpg")));
+		lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/Resources/pieChart.jpg")));
 		lblNewLabel.setBounds(648, 272, 471, 411);
 		frame.getContentPane().add(lblNewLabel);
 		

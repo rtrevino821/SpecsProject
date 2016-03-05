@@ -56,20 +56,20 @@ public class loginGUI extends JFrame {
 	 * Launch the application.
 	 */
 	// Main for the program
-	public static void main(String[] args) {
-
-		EventQueue.invokeLater(new Runnable() {
-			// run() is used to initialize the program
-			public void run() {
-				try {
-
-					loginGUI frame = new loginGUI();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+//	public static void main(String[] args) {
+//
+//		EventQueue.invokeLater(new Runnable() {
+//			// run() is used to initialize the program
+//			public void run() {
+//				try {
+//
+//					loginGUI frame = new loginGUI();
+//					frame.setVisible(true);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
 	}
 
 	Connection connection = null;
@@ -94,11 +94,11 @@ public class loginGUI extends JFrame {
 		setVisible(true);
 
 		// background image
-		setContentPane(new JLabel(new ImageIcon("src/Login-Screen-BG.jpg")));
+		setContentPane(new JLabel(new ImageIcon(getClass().getResource("/Resources/Login-Screen-BG.jpg"))));
 		getContentPane().setLayout(null);
 
 		// Icon Image
-		ImageIcon icon = new ImageIcon("src/appIconImage.png");
+		ImageIcon icon = new ImageIcon(getClass().getResource("/Resources/appIconImage.png"));
 		setIconImage(icon.getImage());
 		// Used to hide cursor when first opened
 		clicker = new JTextField("");
