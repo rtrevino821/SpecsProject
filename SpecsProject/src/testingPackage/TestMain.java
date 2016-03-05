@@ -68,7 +68,7 @@ public class TestMain {
 		frame = new JFrame();
 		frame.setVisible(true);
 		frame.setSize(1440, 865);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		JPanel panel = new JPanel();
