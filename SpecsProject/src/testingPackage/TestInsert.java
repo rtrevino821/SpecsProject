@@ -42,6 +42,8 @@ public class TestInsert extends JFrame {
 	private JTextField textField_2;
 	private JTextField textField_3;
 	private JTextField textField_4;
+
+	
 	private JLabel lblDatepurchace;
 	private JLabel lblPrice;
 	private JLabel lblType;
@@ -103,11 +105,41 @@ public class TestInsert extends JFrame {
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					prepare.executeUpdate();
-					TestMain.UpDateTable();
-					dispose();
+					//if(prepare.executeUpdate() > 1)
+					//{
+						prepare.executeUpdate();
+						toasterManager.showToaster("Insert Successful");
+						TestMain.UpDateTable();
+						dispose();
+					//}
+					//else
+//					{
+//						toasterManager = new Toaster();
+//						toasterManager.showToaster("Incorrect data inserted. Insert Failed.");
+//					}
 					
-				} catch (SQLException e1) {
+					
+				} catch (SQLException e1) {//checks if asset key duplicate is beng inserted
+					if(e1.getMessage().contains("UNIQUE constraint failed"))
+					{//when prepareStatement fails it needs to be redeclare to insert again
+						System.out.println("NOOOOO");
+						toasterManager = new Toaster();
+						toasterManager.showToaster("[SQLITE_CONSTRAINT]  Abort due to constraint violation");
+						try {
+							prepare.close();
+							String query = "insert into Artwork(\"group\",Asset,Property_Description,Date_In_Service,Price)"
+									+ "values(?,?,?,?,?)";							
+							prepare = conn.prepareStatement(query);
+							//reInsertPrepareStatement();
+							
+							
+							//insertTextFields();
+							
+						} catch (SQLException e2) {
+							// TODO Auto-generated catch block
+							e2.printStackTrace();
+						}
+					}
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
@@ -187,6 +219,7 @@ public class TestInsert extends JFrame {
 			public void keyReleased(KeyEvent e) {
 				try {
 					prepare.setInt(2, Integer.parseInt(textField_1.getText()));
+					
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -250,13 +283,20 @@ public class TestInsert extends JFrame {
 				try {
 
 					prepare.setDouble(5, Double.parseDouble(textField_4.getText()));
-
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
 		});
-
+		
+	}
+	public void reInsertPrepareStatement() throws SQLException
+	{
+		prepare.setString(1, textField.getText());
+		prepare.setInt(2, Integer.parseInt(textField_1.getText()));
+		prepare.setString(3, textField_2.getText());
+		prepare.setString(4, String.valueOf(textField_3.getText()));
+		prepare.setDouble(5, Double.parseDouble(textField_4.getText()));
 	}
 }

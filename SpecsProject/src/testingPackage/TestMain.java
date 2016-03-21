@@ -161,6 +161,8 @@ public class TestMain {
 		//testTable.setAutoCreateColumnsFromModel(true);
 		testTable.setAutoCreateRowSorter(true);
 		
+		
+		
 		JButton btnExportExcel = new JButton("Export Excel");
 		btnExportExcel.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 18));
 		btnExportExcel.addActionListener(new ActionListener() {
@@ -178,6 +180,8 @@ public class TestMain {
 
 		
 	}
+	
+	
 	
 	public static void UpDateTable() 
 	{
