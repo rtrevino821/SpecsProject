@@ -202,9 +202,7 @@ public class TestMain {
 			//Refresh the table
 		   // tableModel.fireTableStructureChanged();
 			//testTable.setModel(tableModel);
-			testTable.revalidate();
-			testTable.repaint();
-			testTable.validate();//			
+			refreshScreen();
 			//System.out.println(tableModel.getRowCount());
 			conn.close();
 		} catch (Exception e) {
@@ -230,6 +228,12 @@ public class TestMain {
                 }
             dm.addRow(row);
         }
+	}
+	public static void refreshScreen()
+	{
+		testTable.revalidate();
+		testTable.repaint();
+		testTable.validate();//
 	}
 	
 	public static void CellEdits()

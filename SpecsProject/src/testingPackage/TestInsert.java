@@ -110,6 +110,7 @@ public class TestInsert extends JFrame {
 						prepare.executeUpdate();
 						toasterManager.showToaster("Insert Successful");
 						TestMain.UpDateTable();
+						TestMain.refreshScreen();
 						dispose();
 					//}
 					//else
@@ -130,10 +131,9 @@ public class TestInsert extends JFrame {
 							String query = "insert into Artwork(\"group\",Asset,Property_Description,Date_In_Service,Price)"
 									+ "values(?,?,?,?,?)";							
 							prepare = conn.prepareStatement(query);
-							//reInsertPrepareStatement();
+							reInsertPrepareStatement();
 							
 							
-							//insertTextFields();
 							
 						} catch (SQLException e2) {
 							// TODO Auto-generated catch block
@@ -186,11 +186,18 @@ public class TestInsert extends JFrame {
 		contentPane.add(lblExpiration);
 	}
 	
+	public  boolean isInt(String textField)
+	{
+		//if()
+		return rootPaneCheckingEnabled;
+		
+	}
 
 	public void insertTextFields()
 	{
 		//TextFields
 		textField = new JTextField();
+		textField.setToolTipText("");
 		textField.setBounds(181, 75, 212, 35);
 		contentPane.add(textField);
 		textField.setColumns(10);
@@ -215,10 +222,31 @@ public class TestInsert extends JFrame {
 		textField_1.setColumns(10);
 		//Asset
 		textField_1.addKeyListener(new KeyAdapter() {
+			String main;
 			@Override
 			public void keyReleased(KeyEvent e) {
 				try {
-					prepare.setInt(2, Integer.parseInt(textField_1.getText()));
+					String temp = textField_1.getText();
+					String regex = "^[1-9]\\d*$";
+					if(temp.matches(regex))
+					{//refractor to method
+						main = temp;
+						double round = (Double.parseDouble(textField_1.getText()));
+						prepare.setDouble(5, round);
+					}
+					else if((e.getKeyCode() == KeyEvent.VK_BACK_SPACE) || (e.getKeyCode() == KeyEvent.VK_DELETE) 
+							&& temp.length() == 0)
+				    {//deletes the element in textbox if it contains a string
+						textField_1.setText("");
+						main="";
+				    }
+					else if(temp.length() == 0)
+					{//in case string returns when textbox is empty, empty string
+						textField_1.setText("");
+						main="";
+					}
+					else
+						textField_1.setText(main);
 					
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
@@ -278,11 +306,44 @@ public class TestInsert extends JFrame {
 
 		textField_4.addKeyListener(new KeyAdapter() {
 			//Price
+			String main = null;
+
 			@Override
 			public void keyReleased(KeyEvent e) {
 				try {
+					String temp = textField_4.getText();
+					//only accepts positives doubles
+					String regex = "^[0-9.]+([,.][0-9]+)?$";
 
-					prepare.setDouble(5, Double.parseDouble(textField_4.getText()));
+					if(temp.matches(regex))
+					{
+						main = temp;
+						double round = (Double.parseDouble(textField_4.getText()));
+						prepare.setDouble(5, round);
+					}
+					else if((e.getKeyCode() == KeyEvent.VK_BACK_SPACE) || (e.getKeyCode() == KeyEvent.VK_DELETE) 
+							&& temp.length() == 0)
+				    {//deletes the element in textbox
+						textField_4.setText("");
+						main="";
+				    }
+					else if(temp.length() == 0)
+					{
+						textField_4.setText("");
+						main="";
+					}
+					else
+						textField_4.setText(main);
+					//Must not have any characters and any negative value
+//					if(temp.matches(regex) &&  Double.parseDouble(textField_4.getText()) > 0)
+//					{
+//						double round = (Double.parseDouble(textField_4.getText()));
+//						prepare.setDouble(5, round);
+//					}
+//					else
+//						textField_4.setText("");
+						
+
 				} catch (SQLException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -291,6 +352,8 @@ public class TestInsert extends JFrame {
 		});
 		
 	}
+	
+	
 	public void reInsertPrepareStatement() throws SQLException
 	{
 		prepare.setString(1, textField.getText());
