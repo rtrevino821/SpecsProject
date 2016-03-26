@@ -1,10 +1,12 @@
 package testingPackage;
 
+import java.awt.Component;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
 import java.io.IOException;
@@ -15,6 +17,8 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
 
@@ -70,6 +74,7 @@ public class TestMain {
 		frame.setSize(1440, 865);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
+		frame.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 18));
 		
 		JPanel panel = new JPanel();
 		panel.setBounds(6, 6, 1418, 768);
@@ -154,6 +159,10 @@ public class TestMain {
 		
 		testTable = new JTable();
 		testTable.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 22));
+		
+		 ((DefaultCellEditor) testTable.getDefaultEditor(Object.class))
+         .getComponent().setFont(testTable.getFont());
+		 
 		testTable.getTableHeader().setFont(new Font("Segoe UI Semilight", Font.PLAIN, 22));
 		testTable.setRowHeight(testTable.getRowHeight() + 20);
 		testTable.putClientProperty("terminateEditOnFocusLost", true);
@@ -277,5 +286,7 @@ public class TestMain {
 		UpDateTable();
 
 	}
+	
+	
 }//end of TestMain	
 
