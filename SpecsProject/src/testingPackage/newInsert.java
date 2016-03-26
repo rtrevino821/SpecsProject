@@ -1,13 +1,17 @@
 package testingPackage;
 
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
+import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.JButton;
 import java.awt.Font;
+import java.awt.GridLayout;
+
 import javax.swing.border.LineBorder;
 import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
@@ -16,6 +20,7 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SpringLayout;
 
 public class newInsert {
@@ -31,6 +36,7 @@ public class newInsert {
 				try {
 					UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 					newInsert window = new newInsert();
+//					window.display();
 					window.frmInsertAsset.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -45,11 +51,13 @@ public class newInsert {
 	public newInsert() {
 		initialize();
 	}
-
+	
+	
 	/**
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
+		
 		frmInsertAsset = new JFrame();
 		frmInsertAsset.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 12));
 		frmInsertAsset.setTitle("Insert Asset");
@@ -83,87 +91,138 @@ public class newInsert {
 		btnNewButton_1.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 22));
 		frmInsertAsset.getContentPane().add(btnNewButton_1);
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setPreferredSize(new Dimension(125, 90));
-		//scrollPane.
-		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+//		JScrollPane scrollPane = new JScrollPane();
+//		scrollPane.setPreferredSize(new Dimension(125, 90));
+//		//scrollPane.
+//		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
+//		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
+//		springLayout.putConstraint(SpringLayout.NORTH, scrollPane, 135, SpringLayout.NORTH, frmInsertAsset.getContentPane());
+//		springLayout.putConstraint(SpringLayout.WEST, scrollPane, 15, SpringLayout.WEST, frmInsertAsset.getContentPane());
+//		springLayout.putConstraint(SpringLayout.SOUTH, scrollPane, 745, SpringLayout.NORTH, frmInsertAsset.getContentPane());
+//		springLayout.putConstraint(SpringLayout.EAST, scrollPane, 556, SpringLayout.WEST, frmInsertAsset.getContentPane());
+//		frmInsertAsset.getContentPane().add(scrollPane);
+		
+		JPanel panel = new JPanel(new GridLayout(0,2));
+		panel.setBounds(100, 100, 1439, 928);
+    	int i=0;
+    	while (i < fields.length) {
+    		JLabel label = new JLabel((String) fields[i++], JLabel.RIGHT);
+    		label.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 20));
+    		panel.add(label);
+    		panel.add((Component) fields[i++]);
+    	}
+    	JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setViewportView(panel);
 		springLayout.putConstraint(SpringLayout.NORTH, scrollPane, 135, SpringLayout.NORTH, frmInsertAsset.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, scrollPane, 15, SpringLayout.WEST, frmInsertAsset.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, scrollPane, 745, SpringLayout.NORTH, frmInsertAsset.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, scrollPane, 556, SpringLayout.WEST, frmInsertAsset.getContentPane());
-		frmInsertAsset.getContentPane().add(scrollPane);
+    	frmInsertAsset.getContentPane().add(scrollPane);
+
+//		JPanel panel = new JPanel();
+//		scrollPane.setViewportView(panel);
+//		SpringLayout sl_panel = new SpringLayout();
+//		panel.setBounds(100, 100, 1439, 928);
+//		panel.setLayout(sl_panel);
+
+
 		
-		JPanel panel = new JPanel();
-		scrollPane.setViewportView(panel);
-		SpringLayout sl_panel = new SpringLayout();
-		panel.setBounds(100, 100, 1439, 928);
-		panel.setLayout(sl_panel);
-		
-		JLabel lblNewLabel = new JLabel("Item Name:");
-		lblNewLabel.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 20));
-		sl_panel.putConstraint(SpringLayout.NORTH, lblNewLabel, 48, SpringLayout.NORTH, panel);
-		sl_panel.putConstraint(SpringLayout.WEST, lblNewLabel, 29, SpringLayout.WEST, panel);
-		panel.add(lblNewLabel);
-		
-		JLabel lblItemDescription = new JLabel("Item Description:");
-		sl_panel.putConstraint(SpringLayout.NORTH, lblItemDescription, 21, SpringLayout.SOUTH, lblNewLabel);
-		sl_panel.putConstraint(SpringLayout.WEST, lblItemDescription, 0, SpringLayout.WEST, lblNewLabel);
-		lblItemDescription.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 20));
-		panel.add(lblItemDescription);
-		
-		JLabel lblCategory = new JLabel("Category:");
-		sl_panel.putConstraint(SpringLayout.NORTH, lblCategory, 22, SpringLayout.SOUTH, lblItemDescription);
-		sl_panel.putConstraint(SpringLayout.WEST, lblCategory, 0, SpringLayout.WEST, lblNewLabel);
-		lblCategory.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 20));
-		panel.add(lblCategory);
-		
-		JLabel lblIdTag = new JLabel("ID Tag:");
-		sl_panel.putConstraint(SpringLayout.NORTH, lblIdTag, 21, SpringLayout.SOUTH, lblCategory);
-		sl_panel.putConstraint(SpringLayout.WEST, lblIdTag, 0, SpringLayout.WEST, lblNewLabel);
-		lblIdTag.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 20));
-		panel.add(lblIdTag);
-		
-		JLabel lblRoom = new JLabel("Room #:");
-		sl_panel.putConstraint(SpringLayout.NORTH, lblRoom, 21, SpringLayout.SOUTH, lblIdTag);
-		sl_panel.putConstraint(SpringLayout.WEST, lblRoom, 0, SpringLayout.WEST, lblNewLabel);
-		lblRoom.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 20));
-		panel.add(lblRoom);
-		
-		JLabel lblFloor = new JLabel("Floor #:");
-		sl_panel.putConstraint(SpringLayout.NORTH, lblFloor, 24, SpringLayout.SOUTH, lblRoom);
-		sl_panel.putConstraint(SpringLayout.WEST, lblFloor, 0, SpringLayout.WEST, lblNewLabel);
-		lblFloor.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 20));
-		panel.add(lblFloor);
-		
-		JLabel lblDateAquired = new JLabel("Date Aquired:");
-		sl_panel.putConstraint(SpringLayout.NORTH, lblDateAquired, 26, SpringLayout.SOUTH, lblFloor);
-		sl_panel.putConstraint(SpringLayout.WEST, lblDateAquired, 0, SpringLayout.WEST, lblNewLabel);
-		lblDateAquired.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 20));
-		panel.add(lblDateAquired);
-		
-		JLabel lblOwnership = new JLabel("Ownership:");
-		sl_panel.putConstraint(SpringLayout.NORTH, lblOwnership, 25, SpringLayout.SOUTH, lblDateAquired);
-		sl_panel.putConstraint(SpringLayout.WEST, lblOwnership, 0, SpringLayout.WEST, lblNewLabel);
-		lblOwnership.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 20));
-		panel.add(lblOwnership);
-		
-		JLabel lblSupplier = new JLabel("Supplier:");
-		sl_panel.putConstraint(SpringLayout.NORTH, lblSupplier, 29, SpringLayout.SOUTH, lblOwnership);
-		sl_panel.putConstraint(SpringLayout.WEST, lblSupplier, 0, SpringLayout.WEST, lblNewLabel);
-		lblSupplier.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 20));
-		panel.add(lblSupplier);
-		
-		JLabel lblManufacturer = new JLabel("Manufacturer:");
-		sl_panel.putConstraint(SpringLayout.NORTH, lblManufacturer, 28, SpringLayout.SOUTH, lblSupplier);
-		sl_panel.putConstraint(SpringLayout.WEST, lblManufacturer, 0, SpringLayout.WEST, lblNewLabel);
-		lblManufacturer.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 20));
-		panel.add(lblManufacturer);
-		
-		JLabel lblSerial = new JLabel("Serial #:");
-		sl_panel.putConstraint(SpringLayout.WEST, lblSerial, 0, SpringLayout.WEST, lblNewLabel);
-		sl_panel.putConstraint(SpringLayout.SOUTH, lblSerial, 0, SpringLayout.SOUTH, panel);
-		lblSerial.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 20));
-		panel.add(lblSerial);
+//		
+//		JLabel lblNewLabel = new JLabel("Item Name:");
+//		lblNewLabel.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 20));
+//		sl_panel.putConstraint(SpringLayout.NORTH, lblNewLabel, 48, SpringLayout.NORTH, panel);
+//		sl_panel.putConstraint(SpringLayout.WEST, lblNewLabel, 29, SpringLayout.WEST, panel);
+//		panel.add(lblNewLabel);
+//		
+//		JLabel lblItemDescription = new JLabel("Item Description:");
+//		sl_panel.putConstraint(SpringLayout.NORTH, lblItemDescription, 21, SpringLayout.SOUTH, lblNewLabel);
+//		sl_panel.putConstraint(SpringLayout.WEST, lblItemDescription, 0, SpringLayout.WEST, lblNewLabel);
+//		lblItemDescription.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 20));
+//		panel.add(lblItemDescription);
+//		
+//		JLabel lblCategory = new JLabel("Category:");
+//		sl_panel.putConstraint(SpringLayout.NORTH, lblCategory, 22, SpringLayout.SOUTH, lblItemDescription);
+//		sl_panel.putConstraint(SpringLayout.WEST, lblCategory, 0, SpringLayout.WEST, lblNewLabel);
+//		lblCategory.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 20));
+//		panel.add(lblCategory);
+//		
+//		JLabel lblIdTag = new JLabel("ID Tag:");
+//		sl_panel.putConstraint(SpringLayout.NORTH, lblIdTag, 21, SpringLayout.SOUTH, lblCategory);
+//		sl_panel.putConstraint(SpringLayout.WEST, lblIdTag, 0, SpringLayout.WEST, lblNewLabel);
+//		lblIdTag.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 20));
+//		panel.add(lblIdTag);
+//		
+//		JLabel lblRoom = new JLabel("Room #:");
+//		sl_panel.putConstraint(SpringLayout.NORTH, lblRoom, 21, SpringLayout.SOUTH, lblIdTag);
+//		sl_panel.putConstraint(SpringLayout.WEST, lblRoom, 0, SpringLayout.WEST, lblNewLabel);
+//		lblRoom.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 20));
+//		panel.add(lblRoom);
+//		
+//		JLabel lblFloor = new JLabel("Floor #:");
+//		sl_panel.putConstraint(SpringLayout.NORTH, lblFloor, 24, SpringLayout.SOUTH, lblRoom);
+//		sl_panel.putConstraint(SpringLayout.WEST, lblFloor, 0, SpringLayout.WEST, lblNewLabel);
+//		lblFloor.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 20));
+//		panel.add(lblFloor);
+//		
+//		JLabel lblDateAquired = new JLabel("Date Aquired:");
+//		sl_panel.putConstraint(SpringLayout.NORTH, lblDateAquired, 26, SpringLayout.SOUTH, lblFloor);
+//		sl_panel.putConstraint(SpringLayout.WEST, lblDateAquired, 0, SpringLayout.WEST, lblNewLabel);
+//		lblDateAquired.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 20));
+//		panel.add(lblDateAquired);
+//		
+//		JLabel lblOwnership = new JLabel("Ownership:");
+//		sl_panel.putConstraint(SpringLayout.NORTH, lblOwnership, 25, SpringLayout.SOUTH, lblDateAquired);
+//		sl_panel.putConstraint(SpringLayout.WEST, lblOwnership, 0, SpringLayout.WEST, lblNewLabel);
+//		lblOwnership.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 20));
+//		panel.add(lblOwnership);
+//		
+//		JLabel lblSupplier = new JLabel("Supplier:");
+//		sl_panel.putConstraint(SpringLayout.NORTH, lblSupplier, 29, SpringLayout.SOUTH, lblOwnership);
+//		sl_panel.putConstraint(SpringLayout.WEST, lblSupplier, 0, SpringLayout.WEST, lblNewLabel);
+//		lblSupplier.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 20));
+//		panel.add(lblSupplier);
+//		
+//		JLabel lblManufacturer = new JLabel("Manufacturer:");
+//		sl_panel.putConstraint(SpringLayout.NORTH, lblManufacturer, 28, SpringLayout.SOUTH, lblSupplier);
+//		sl_panel.putConstraint(SpringLayout.WEST, lblManufacturer, 0, SpringLayout.WEST, lblNewLabel);
+//		lblManufacturer.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 20));
+//		panel.add(lblManufacturer);
+//		
+//		JLabel lblSerial = new JLabel("Serial #:");
+//		sl_panel.putConstraint(SpringLayout.WEST, lblSerial, 0, SpringLayout.WEST, lblNewLabel);
+//		sl_panel.putConstraint(SpringLayout.SOUTH, lblSerial, 0, SpringLayout.SOUTH, panel);
+//		lblSerial.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 20));
+//		panel.add(lblSerial);
 	}
+	
+	 
+    
+	// instantiating textfields for each jlabel
+	JTextField field1 = new JTextField();
+    JTextField field2 = new JTextField();
+    JTextField field3 = new JTextField();
+    JTextField field4 = new JTextField();
+    JTextField field5 = new JTextField();
+    JTextField field6 = new JTextField();
+    JTextField field7 = new JTextField();
+    JTextField field8 = new JTextField();
+    JTextField field9 = new JTextField();
+    JTextField field10 = new JTextField();
+    JTextField field11 = new JTextField();
+    
+    // array of labels and corresponding textFields for use in display()
+    Object[] fields = {
+    	"Item Name:    ", field1,
+    	"Item Description:    ", field2,
+    	"Category:    ", field3,
+    	"ID Tag:    ", field4,
+    	"Room #:    ", field5,
+    	"Floor #:    ", field6,
+    	"Date Aquired:    ", field7,
+    	"Ownership:    ", field8,
+    	"Supplier:    ", field9,
+    	"Manufacturer:    ", field10,
+    	"Serial #:    ", field11
+    };
+			   
 }
