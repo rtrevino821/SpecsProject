@@ -85,7 +85,7 @@ public class newInsert {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setPreferredSize(new Dimension(125, 90));
-		scrollPane.
+		//scrollPane.
 		scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_ALWAYS);
 		springLayout.putConstraint(SpringLayout.NORTH, scrollPane, 135, SpringLayout.NORTH, frmInsertAsset.getContentPane());
