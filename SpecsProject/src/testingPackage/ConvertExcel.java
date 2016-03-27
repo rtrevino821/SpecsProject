@@ -153,7 +153,7 @@ public class ConvertExcel {
 	{
 		FileInputStream file = null;
 		try {
-			file = new FileInputStream(new File("Excel\\Inventory_Project_Specifications.xlsx"));
+			file = new FileInputStream(new File("Excel\\Inventory_Project_SpecificationsV2.xlsx"));
 		} catch (FileNotFoundException e2) {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
@@ -221,15 +221,19 @@ public class ConvertExcel {
 			PreparedStatement prepare = null;
 //     	String query = "insert into Presidents(AlphaID,Years,Presidents,VP,TermLeft) "
 //					+ "values(?,?,?,?,?)";
-     	String query = "insert into Artwork(\"group\",Asset,Property_Description,Date_In_Service,Price)"
-				+ "values(?,?,?,?,?)";
+     	String query = "insert into MasterTable(\"group\",Asset,Property_Description,Date_In_Service,Price,"
+     			+ "Tax_period,tax_net_Book_Value, Room_Number, Model_Number, Ownership, Manufacturer, "
+     			+ "Serial_Number,Warrant_Expiration,Replacement_Date, Deactivation_Date, Condition,"
+     			+ "Floor, Supplier, Asset_over_500, Comment_History)"
+				+ "values(?,?,?,?,?,?,?,?,?,?"
+				+ ",?,?,?,?,?,?,?,?,?,?)";
 			try {
 				prepare = conn.prepareStatement(query);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			//begin parsing to send to sqlite //1
+			//begin parsing to send to sqlite //1 Group
 			String cellTempString = cellArray[0].getStringCellValue();
 			try {
 				prepare.setString(1, cellTempString);
@@ -238,7 +242,7 @@ public class ConvertExcel {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			//2
+			//2 Asset
 			double cellTempDbl = cellArray[1].getNumericCellValue();
 			int cellTempInt = (int) cellTempDbl;
 			try {
@@ -249,7 +253,7 @@ public class ConvertExcel {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			//3
+			//3 propety_decription
 			cellTempString = cellArray[2].getStringCellValue();
 			try {
 				prepare.setString(3, cellTempString);
@@ -271,7 +275,7 @@ public class ConvertExcel {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-			//5
+			//5 Price
 			cellTempDbl = cellArray[4].getNumericCellValue();
 			try {
 				prepare.setDouble(5, cellTempDbl);
@@ -281,6 +285,48 @@ public class ConvertExcel {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			//6 tax period
+			cellTempDbl = cellArray[5].getNumericCellValue();
+			try {
+				prepare.setDouble(6, cellTempDbl);
+				System.out.println("tax period: " + cellTempDbl);
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//7 tax_net
+			cellTempDbl = cellArray[6].getNumericCellValue();
+			try {
+				prepare.setDouble(7, cellTempDbl);
+				System.out.println("taxnet: " + cellTempDbl);
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//8 Room NUumber
+			cellTempDbl  = cellArray[7].getNumericCellValue();
+			cellTempInt = (int) cellTempDbl;
+			try {
+				prepare.setDouble(8, cellTempInt);
+				System.out.println("Room Number: " + cellTempInt);
+
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//9 Ownership
+			cellTempString = cellArray[8].getStringCellValue();
+			try {
+				prepare.setString(9, cellTempString);
+				System.out.println("Ownership: "+cellTempString);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 			
 			try {
 				prepare.executeUpdate();
@@ -374,7 +420,7 @@ public class ConvertExcel {
 			Connection conn = sqliteConnectionTEST.dbConnector();
 			DefaultTableModel dm = new DefaultTableModel();
 	        //query and resultset
-			String testTable_String = "Select * from Electronics";
+			String testTable_String = "Select * from MasterTable";
 			PreparedStatement showTestTable = conn.prepareStatement(testTable_String);
 			ResultSet rsTest = showTestTable.executeQuery();
 			addRowsAndColumns(rsTest, dm);

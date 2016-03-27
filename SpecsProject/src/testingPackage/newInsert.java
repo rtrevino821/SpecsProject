@@ -210,6 +210,7 @@ public class newInsert {
     JTextField field10 = new JTextField();
     JTextField field11 = new JTextField();
     
+    
     // array of labels and corresponding textFields for use in display()
     Object[] fields = {
     	"Item Name:    ", field1,
