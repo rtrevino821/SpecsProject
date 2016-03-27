@@ -124,14 +124,14 @@ public class PieChartSample extends Application {
 
 		try {
 			stmt = conn2.createStatement(); //\"group\",price  //\"group\",price
-			ResultSet rs = stmt.executeQuery("SELECT \"group\",Price,Asset From MasterTable Where (MasterTable.\"group\" Like 'Furniture & Fixtures ' And MasterTable.Price>0) " );// WHERE price >= 500
+			ResultSet rs = stmt.executeQuery("SELECT \"group\",Price,Asset From MasterTable Where (MasterTable.\"group\" Like 'Furniture & Fixtures' And MasterTable.Price>0) " );// WHERE price >= 500
 			
 			// sum =0;
 			while (rs.next()) {
 				Double price = rs.getDouble("Price");
-				int asset =rs.getInt("Asset"); 
+//				int asset =rs.getInt("Asset"); 
 				
-				System.out.println("asset number: "+asset);
+//				System.out.println("asset number: "+asset);
 				sum += price;
 			}
 			//System.out.println(sum + "\n");
