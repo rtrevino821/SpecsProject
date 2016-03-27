@@ -23,8 +23,10 @@ import javax.swing.JFormattedTextField;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -71,6 +73,9 @@ public class TestInsert extends JFrame {
 				}
 			}
 		});
+		
+		
+		
 	}
 
 	/**
@@ -362,4 +367,5 @@ public class TestInsert extends JFrame {
 		prepare.setString(4, String.valueOf(textField_3.getText()));
 		prepare.setDouble(5, Double.parseDouble(textField_4.getText()));
 	}
+	
 }
