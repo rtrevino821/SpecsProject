@@ -36,19 +36,17 @@ public class PieChartSample extends Application {
 
 		ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
 				new PieChart.Data("Art: ", test_ArtWork_Total_Spent()),
-				new PieChart.Data("Furniture: ", test_Furniture_Total_Spent()),
+				new PieChart.Data("Cabinets: ", test_Furniture_Total_Spent()),
        			new PieChart.Data("Pc's: " , test_Computers_Total_Spent()),//, 
 				new PieChart.Data("Software: ",test_Computer_Software_Total_Spent()),
-				new PieChart.Data("Backups: ",test_Batter_Backup_Total_Spent()),
-				new PieChart.Data("Pc Misc",test_Computer_MISC_Total_Spent()),
-				new PieChart.Data("Printers", test_Printers_Total_Spent()),
-//				new PieChart.Data("Computers Printers ",test_Electronic_Total_Spent()));
-				new PieChart.Data("Computers Transcription",test_Transcription_Total_Spent()),
-				new PieChart.Data("Computers Video/Proj Eq",test_Video_Projector_Total_Spent()));	
-//				new PieChart.Data("Furniture & Fixtures",test_Electronic_Total_Spent()), 		
-//				new PieChart.Data("Furniture & Fixture Cabinets",test_Electronic_Total_Spent()),
-//				new PieChart.Data("Leasehold Improvements",test_Electronic_Total_Spent()),			
-//				new PieChart.Data("Personal Property",test_Electronic_Total_Spent()));
+				new PieChart.Data("BB: ",test_Batter_Backup_Total_Spent()),
+				new PieChart.Data("Pc/misc",test_Computer_MISC_Total_Spent()),
+				new PieChart.Data("p", test_Printers_Total_Spent()),
+				new PieChart.Data("t.",test_Transcription_Total_Spent()),
+				new PieChart.Data("v",test_Video_Projector_Total_Spent()),	
+				new PieChart.Data("Fixture",test_Furniture_Fixtures_Total_Spent()), 		
+				new PieChart.Data("LeaseHold",test_LeaseHold_Total_Spent()),			
+				new PieChart.Data("Property.",test_Personal_Property_Total_Spent()));
 		
 				
 		final PieChart chart = new PieChart(pieChartData);
@@ -81,10 +79,10 @@ public class PieChartSample extends Application {
 		Set<Node> items = chart.lookupAll("Label.chart-legend-item");
 	    int i = 0;
 	    // these colors came from caspian.css .default-color0..4.chart-pie
-	    Color[] colors = { Color.web("#e0c300"), Color.web("#e05300"), Color.web("#00ad40"), Color.web("#0181e2"), Color.web("#2f357f"),
-	    		Color.web("#0181e2"),Color.web("#2f357f"),Color.web("#2f357f"),Color.web("#2f357f"),
-	    		Color.web("#2f357f"),Color.web("#2f357f"),Color.web("#2f357f"),Color.web("#2f357f"), };
-	    for (Node item : items) {
+	    Color[] colors = { Color.web("#f4950b"), Color.web("#e0c300"), Color.web("#00ad40"), Color.web("#0181e2"), Color.web("#526b7f"),
+	    		Color.web("#9536d0"),Color.web("#be4418"),Color.web("#526b7f"),Color.web("#e05300"),
+	    		Color.web("#f4950b"),Color.web("#00ad40"),Color.web("#0181e2"),};//Color.web("#2f357f"), };
+	    for (Node item : items) {  //#0181e2 was the sixth color  526b7f
 	      Label label = (Label) item;
 	      final Rectangle rectangle = new Rectangle(10, 10, colors[i]);
 	      final Glow glowEffect = new Glow();
@@ -98,13 +96,9 @@ public class PieChartSample extends Application {
 
 	public static void main(String[] args) {
 		launch(args);
-		System.out.println("furniture cabinets:  "+test_Furniture_Total_Spent()+ "  correct value "+ "\n");
-		
-		
+		System.out.println("Cabinets:  "+test_Furniture_Total_Spent()+ "  correct value "+ "\n");
 		System.out.println("Pc's:  "+test_Computers_Total_Spent()+"\n");
-		System.out.println("furniture:  " + test_Furniture_Fixtures_Total_Spent()+ "   missing asset 511, there is an extra space in the sql database for that particular asset number,that needs to be adjusted" +"\n");
-		
-		
+		System.out.println("furniture:  " + test_Furniture_Fixtures_Total_Spent() +"\n");
 		System.out.println("Art:  "+test_ArtWork_Total_Spent()+ "  correct value" + "\n");
 		System.out.println("Software:  "+test_Computer_Software_Total_Spent()+ "  correct value"+"\n");
 		System.out.println("battery:  "+test_Batter_Backup_Total_Spent()+ "  correct value"+"\n");	
@@ -113,8 +107,40 @@ public class PieChartSample extends Application {
 		System.out.println("transcription:  "+ test_Transcription_Total_Spent()+ "  correct value" + "\n");
 		System.out.println("video_projectors:  " + test_Video_Projector_Total_Spent()+ "  correct value" +  "\n");
 		System.out.println("personal property:  "  + test_Personal_Property_Total_Spent()+ "  correct value" +"\n");
+		System.out.println("LeaseHold: "+test_LeaseHold_Total_Spent()+ "\n");
 	
+		System.out.println("TOTAL DOLLAR SPENT:  " +test_Everything_Total_Spent());
+		
+		
 	}
+	
+	
+	public static double test_LeaseHold_Total_Spent() {
+		Connection conn2 = sqliteConnectionTEST.dbConnector();
+		java.sql.Statement stmt;
+
+		Double sum = 0.0;
+
+		try {
+			stmt = conn2.createStatement(); //\"group\",price  //\"group\",price
+			ResultSet rs = stmt.executeQuery("SELECT \"group\",Price,Asset From MasterTable Where (MasterTable.\"group\" Like 'Leasehold Improvements' And MasterTable.Price>0) " );// WHERE price >= 500
+			
+			// sum =0;
+			while (rs.next()) {
+				Double price = rs.getDouble("Price");
+				//int asset =rs.getInt("Asset"); 
+				
+				//System.out.println("asset number: "+asset);
+				sum += price;
+			}
+			//System.out.println(sum + "\n");
+		} catch (SQLException e) {
+			System.out.println("sql exception caught");
+			e.printStackTrace();
+		}
+		return sum;
+	}
+	
 	
 	public static double test_Furniture_Fixtures_Total_Spent() {
 		Connection conn2 = sqliteConnectionTEST.dbConnector();
@@ -129,9 +155,9 @@ public class PieChartSample extends Application {
 			// sum =0;
 			while (rs.next()) {
 				Double price = rs.getDouble("Price");
-//				int asset =rs.getInt("Asset"); 
+				//int asset =rs.getInt("Asset"); 
 				
-//				System.out.println("asset number: "+asset);
+				//System.out.println("asset number: "+asset);
 				sum += price;
 			}
 			//System.out.println(sum + "\n");
@@ -142,7 +168,31 @@ public class PieChartSample extends Application {
 		return sum;
 	}
 	
-	
+	public static double test_Everything_Total_Spent() {
+		Connection conn2 = sqliteConnectionTEST.dbConnector();
+		java.sql.Statement stmt;
+
+		Double sum = 0.0;
+
+		try {
+			stmt = conn2.createStatement(); //\"group\",price  //\"group\",price       //(MasterTable.\"group\" Like 'Furniture & Fixtures' And
+			ResultSet rs = stmt.executeQuery("SELECT \"group\",Price,Asset From MasterTable Where MasterTable.Price>0 " );// WHERE price >= 500
+			
+			// sum =0;
+			while (rs.next()) {
+				Double price = rs.getDouble("Price");
+				//int asset =rs.getInt("Asset"); 
+				
+				//System.out.println("asset number: "+asset);
+				sum += price;
+			}
+			//System.out.println(sum + "\n");
+		} catch (SQLException e) {
+			System.out.println("sql exception caught");
+			e.printStackTrace();
+		}
+		return sum;
+	}
 	
 	
 
