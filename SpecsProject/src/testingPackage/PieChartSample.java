@@ -98,20 +98,21 @@ public class PieChartSample extends Application {
 
 	public static void main(String[] args) {
 		launch(args);
-		System.out.println("furniture cabinets:  "+test_Furniture_Total_Spent()+ "\n");
+		System.out.println("furniture cabinets:  "+test_Furniture_Total_Spent()+ "  correct value "+ "\n");
 		
 		
-		System.out.println("furniture:  " + test_Furniture_Fixtures_Total_Spent()+"\n");
-		
-		System.out.println("Art:  "+test_ArtWork_Total_Spent() + "\n");
 		System.out.println("Pc's:  "+test_Computers_Total_Spent()+"\n");
-		System.out.println("Software:  "+test_Computer_Software_Total_Spent()+"\n");
-		System.out.println("battery:  "+test_Batter_Backup_Total_Spent()+"\n");	
-		System.out.println("Misc:  " +test_Computer_MISC_Total_Spent()+"\n");
-		System.out.println("printers:  "+ test_Printers_Total_Spent()+ "\n");
-		System.out.println("transcription:  "+ test_Transcription_Total_Spent()+ "\n");
-		System.out.println("video_projectors:  " + test_Video_Projector_Total_Spent() +  "\n");
-	
+		System.out.println("furniture:  " + test_Furniture_Fixtures_Total_Spent()+ "   missing asset 511, there is an extra space in the sql database for that particular asset number,that needs to be adjusted" +"\n");
+		
+		
+		System.out.println("Art:  "+test_ArtWork_Total_Spent()+ "  correct value" + "\n");
+		System.out.println("Software:  "+test_Computer_Software_Total_Spent()+ "  correct value"+"\n");
+		System.out.println("battery:  "+test_Batter_Backup_Total_Spent()+ "  correct value"+"\n");	
+		System.out.println("Misc:  " +test_Computer_MISC_Total_Spent()+ "  correct value"+"\n");
+		System.out.println("printers:  "+ test_Printers_Total_Spent()+ "  correct value"+ "\n");
+		System.out.println("transcription:  "+ test_Transcription_Total_Spent()+ "  correct value" + "\n");
+		System.out.println("video_projectors:  " + test_Video_Projector_Total_Spent()+ "  correct value" +  "\n");
+		System.out.println("personal property:  "  + test_Personal_Property_Total_Spent()+ "  correct value" +"\n");
 	
 	}
 	
@@ -123,12 +124,14 @@ public class PieChartSample extends Application {
 
 		try {
 			stmt = conn2.createStatement(); //\"group\",price  //\"group\",price
-			ResultSet rs = stmt.executeQuery("SELECT \"group\",Price From MasterTable Where (MasterTable.\"group\" Like 'Furniture & Fixtures' And MasterTable.Price>0) " );// WHERE price >= 500
+			ResultSet rs = stmt.executeQuery("SELECT \"group\",Price,Asset From MasterTable Where (MasterTable.\"group\" Like 'Furniture & Fixtures ' And MasterTable.Price>0) " );// WHERE price >= 500
 			
 			// sum =0;
 			while (rs.next()) {
 				Double price = rs.getDouble("Price");
-				//System.out.println(price);
+				int asset =rs.getInt("Asset"); 
+				
+				System.out.println("asset number: "+asset);
 				sum += price;
 			}
 			//System.out.println(sum + "\n");
@@ -246,6 +249,33 @@ public class PieChartSample extends Application {
 		return sum;
 	}
 	
+	
+	public static double test_Personal_Property_Total_Spent() {
+		Connection conn2 = sqliteConnectionTEST.dbConnector();
+		java.sql.Statement stmt;
+
+		Double sum = 0.0;
+
+		try {
+			stmt = conn2.createStatement(); //\"group\",price  //\"group\",price
+			ResultSet rs = stmt.executeQuery("SELECT \"group\",Price From MasterTable Where (MasterTable.\"group\" Like 'Personal Property' And MasterTable.Price>0) " );// WHERE price >= 500
+			
+			// sum =0;
+			while (rs.next()) {
+				Double price = rs.getDouble("Price");
+				//System.out.println(price);
+				sum += price;
+			}
+			//System.out.println(sum + "\n");
+		} catch (SQLException e) {
+			System.out.println("sql exception caught");
+			e.printStackTrace();
+		}
+		return sum;
+	}
+	
+	
+	
 	public static double test_Computer_Software_Total_Spent() {
 		Connection conn2 = sqliteConnectionTEST.dbConnector();
 		java.sql.Statement stmt;
@@ -356,7 +386,7 @@ public class PieChartSample extends Application {
 		Double sum = 0.0;
 		try {
 			stmt = conn2.createStatement();
-			ResultSet rs = stmt.executeQuery("SELECT \"group\",Price From MasterTable Where (MasterTable.\"group\" Like '%Cabinets%' And MasterTable.Price>0) " );// WHERE price >= 500
+			ResultSet rs = stmt.executeQuery("SELECT \"group\",Price From MasterTable Where (MasterTable.\"group\" Like '%Cabinets' And MasterTable.Price>0) " );// WHERE price >= 500
 																		
 			while (rs.next()) {
 				Double price = rs.getDouble("Price");
