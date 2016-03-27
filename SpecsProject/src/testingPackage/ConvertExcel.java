@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Iterator;
 
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
@@ -214,132 +215,242 @@ public class ConvertExcel {
 		}
 	   
 }//end of method
-	
-	public static void InsertToDatabase(Cell[] cellArray)
+
+	public static void importExcel(File fs) throws SQLException
 	{
-		 Connection conn = sqliteConnectionTEST.dbConnector();
-			PreparedStatement prepare = null;
-//     	String query = "insert into Presidents(AlphaID,Years,Presidents,VP,TermLeft) "
-//					+ "values(?,?,?,?,?)";
+		FileInputStream file = null;
+		try {
+			file = new FileInputStream(fs);
+		} catch (FileNotFoundException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+
+		//Get the workbook instance for XLS file 
+		XSSFWorkbook workbook = null;
+		try {
+			workbook = new XSSFWorkbook(file);
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+
+
+		//Get first sheet from the workbook
+		XSSFSheet sheet = workbook.getSheetAt(0);
+
+		//Iterate through each rows from first sheet
+		Iterator<Row> rowIterator = sheet.iterator();
+		Row row = sheet.getRow(0);
+		int rowsCount = sheet.getLastRowNum();
+
+		String [] colHeader =  new String[rowsCount];
+		for(int count = 0; count < row.getLastCellNum(); count++)
+		{//get column headers from excel
+			Cell cell = row.getCell(count);
+			colHeader[count] = cell.getStringCellValue();
+			System.out.println(colHeader[count]);
+		}
+
+
+		System.out.println("Total Number of Rows: " + (rowsCount + 1));
+		for (int i = 3; i <= rowsCount; i++) {//start at 1 to skip column
+			row = sheet.getRow(i);
+			int colCounts = row.getLastCellNum();//null pointer needs to be handled
+			Cell [] cellArray = new Cell[colCounts];
+			System.out.println("Total Number of Cols: " + colCounts);
+			for (int j = 0; j < colCounts; j++) {
+				if (row.getCell(j) == null)
+				{
+					//break;
+					System.out.println("NULL");
+
+				}
+				else
+					cellArray[j] = row.getCell(j);
+				//System.out.println("[" + i + "," + j + "]=" + cell.getStringCellValue());
+			}// end of j loop
+			InsertToDatabase(cellArray);
+
+		}//end of i loop
+		try {
+			file.close();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+
+	}//end of method
+	
+	public static void InsertToDatabase(Cell[] cellArray) throws SQLException
+	{
+		//Vars will be used multiple time
+		double cellTempDbl;
+		int cellTempInt;
+		String cellTempString;
+		DateFormat cellTempDate;
+		cellTempDate = new SimpleDateFormat("MM/dd/yyyy");
+		Date today; 
+		String reportDate;
+
+		
+		Connection conn = sqliteConnectionTEST.dbConnector();
+		PreparedStatement prepare = null;
+		
      	String query = "insert into MasterTable(\"group\",Asset,Property_Description,Date_In_Service,Price,"
      			+ "Tax_period,tax_net_Book_Value, Room_Number, Model_Number, Ownership, Manufacturer, "
-     			+ "Serial_Number,Warrant_Expiration,Replacement_Date, Deactivation_Date, Condition,"
-     			+ "Floor, Supplier, Asset_over_500, Comment_History)"
+     			+ "Serial_Number,Warrant_Expiration,Replacement_Date, Deactivation_Date,Deactivation_Method, Condition,"
+     			+ "Floor, Supplier, Asset_over_500, Comment_History, Picture)"
 				+ "values(?,?,?,?,?,?,?,?,?,?"
-				+ ",?,?,?,?,?,?,?,?,?,?)";
-			try {
-				prepare = conn.prepareStatement(query);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			//begin parsing to send to sqlite //1 Group
-			String cellTempString = cellArray[0].getStringCellValue();
-			try {
-				prepare.setString(1, cellTempString);
-				System.out.println("Group: "+cellTempString);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			//2 Asset
-			double cellTempDbl = cellArray[1].getNumericCellValue();
-			int cellTempInt = (int) cellTempDbl;
-			try {
-				prepare.setInt(2, cellTempInt);
-				System.out.println("Asset: "+cellTempInt);
-
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			//3 propety_decription
-			cellTempString = cellArray[2].getStringCellValue();
-			try {
-				prepare.setString(3, cellTempString);
-				System.out.println("Property: "+cellTempString);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			//4
-			//new SimpleDateFormat("dd/MM/yyyy").parse(yourDateString);
-		    DateFormat cellTempDate = new SimpleDateFormat("MM/dd/yyyy");
-		    Date today =  cellArray[3].getDateCellValue();
-		    String reportDate = cellTempDate.format(today);
-			try {
-				prepare.setString(4, reportDate);
-				System.out.println("Date: "+reportDate);
-
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			//5 Price
-			cellTempDbl = cellArray[4].getNumericCellValue();
-			try {
-				prepare.setDouble(5, cellTempDbl);
-				System.out.println("Price: " + cellTempDbl);
-
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+				+ ",?,?,?,?,?,?,?,?,?,?,?,?)";
 			
-			//6 tax period
-			cellTempDbl = cellArray[5].getNumericCellValue();
-			try {
-				prepare.setDouble(6, cellTempDbl);
-				System.out.println("tax period: " + cellTempDbl);
+     	prepare = conn.prepareStatement(query);
 
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			//7 tax_net
-			cellTempDbl = cellArray[6].getNumericCellValue();
-			try {
-				prepare.setDouble(7, cellTempDbl);
-				System.out.println("taxnet: " + cellTempDbl);
+     	//begin parsing to send to sqlite //0 Group
+     	if(cellArray[0].getStringCellValue()== null)
+     	{
+         	prepare.setString(1, null);
 
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			//8 Room NUumber
-			cellTempDbl  = cellArray[7].getNumericCellValue();
-			cellTempInt = (int) cellTempDbl;
-			try {
-				prepare.setDouble(8, cellTempInt);
-				System.out.println("Room Number: " + cellTempInt);
+     	}
+     	else{
+         	cellTempString = cellArray[0].getStringCellValue();
+     		prepare.setString(1, cellTempString);
+     	}
+     	//System.out.println("Group: "+cellTempString);
 
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			//9 Ownership
-			cellTempString = cellArray[8].getStringCellValue();
-			try {
-				prepare.setString(9, cellTempString);
-				System.out.println("Ownership: "+cellTempString);
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-			
-			try {
-				prepare.executeUpdate();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			try {
-				conn.close();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}		
+     	//1 Asset
+     	cellTempDbl = cellArray[1].getNumericCellValue();
+     	cellTempInt = (int) cellTempDbl;
+     	prepare.setInt(2, cellTempInt);
+     	//System.out.println("Asset: "+cellTempInt);
+
+     	//2 Property_Description
+     	cellTempString = cellArray[2].getStringCellValue();
+     	prepare.setString(3, cellTempString);
+     	//System.out.println("Property: "+cellTempString);
+    
+     	//3 Date_In_Service
+     	today =  cellArray[3].getDateCellValue();
+     	reportDate = cellTempDate.format(today);
+     	prepare.setString(4, reportDate);
+     	//System.out.println("Date: "+reportDate);
+
+     	//4 Price
+     	cellTempDbl = cellArray[4].getNumericCellValue();
+     	prepare.setDouble(5, cellTempDbl);
+     	//System.out.println("Price: " + cellTempDbl);
+     	
+     	//5 tax_period
+     	cellTempDbl = cellArray[5].getNumericCellValue();
+     	prepare.setDouble(6, cellTempDbl);
+     	//System.out.println("tax period: " + cellTempDbl);
+
+     	//6 tax_net
+     	cellTempDbl = cellArray[6].getNumericCellValue();
+     	prepare.setDouble(7, cellTempDbl);
+     	//System.out.println("taxnet: " + cellTempDbl);
+
+     	//7 Room _Number
+     	cellTempDbl  = cellArray[7].getNumericCellValue();
+     	cellTempInt = (int) cellTempDbl;
+     	prepare.setDouble(8, cellTempInt);
+     	//System.out.println("Room Number: " + cellTempInt);
+
+    	//8 Model_Number
+     	cellTempString = cellArray[8].getStringCellValue();
+     	prepare.setString(9, cellTempString);
+     	//System.out.println("Room Number: " + cellTempInt);
+
+     	//9 Ownership
+     	cellTempString = cellArray[9].getStringCellValue();
+     	prepare.setString(10, cellTempString);
+     	//System.out.println("Ownership: "+cellTempString);
+
+       	//10 Manufacturer
+     	cellTempString = cellArray[10].getStringCellValue();
+     	prepare.setString(11, cellTempString);
+     	//System.out.println("Manufacturer: "+cellTempString);
+
+     	//11 Serial_Number
+     	cellTempString = cellArray[11].getStringCellValue();
+     	prepare.setString(12, cellTempString);
+     	//System.out.println("Serial_Number: "+cellTempString);
+
+     	//12 Warrant_Expiration
+     	today =  cellArray[12].getDateCellValue();
+  
+     	if(today == null)
+     	{
+         	prepare.setString(13, null);
+     	}
+     	else
+     	{
+     		reportDate = cellTempDate.format(today);
+         	prepare.setString(13, reportDate);
+     	}
+     		
+     
+     	//System.out.println("Warranty_Expiration: "+cellTempString);
+
+     	//13 Replacement _Date
+     	today =  cellArray[13].getDateCellValue();
+      	if(today == null)
+     	{
+         	prepare.setString(14, null);
+     	}
+     	else
+     	{
+     		reportDate = cellTempDate.format(today);
+         	prepare.setString(14, reportDate);
+     	}
+     	//System.out.println("Replacement _Date: "+cellTempString);
+
+     	//14 Deactivation_Date
+    	today =  cellArray[14].getDateCellValue();
+      	if(today == null)
+     	{
+         	prepare.setString(15, null);
+     	}
+     	else
+     	{
+     		reportDate = cellTempDate.format(today);
+         	prepare.setString(15, reportDate);
+     	}
+
+     	//15 Deactivation Method
+    	cellTempString = cellArray[15].getStringCellValue();
+     	prepare.setString(16, cellTempString);
+     	
+     	//16 Condition
+     	cellTempString = cellArray[16].getStringCellValue();
+     	prepare.setString(17, cellTempString);
+
+     	//17 Floor
+     	cellTempString = cellArray[17].getStringCellValue();
+     	prepare.setString(18, cellTempString);
+     	
+     	//18  Supplier
+     	cellTempString = cellArray[18].getStringCellValue();
+     	prepare.setString(19, cellTempString);
+     	
+     	//19 Asset over 500
+     	cellTempString = cellArray[19].getStringCellValue();
+     	prepare.setString(20, (cellTempString));
+     	     	
+     	//20 Comment/History
+     	cellTempString = cellArray[20].getStringCellValue();
+     	prepare.setString(21, cellTempString);
+     	
+     	//21 Picture
+     	cellTempString = cellArray[21].getStringCellValue();
+     	prepare.setString(20, cellTempString);
+     	
+     	
+     	
+     	//execute query close connectionS
+     	prepare.executeUpdate();
+     	conn.close();
+
 	}//end of method
 	
 		
@@ -348,6 +459,7 @@ public class ConvertExcel {
 		//writeExcel();
 		try {
 			importExcel();
+			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
