@@ -457,13 +457,13 @@ public class ConvertExcel {
 	public static void main(String args[]) throws IOException
 	{
 		//writeExcel();
-		try {
-			importExcel();
-			
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+//		try {
+//			importExcel();
+//			
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		System.out.println("SUCCESS");
 		
 	}
@@ -488,6 +488,77 @@ public class ConvertExcel {
 		}
 	}
 	
+	public static boolean validateExcel(File fs) throws SQLException 
+	{
+		Connection conn = sqliteConnectionTEST.dbConnector();
+		String testTable_String = "Select * from MasterTable";
+		PreparedStatement showTestTable = null;
+		ResultSet rs = null;
+		try {
+			showTestTable = conn.prepareStatement(testTable_String);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		try {
+			rs = showTestTable.executeQuery();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+
+		ResultSetMetaData rsmd=rs.getMetaData();
+        //Coding to get columns-
+        int cols=rsmd.getColumnCount();
+        String c[]=new String[cols];
+        for(int i=0;i<cols;i++){
+            c[i]=rsmd.getColumnName(i+1);
+        }
+        
+        FileInputStream file = null;
+		try {
+			file = new FileInputStream(fs);
+		} catch (FileNotFoundException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+
+		//Get the workbook instance for XLS file 
+		XSSFWorkbook workbook = null;
+		try {
+			workbook = new XSSFWorkbook(file);
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+
+
+		//Get first sheet from the workbook
+		XSSFSheet sheet = workbook.getSheetAt(0);
+
+		//Iterate through each rows from first sheet
+		Iterator<Row> rowIterator = sheet.iterator();
+		Row row = sheet.getRow(0);
+		int rowsCount = sheet.getLastRowNum();
+
+		String [] colHeader =  new String[rowsCount];
+		for(int count = 0; count < row.getLastCellNum(); count++)
+		{//get column headers from excel
+			Cell cell = row.getCell(count);
+			if(!cell.getStringCellValue().equals(c[count]))
+			{
+				return false;
+			}
+		}
+		return true;
+        
+        
+
+	
+			
+		
+	}
 	
 	
 	

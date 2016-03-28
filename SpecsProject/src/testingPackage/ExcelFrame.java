@@ -59,47 +59,40 @@ public class ExcelFrame extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		final JFileChooser fc = new JFileChooser();
-		
+        fc.setFileFilter(new ExcelFilter());
+
 		JButton btnImportExcel = new JButton("Import Excel");
 		btnImportExcel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				//Handle open button action.
-			    if (e.getSource() == btnImportExcel) {
-			        int returnVal = fc.showOpenDialog(btnImportExcel);
+				if (e.getSource() == btnImportExcel) {
+					int returnVal = fc.showOpenDialog(btnImportExcel);
 
-			        if (returnVal == JFileChooser.APPROVE_OPTION) {
-			            File file = fc.getSelectedFile();
-			            FileFilter excelFilter = new FileFilter(){
+					if (returnVal == JFileChooser.APPROVE_OPTION) {
+						File file = fc.getSelectedFile();
 
-							@Override//accept all dir
-							public boolean accept(File f) {
-								return true;
+						//excelFilter.accept(file);
+						try {
+							if(ConvertExcel.validateExcel(file))
+									{
+									ConvertExcel.importExcel(file);
+									}
+							else{
+								
 							}
-							
-							
-							@Override
-							public String getDescription() {
-								// TODO Auto-generated method stub
-								return "Excel .xlsx";
-							}
-							
-			            
-			            };
-			            fc.setFileFilter(excelFilter);
-			            //excelFilter.accept(file);
-			            try {
-			            	ConvertExcel.importExcel(file);
-			            } catch (SQLException e1) {
-			            	// TODO Auto-generated catch block
-			            	e1.printStackTrace();
-			            }
-			            //This is where a real application would open the file.
-			            System.out.println(("Opening: " + file.getName() + "."));
-			        } else {
-			        	System.out.println(("Open command cancelled by user."));
-			        }
-			    }
+								
+
+						} catch (SQLException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
+						//This is where a real application would open the file.
+						System.out.println(("Opening: " + file.getName() + "."));
+					} else {
+						System.out.println(("Open command cancelled by user."));
+					}
+				}
 			}
 
 		});
