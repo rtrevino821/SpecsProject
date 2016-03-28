@@ -28,7 +28,6 @@ import java.awt.Desktop;
 import java.awt.EventQueue;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import javax.swing.JFrame;
 
 public class mainScreen {
 
@@ -191,8 +190,10 @@ public class mainScreen {
 		int gap = 20;
 
 		// Application Icon Image
-		ImageIcon icon = new ImageIcon("src/appIconImage.png");
+		ImageIcon icon = new ImageIcon(getClass().getResource("/Resources/appIconImage.png"));
 		frame.setIconImage(icon.getImage());
+		
+		
 
 		// // Tab Icons
 		// ImageIcon homeIcon = new ImageIcon("src/house.png");
