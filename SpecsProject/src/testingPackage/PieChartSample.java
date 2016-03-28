@@ -27,7 +27,7 @@ public class PieChartSample extends Application {
 
 	@Override
 	public void start(Stage stage) {
-		
+		//
 		Pane root = new Pane();
 		Scene scene = new Scene(root);
 		stage.setTitle("Category Totals");
