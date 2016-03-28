@@ -18,7 +18,13 @@ import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.border.LineBorder;
+
+import org.apache.poi.util.SystemOutLogger;
+
 import java.awt.SystemColor;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
@@ -33,7 +39,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SpringLayout;
 import javax.swing.border.EmptyBorder;
 
-public class newInsert {
+public class newInsert{
 
 	private JFrame frmInsertAsset;
 	private JComboBox <String> field3;
@@ -226,7 +232,9 @@ public class newInsert {
 
         Connection conn2 = sqliteConnectionTEST.dbConnector();
         java.sql.Statement stmt;
+        field3.addItem("<New Category>");
 
+        
         try {
             stmt = conn2.createStatement(); // \"group\",price //\"group\",price
             ResultSet rs = stmt.executeQuery("SELECT Distinct \"group\" From MasterTable");
@@ -236,12 +244,23 @@ public class newInsert {
                 group = rs.getString("Group");
                 field3.addItem(group);
                 
-                System.out.println("Group name: " + group);
+                //System.out.println("Group name: " + group);
             }
         } catch (SQLException e) {
             System.out.println("sql exception caught");
             e.printStackTrace();
         }
     }
-			   
+	public void categoriesLisnter ()
+	{
+		field3.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getSource().equals("<New Category>"))
+				{
+					System.out.println("NEW");
+				}
+			}
+		});
+	}
+
 }

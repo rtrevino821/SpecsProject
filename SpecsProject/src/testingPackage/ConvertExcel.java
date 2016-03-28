@@ -289,7 +289,7 @@ public class ConvertExcel {
 		int cellTempInt;
 		String cellTempString;
 		DateFormat cellTempDate;
-		cellTempDate = new SimpleDateFormat("MM/dd/yyyy");
+		cellTempDate = new SimpleDateFormat("yyyy-MM-dd");
 		Date today; 
 		String reportDate;
 
@@ -332,6 +332,7 @@ public class ConvertExcel {
      	//3 Date_In_Service
      	today =  cellArray[3].getDateCellValue();
      	reportDate = cellTempDate.format(today);
+     	System.out.println(reportDate);
      	prepare.setString(4, reportDate);
      	//System.out.println("Date: "+reportDate);
 
@@ -457,14 +458,19 @@ public class ConvertExcel {
 	public static void main(String args[]) throws IOException
 	{
 		//writeExcel();
-//		try {
-//			importExcel();
-//			
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		long startTime = System.currentTimeMillis();
+		try {
+			importExcel();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println("SUCCESS");
+		long endTime   = System.currentTimeMillis();
+		long totalTime = endTime - startTime;
+		System.out.println(totalTime);
+		
 		
 	}
 	
@@ -552,12 +558,7 @@ public class ConvertExcel {
 			}
 		}
 		return true;
-        
-        
-
-	
-			
-		
+        	
 	}
 	
 	

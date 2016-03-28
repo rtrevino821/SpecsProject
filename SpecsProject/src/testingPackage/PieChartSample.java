@@ -137,8 +137,8 @@ public class PieChartSample extends Application {
 		*/
 		
 
-		String date = "01/21/2001";
-		String date2 = "02/20/2001";
+		String date = "2001-01-01";
+		String date2 = "2001-12-31";
 		
 			try {
 				test_Date_Range_Over_500(date,date2);
@@ -156,12 +156,12 @@ public class PieChartSample extends Application {
 		java.sql.Statement stmt;
 
 		
-		String str_rs = ("SELECT Price,Property_Description,Date_In_Service"
-				+ " From MasterTable Where MasterTable.Date_In_Service BETWEEN ? AND ?");
+		String str_rs = ("SELECT Price,Property_Description,Date_In_Service From MasterTable"
+				+ " Where MasterTable.Date_In_Service Between ? and ?");
 		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
 		
-		java.util.Date startDate = formatter.parse(date);
-		java.util.Date endDate = formatter.parse(date2);
+		//java.util.Date startDate = formatter.parse(date);
+		//java.util.Date endDate = formatter.parse(date2);
 		PreparedStatement statement = conn2.prepareStatement(str_rs);
 		
 		try {  //SELECT * FROM ORDERS WHERE DATE BETWEEN '03/01/2015' AND '03/30/2015'
