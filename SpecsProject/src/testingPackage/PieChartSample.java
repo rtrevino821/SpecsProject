@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -136,28 +137,39 @@ public class PieChartSample extends Application {
 		*/
 		
 
-		//String date = "01/01/2001";
-		//String date2 = "12/31/2010";
+		String date = "01/21/2001";
+		String date2 = "02/20/2001";
 		
-			//test_Date_Range_Over_500(date,date2);
+			try {
+				test_Date_Range_Over_500(date,date2);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 	}
 	
-	public static void test_Date_Range_Over_500(String date, String date2) throws SQLException { // String date
+	public static void test_Date_Range_Over_500(String date, String date2) throws SQLException, ParseException { // String date
 		Connection conn2 = sqliteConnectionTEST.dbConnector();
 		java.sql.Statement stmt;
 
 		
 		String str_rs = ("SELECT Price,Property_Description,Date_In_Service"
-				+ " From MasterTable Where MasterTable.Date_In_Service BETWEEN '?' AND '?'");
+				+ " From MasterTable Where MasterTable.Date_In_Service BETWEEN ? AND ?");
+		SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
 		
+		java.util.Date startDate = formatter.parse(date);
+		java.util.Date endDate = formatter.parse(date2);
 		PreparedStatement statement = conn2.prepareStatement(str_rs);
 		
 		try {  //SELECT * FROM ORDERS WHERE DATE BETWEEN '03/01/2015' AND '03/30/2015'
-			stmt = conn2.createStatement();  // \"group\",
+			//stmt = conn2.createStatement();  // \"group\",
 			
 			
-			statement.setString(1,date);
-			statement.setString(2,date2);
+			statement.setString(1, date);	
+			statement.setString(2, date2);	
 			ResultSet rs = statement.executeQuery();
 			 
 			while (rs.next()) {
