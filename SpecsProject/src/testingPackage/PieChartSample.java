@@ -108,7 +108,7 @@ public class PieChartSample extends Application {
 		System.out.println("video_projectors:  " + test_Video_Projector_Total_Spent()+ "  correct value" +  "\n");
 		System.out.println("personal property:  "  + test_Personal_Property_Total_Spent()+ "  correct value" +"\n");
 		System.out.println("LeaseHold: "+test_LeaseHold_Total_Spent()+ "\n");
-	
+	//
 		System.out.println("TOTAL DOLLAR SPENT:  " +test_Everything_Total_Spent());
 		
 		
