@@ -108,6 +108,9 @@ public class newInsert {
 		frmInsertAsset.getContentPane().add(btnNewButton_1);
 		
 
+		//bullshitcomment
+		
+		
 		// Font styling for TextFields
 		Font font = new Font("Segoe UI Semilight", Font.PLAIN, 20);
 	    
