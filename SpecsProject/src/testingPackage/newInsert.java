@@ -9,6 +9,7 @@ import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
+import javax.swing.ComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -20,6 +21,10 @@ import javax.swing.border.LineBorder;
 import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
 import javax.swing.JPanel;
@@ -31,6 +36,8 @@ import javax.swing.border.EmptyBorder;
 public class newInsert {
 
 	private JFrame frmInsertAsset;
+	private JComboBox <String> field3;
+
 
 	/**
 	 * Launch the application.
@@ -108,7 +115,8 @@ public class newInsert {
 		JTextField field1 = new JTextField();
 		
 	    JTextField field2 = new JTextField();
-	    JComboBox field3 = new JComboBox();
+	    field3 = new JComboBox();
+	    test_All_Groups();
 	    JTextField field4 = new JTextField();
 	    JTextField field5 = new JTextField();
 	    JTextField field6 = new JTextField();
@@ -207,5 +215,28 @@ public class newInsert {
 		springLayout.putConstraint(SpringLayout.EAST, scrollPane, 556, SpringLayout.WEST, frmInsertAsset.getContentPane());
     	frmInsertAsset.getContentPane().add(scrollPane);
 	}
+	
+	
+	public void test_All_Groups() {
+
+        Connection conn2 = sqliteConnectionTEST.dbConnector();
+        java.sql.Statement stmt;
+
+        try {
+            stmt = conn2.createStatement(); // \"group\",price //\"group\",price
+            ResultSet rs = stmt.executeQuery("SELECT Distinct \"group\" From MasterTable");
+
+            String group = "";
+            while (rs.next()) {
+                group = rs.getString("Group");
+                field3.addItem(group);
+                
+                System.out.println("Group name: " + group);
+            }
+        } catch (SQLException e) {
+            System.out.println("sql exception caught");
+            e.printStackTrace();
+        }
+    }
 			   
 }
