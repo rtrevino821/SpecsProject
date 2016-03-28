@@ -74,7 +74,7 @@ public class newInsert {
 		frmInsertAsset.getContentPane().setBackground(new Color(244, 244, 244));
 		frmInsertAsset.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 12));
 		frmInsertAsset.setTitle("Insert Asset");
-		frmInsertAsset.setBounds(100, 100, 1439, 928);
+		frmInsertAsset.setBounds(100, 100, 1501, 928);
 		frmInsertAsset.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmInsertAsset.setLocationRelativeTo(null);
 		frmInsertAsset.getContentPane().setLayout(null);
@@ -86,9 +86,9 @@ public class newInsert {
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		springLayout.putConstraint(SpringLayout.NORTH, scrollPane_1, 135, SpringLayout.NORTH, frmInsertAsset.getContentPane());
-		springLayout.putConstraint(SpringLayout.WEST, scrollPane_1, 602, SpringLayout.WEST, frmInsertAsset.getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, scrollPane_1, 745, SpringLayout.NORTH, frmInsertAsset.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, scrollPane_1, 1402, SpringLayout.WEST, frmInsertAsset.getContentPane());
+		springLayout.putConstraint(SpringLayout.WEST, scrollPane_1, 669, SpringLayout.WEST, frmInsertAsset.getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, scrollPane_1, -127, SpringLayout.SOUTH, frmInsertAsset.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, scrollPane_1, -21, SpringLayout.EAST, frmInsertAsset.getContentPane());
 		frmInsertAsset.getContentPane().add(scrollPane_1);
 		
 		JButton btnInsert = new JButton("Insert");
@@ -166,9 +166,12 @@ public class newInsert {
 	    field22.setFont(font);
 	    field23.setFont(font);
 	    
-	    String[] categories = {
-	    		""
+	    String[] ownership = {
+	    		"Leased", "Owned"
 	    };
+	    
+	    field8.addItem(ownership[1]);
+	    field8.addItem(ownership[0]);
 	    
 	    // array of labels and corresponding textFields for use in display()
 	    Object[] fields = {
@@ -208,11 +211,13 @@ public class newInsert {
     		panel.add((Component) fields[i++]);
     	}
     	JScrollPane scrollPane = new JScrollPane();
+    	springLayout.putConstraint(SpringLayout.EAST, scrollPane, 636, SpringLayout.WEST, frmInsertAsset.getContentPane());
+    	scrollPane.setSize(561, 610);
+    	scrollPane.getVerticalScrollBar().setUnitIncrement(16);
 		scrollPane.setViewportView(panel);
 		springLayout.putConstraint(SpringLayout.NORTH, scrollPane, 135, SpringLayout.NORTH, frmInsertAsset.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, scrollPane, 15, SpringLayout.WEST, frmInsertAsset.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, scrollPane, 745, SpringLayout.NORTH, frmInsertAsset.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, scrollPane, 556, SpringLayout.WEST, frmInsertAsset.getContentPane());
     	frmInsertAsset.getContentPane().add(scrollPane);
 	}
 	
