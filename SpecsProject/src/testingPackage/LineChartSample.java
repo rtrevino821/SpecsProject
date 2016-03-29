@@ -78,7 +78,7 @@ public class LineChartSample extends Application{
 		
 		try {
 			stmt = conn2.createStatement(); //\"group\",price  //\"group\",price       //(MasterTable.\"group\" Like 'Furniture & Fixtures' And
-			ResultSet rs = stmt.executeQuery("SELECT \"group\",Price,Asset, substr(Date_In_Service, 7, 4) AS y From MasterTable Where MasterTable.Price>0 ORDER BY y ASC" );// WHERE price >= 500
+			ResultSet rs = stmt.executeQuery("SELECT \"group\",Price,Asset, substr(Date_In_Service, 0, 5) AS y From MasterTable Where MasterTable.Price>0 ORDER BY y ASC" );// WHERE price >= 500
 			
 			// sum =0;
 			while (rs.next()) {
