@@ -41,6 +41,7 @@ import java.sql.SQLException;
 
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.JPanel;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -104,9 +105,13 @@ public class newInsert{
 
 	/**
 	 * Create the application.
+	 * @throws UnsupportedLookAndFeelException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 * @throws ClassNotFoundException 
 	 */
-	public newInsert() throws SQLException {
-		
+	public newInsert() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+		UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 		Connection conn = sqliteConnectionTEST.dbConnector();
 		initialize();
 		UpDateTable();
