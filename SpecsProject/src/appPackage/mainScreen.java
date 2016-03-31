@@ -228,7 +228,7 @@ public class mainScreen {
 		frame.getContentPane().add(lblHelloSteve);
 		
 		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/Resources/pieChart.jpg")));
+		//lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/Resources/pieChart.jpg")));
 		lblNewLabel.setBounds(648, 272, 471, 411);
 		frame.getContentPane().add(lblNewLabel);
 		
