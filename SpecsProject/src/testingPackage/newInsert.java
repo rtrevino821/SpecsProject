@@ -7,9 +7,11 @@ import java.awt.EventQueue;
 
 import javax.swing.JFrame;
 import javax.swing.JTabbedPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JScrollPane;
 import javax.swing.ComboBoxModel;
+import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -18,6 +20,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableColumnModel;
 
 import org.apache.poi.util.SystemOutLogger;
 
@@ -30,7 +34,9 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 
 import javax.swing.ScrollPaneConstants;
@@ -45,6 +51,7 @@ public class newInsert{
 
 	private JFrame frmInsertAsset;
 	//private JComboBox <String> field3;
+	private static JTable testTable;
 	
 	// instantiating textfields for each jlabel
 			JTextField field1 = new JTextField();
@@ -59,6 +66,7 @@ public class newInsert{
 		    JComboBox field8;
 		    JTextField field8a = new JTextField();
 		    JTextField field8b = new JTextField();
+		    JTextField field8c = new JTextField();
 		    JTextField field9 = new JTextField();
 		    JTextField field10 = new JTextField();
 		    JTextField field11 = new JTextField();
@@ -97,9 +105,15 @@ public class newInsert{
 	/**
 	 * Create the application.
 	 */
-	public newInsert() {
+	public newInsert() throws SQLException {
+		
+		Connection conn = sqliteConnectionTEST.dbConnector();
 		initialize();
+		UpDateTable();
+		
 	}
+	
+	
 	
 	
 	/**
@@ -107,12 +121,15 @@ public class newInsert{
 	 */
 	private void initialize() {
 		
+		Connection conn = sqliteConnectionTEST.dbConnector();
+		
 		frmInsertAsset = new JFrame();
+		frmInsertAsset.setVisible(true);
 		frmInsertAsset.getContentPane().setBackground(new Color(244, 244, 244));
 		frmInsertAsset.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 12));
 		frmInsertAsset.setTitle("Insert Asset");
 		frmInsertAsset.setBounds(100, 100, 1504, 793);
-		frmInsertAsset.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmInsertAsset.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frmInsertAsset.setLocationRelativeTo(null);
 		frmInsertAsset.getContentPane().setLayout(null);
 		SpringLayout springLayout = new SpringLayout();
@@ -122,6 +139,7 @@ public class newInsert{
 		frmInsertAsset.setIconImage(icon.getImage());
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
+		scrollPane_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
 		springLayout.putConstraint(SpringLayout.NORTH, scrollPane_1, 24, SpringLayout.NORTH, frmInsertAsset.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, scrollPane_1, 669, SpringLayout.WEST, frmInsertAsset.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, scrollPane_1, -37, SpringLayout.SOUTH, frmInsertAsset.getContentPane());
@@ -196,6 +214,7 @@ public class newInsert{
 	    field8.setFont(font);
 	    field8a.setFont(font);
 	    field8b.setFont(font);
+	    field8c.setFont(font);
 	    field9.setFont(font);
 	    field10.setFont(font);
 	    field11.setFont(font);
@@ -213,11 +232,12 @@ public class newInsert{
 	    field23.setFont(font);
 	    
 	    String[] ownership = {
-	    		"Leased", "Owned"
+	    		"Leased", "Owned", "Rented"
 	    };
 	    
 	    field8.addItem(ownership[1]);
 	    field8.addItem(ownership[0]);
+	    field8.addItem(ownership[2]);
 	    
 	    // array of labels and corresponding textFields for use in display()
 	    Object[] fields = {
@@ -231,6 +251,7 @@ public class newInsert{
 	    	"Ownership:    ", field8,
 	    	"Lease Term:    ", field8a,
 	    	"Lease Expiration:    ", field8b,
+	    	"Rent Due Date:    ", field8c,
 	    	"Supplier:    ", field9,
 	    	"Manufacturer:    ", field10,
 	    	"Serial #:    ", field11,
@@ -270,9 +291,92 @@ public class newInsert{
     		panel.add((Component) fields[i++]);
     	}
     	
+
+		testTable = new JTable();
+		testTable.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 22));
+		
+		 ((DefaultCellEditor) testTable.getDefaultEditor(Object.class))
+         .getComponent().setFont(testTable.getFont());
+		 
+		testTable.getTableHeader().setFont(new Font("Segoe UI Semilight", Font.PLAIN, 22));
+		testTable.setRowHeight(testTable.getRowHeight() + 20);
+		testTable.putClientProperty("terminateEditOnFocusLost", true);
+		scrollPane_1.setViewportView(testTable);
+		//testTable.setAutoCreateColumnsFromModel(true);
+		testTable.setAutoCreateRowSorter(true);
+    	testTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
     	
+    	//testTable.getColumnModel().getColumn(1).setMinWidth(30);
+    	//testTable.getColumnModel().getColumn(1).setMaxWidth(80);
+    	//testTable.getColumnModel().getColumn(1).setPreferredWidth(50);
 	}
 	
+	public static void UpDateTable() 
+	{
+		try 
+		{
+			Connection conn = sqliteConnectionTEST.dbConnector();
+			DefaultTableModel dm = new DefaultTableModel();
+	        //query and resultset
+			String testTable_String = "Select * from MasterTable";
+			PreparedStatement showTestTable = conn.prepareStatement(testTable_String);
+			ResultSet rsTest = showTestTable.executeQuery();
+			addRowsAndColumns(rsTest, dm);
+			
+			testTable.setModel(dm);
+			
+			//testTable.setModel(DbUtils.resultSetToTableModel(rsTest));
+
+			//Refresh the table
+		   // tableModel.fireTableStructureChanged();
+			//testTable.setModel(tableModel);
+			refreshScreen();
+			//System.out.println(tableModel.getRowCount());
+			conn.close();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e);
+		}
+	}
+	
+	public static void addRowsAndColumns(ResultSet rs, DefaultTableModel dm) throws SQLException
+	{
+        ResultSetMetaData rsmd=rs.getMetaData();
+        //Coding to get columns-
+        int cols=rsmd.getColumnCount();
+        String c[]=new String[cols];
+        for(int i=0;i<cols;i++){
+            c[i]=rsmd.getColumnName(i+1);
+            dm.addColumn(c[i]);
+        }
+        
+        Object row[]=new Object[cols];
+        while(rs.next()){
+             for(int i=0;i<cols;i++){
+                    row[i]=rs.getString(i+1);
+                }
+            dm.addRow(row);
+        }
+	}
+	public static void refreshScreen()
+	{
+		testTable.revalidate();
+		testTable.repaint();
+		testTable.validate();//
+		
+		testTable.getColumnModel().getColumn(0).setPreferredWidth(280);
+		testTable.getColumnModel().getColumn(1).setPreferredWidth(80);
+		testTable.getColumnModel().getColumn(2).setPreferredWidth(320);
+		testTable.getColumnModel().getColumn(3).setPreferredWidth(180);
+		testTable.getColumnModel().getColumn(4).setPreferredWidth(100);
+		testTable.getColumnModel().getColumn(5).setPreferredWidth(120);
+		testTable.getColumnModel().getColumn(6).setPreferredWidth(220);
+		testTable.getColumnModel().getColumn(7).setPreferredWidth(180);
+		testTable.getColumnModel().getColumn(8).setPreferredWidth(180);
+		testTable.getColumnModel().getColumn(9).setPreferredWidth(220);
+		testTable.getColumnModel().getColumn(10).setPreferredWidth(320);
+		testTable.getColumnModel().getColumn(11).setPreferredWidth(320);
+		testTable.getColumnModel().getColumn(12).setPreferredWidth(180);
+	}
 	
 	public void test_All_Groups() {
 
@@ -300,9 +404,12 @@ public class newInsert{
 
 
 	protected void updateState() {
-	    boolean enabled = field8.getSelectedItem().equals("Leased");
-	    field8a.setEnabled(enabled );
-	    field8b.setEnabled(enabled );
+	    boolean leaseEnabled = field8.getSelectedItem().equals("Leased");
+	    field8a.setEnabled(leaseEnabled);
+	    field8b.setEnabled(leaseEnabled);
+	    
+	    boolean rentEnabled = field8.getSelectedItem().equals("Rented");
+	    field8c.setEnabled(rentEnabled );
 	}
 
 	public void categoriesLisnter ()

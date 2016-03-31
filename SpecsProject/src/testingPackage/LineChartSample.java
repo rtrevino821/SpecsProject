@@ -23,8 +23,12 @@ import javafx.scene.chart.XYChart;
 import javafx.stage.Stage;
 
 public class LineChartSample extends Application{
+	
+	
+
 	@Override public void start(Stage stage) {
         stage.setTitle("Cost Per Year");
+        
         
         TreeMap<String,Double> map = test_Everything_Total_Spent();
         

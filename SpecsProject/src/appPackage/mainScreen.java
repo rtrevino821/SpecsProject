@@ -9,7 +9,9 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import net.proteanit.sql.DbUtils;
+import testingPackage.LineChartSample;
 import testingPackage.TestMain;
+import testingPackage.newInsert;
 
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -104,12 +106,101 @@ public class mainScreen {
 		dividerIconLabel.setBounds(274, 127, 4, 620);
 		frame.getContentPane().add(dividerIconLabel);
 		
+		JLabel reportIconLabel = new JLabel("");
+		reportIconLabel.setIcon(new ImageIcon(mainScreen.class.getResource("/Resources/reportIcon.png")));
+		reportIconLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		reportIconLabel.setBounds(54, 127, 174, 170);
+		frame.getContentPane().add(reportIconLabel);
+		reportIconLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				reportIconLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+				reportIconLabel.setIcon(new ImageIcon(mainScreen.class.getResource("/Resources/reportIcon_Hover.png")));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				reportIconLabel.setIcon(new ImageIcon(mainScreen.class.getResource("/Resources/reportIcon.png")));
+			}
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				try {
+
+					//TestMain.intialize
+					new newInsert();
+					//report.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		JLabel graphIconLabel = new JLabel("");
+		graphIconLabel.setIcon(new ImageIcon(mainScreen.class.getResource("/Resources/graphIcon.png")));
+		graphIconLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		graphIconLabel.setBounds(54, 297, 174, 170);
+		frame.getContentPane().add(graphIconLabel);
+		graphIconLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				graphIconLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+				graphIconLabel.setIcon(new ImageIcon(mainScreen.class.getResource("/Resources/graphIcon_Hover.png")));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				graphIconLabel.setIcon(new ImageIcon(mainScreen.class.getResource("/Resources/graphIcon.png")));
+			}
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				try {
+
+					//TestMain.intialize
+					new LineChartSample();
+					//report.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		
+		JLabel excelLabel = new JLabel("");
+		excelLabel.setIcon(new ImageIcon(mainScreen.class.getResource("/Resources/excelIcon.png")));
+		excelLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		excelLabel.setBounds(54, 467, 174, 170);
+		frame.getContentPane().add(excelLabel);
+		excelLabel.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				excelLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+				excelLabel.setIcon(new ImageIcon(mainScreen.class.getResource("/Resources/excelIcon_Hover.png")));
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				excelLabel.setIcon(new ImageIcon(mainScreen.class.getResource("/Resources/excelIcon.png")));
+			}
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				try {
+
+					//TestMain.intialize
+					new LineChartSample();
+					//report.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		
 		JLabel helpIconLabel = new JLabel("");
+		helpIconLabel.setHorizontalAlignment(SwingConstants.CENTER);
+		helpIconLabel.setIcon(new ImageIcon(mainScreen.class.getResource("/Resources/helpIcon.png")));
+		helpIconLabel.setBounds(54, 637, 174, 170);
+		frame.getContentPane().add(helpIconLabel);
 		helpIconLabel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				//helpIconLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-				helpIconLabel.setIcon(new ImageIcon(mainScreen.class.getResource("/Resources/graphIcon.png")));
+				helpIconLabel.setIcon(new ImageIcon(mainScreen.class.getResource("/Resources/helpIcon_Hover.png")));
 				
 			}
 			
@@ -118,45 +209,10 @@ public class mainScreen {
 				helpIconLabel.setIcon(new ImageIcon(mainScreen.class.getResource("/Resources/helpIcon.png")));
 			}
 		});
-		helpIconLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		helpIconLabel.setIcon(new ImageIcon(mainScreen.class.getResource("/Resources/helpIcon.png")));
-		helpIconLabel.setBounds(51, 587, 174, 174);
-		frame.getContentPane().add(helpIconLabel);
 		
-		JLabel graphIconLabel = new JLabel("");
-		graphIconLabel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				graphIconLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-			}
-		});
-		graphIconLabel.setIcon(new ImageIcon(mainScreen.class.getResource("/Resources/graphIcon.png")));
-		graphIconLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		graphIconLabel.setBounds(51, 342, 174, 174);
-		frame.getContentPane().add(graphIconLabel);
 		
-		JLabel reportIconLabel = new JLabel("");
-		reportIconLabel.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent arg0) {
-				reportIconLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-			}
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				try {
-
-					//TestMain.intialize
-					new TestMain();
-					//report.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-		reportIconLabel.setIcon(new ImageIcon(mainScreen.class.getResource("/Resources/reportIcon.png")));
-		reportIconLabel.setHorizontalAlignment(SwingConstants.CENTER);
-		reportIconLabel.setBounds(51, 97, 174, 174);
-		frame.getContentPane().add(reportIconLabel);
+		
+		
 		
 		JLabel lblCompanyAssetsAt = new JLabel("Company Assets At A Glance");
 		lblCompanyAssetsAt.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 34));
