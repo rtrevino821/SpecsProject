@@ -22,10 +22,9 @@ import javax.swing.border.LineBorder;
 import org.apache.poi.util.SystemOutLogger;
 
 import java.awt.SystemColor;
-<<<<<<< HEAD
-=======
+
 import java.awt.event.ActionListener;
->>>>>>> origin/master
+
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
@@ -298,14 +297,14 @@ public class newInsert{
             e.printStackTrace();
         }
     }
-<<<<<<< HEAD
+
 
 	protected void updateState() {
 	    boolean enabled = field8.getSelectedItem().equals("Leased");
 	    field8a.setEnabled(enabled );
 	    field8b.setEnabled(enabled );
 	}
-=======
+
 	public void categoriesLisnter ()
 	{
 		field3.addItemListener(new ItemListener() {
@@ -318,5 +317,5 @@ public class newInsert{
 		});
 	}
 
->>>>>>> origin/master
+
 }
