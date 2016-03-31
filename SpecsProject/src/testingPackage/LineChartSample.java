@@ -37,7 +37,7 @@ public class LineChartSample extends Application{
 //        final NumberAxis xAxis = new NumberAxis();
         final NumberAxis yAxis = new NumberAxis();
         final CategoryAxis xAxis = new CategoryAxis();
-        
+        //
         xAxis.setLabel("Year");
         yAxis.setLabel("Total Spent");
         

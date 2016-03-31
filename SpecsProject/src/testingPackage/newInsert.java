@@ -26,7 +26,7 @@ import javax.swing.table.TableColumnModel;
 import org.apache.poi.util.SystemOutLogger;
 
 import java.awt.SystemColor;
-
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import java.awt.event.ItemEvent;
@@ -173,7 +173,7 @@ public class newInsert{
 //		
 //	    JTextField field2 = new JTextField();
 //	    field3 = new JComboBox();
-	    test_All_Groups();
+	    addCategoryColumns();
 //	    JTextField field4 = new JTextField();
 //	    JTextField field5 = new JTextField();
 //	    JTextField field6 = new JTextField();
@@ -196,6 +196,45 @@ public class newInsert{
 //	    JTextField field21 = new JTextField();
 //	    JTextField field22 = new JTextField();
 //	    JTextField field23 = new JTextField();
+	    
+	    field3.setSelectedIndex(-1);
+	    field3.addActionListener(new ActionListener(){
+			@Override
+			//new category is clicked, remove it from combobox, insert a blank string and set it that item
+			public void actionPerformed(ActionEvent e) {
+				JComboBox cb = (JComboBox)e.getSource();
+				if(cb.getSelectedItem().equals("<New Category>"))
+				{
+					field3.removeItem("<New Category>");
+					field3.insertItemAt("", 0);
+					field3.setSelectedItem("");
+				}
+			}
+	    	
+	    	
+	    });
+		field3.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent e) {
+				//after combobox is inserted with "", it will enable user to edit field
+				if(e.getItem().equals(""))
+				{
+					
+					if(e.getStateChange() == ItemEvent.SELECTED)
+					{
+	                    field3.getEditor().setItem("");
+	                    field3.setEditable(true);
+
+					}
+					else
+					{
+	                    System.out.println(field3.getEditor().getItem().toString());
+					}
+					
+				}
+				else//if not make all boxes uneditbale
+					field3.setEditable(false);
+			}
+		});
 	    
 	    field8.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
@@ -378,7 +417,7 @@ public class newInsert{
 		testTable.getColumnModel().getColumn(12).setPreferredWidth(180);
 	}
 	
-	public void test_All_Groups() {
+	public void addCategoryColumns() {
 
         Connection conn2 = sqliteConnectionTEST.dbConnector();
         java.sql.Statement stmt;
