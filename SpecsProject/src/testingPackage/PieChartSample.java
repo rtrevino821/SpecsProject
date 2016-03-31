@@ -111,7 +111,6 @@ public class PieChartSample extends Application {
 	//
 		System.out.println("TOTAL DOLLAR SPENT:  " +test_Everything_Total_Spent());
 		
-		int x=9;
 	}
 	
 	
