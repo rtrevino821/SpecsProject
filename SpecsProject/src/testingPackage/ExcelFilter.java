@@ -24,7 +24,6 @@ public class ExcelFilter extends FileFilter {
 	}
 
 	public String getDescription() {
-		// TODO Auto-generated method stub
 		return "Excel .xls Only";
 	}
 	public String extension(File f)

@@ -141,11 +141,9 @@ public class TestInsert extends JFrame {
 							
 							
 						} catch (SQLException e2) {
-							// TODO Auto-generated catch block
 							e2.printStackTrace();
 						}
 					}
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 
@@ -214,7 +212,6 @@ public class TestInsert extends JFrame {
 				try {
 					prepare.setString(1, textField.getText());
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -254,7 +251,6 @@ public class TestInsert extends JFrame {
 						textField_1.setText(main);
 					
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -271,7 +267,6 @@ public class TestInsert extends JFrame {
 				try {
 					prepare.setString(3, textField_2.getText());
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -280,7 +275,6 @@ public class TestInsert extends JFrame {
 		try {
 			formatter = new MaskFormatter("##'/##'/####");
 		} catch (ParseException e2) {
-			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
 		
@@ -296,7 +290,6 @@ public class TestInsert extends JFrame {
 				try {
 					prepare.setString(4, String.valueOf(textField_3.getText()));
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -350,7 +343,6 @@ public class TestInsert extends JFrame {
 						
 
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}

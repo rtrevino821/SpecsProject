@@ -84,7 +84,6 @@ public class ExcelFrame extends JFrame {
 								
 
 						} catch (SQLException e1) {
-							// TODO Auto-generated catch block
 							e1.printStackTrace();
 						}
 						//This is where a real application would open the file.

@@ -140,10 +140,8 @@ public class PieChartSample extends Application {
 //            try {
 //                test_Date_Range_Over_500(date,date2);
 //            } catch (SQLException e) {
-//                // TODO Auto-generated catch block
 //                e.printStackTrace();
 //            } catch (ParseException e) {
-//                // TODO Auto-generated catch block
 //                e.printStackTrace();
 //            }
 

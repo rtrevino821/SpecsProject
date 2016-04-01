@@ -134,6 +134,7 @@ public class mainScreen {
 			}
 		});
 		
+		//TODO replace static graph image with dynamic graph from testingPackage
 		JLabel graphIconLabel = new JLabel("");
 		graphIconLabel.setIcon(new ImageIcon(mainScreen.class.getResource("/Resources/graphIcon.png")));
 		graphIconLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -398,7 +399,6 @@ public class mainScreen {
 		// try {
 		// checkoutTable.print(JTable.PrintMode.FIT_WIDTH, header, footer);
 		// } catch (PrinterException e1) {
-		// // TODO Auto-generated catch block
 		// e1.printStackTrace();
 		// }
 		// }

@@ -156,7 +156,7 @@ public class ConvertExcel {
 		try {
 			file = new FileInputStream(new File("Excel\\Inventory_Project_SpecificationsV2.xlsx"));
 		} catch (FileNotFoundException e2) {
-			// TODO Auto-generated catch block
+		
 			e2.printStackTrace();
 		}
 	     
@@ -165,7 +165,6 @@ public class ConvertExcel {
 		try {
 			workbook = new XSSFWorkbook(file);
 		} catch (IOException e2) {
-			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
 		
@@ -210,7 +209,6 @@ public class ConvertExcel {
 	    try {
 			file.close();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	   
@@ -222,7 +220,6 @@ public class ConvertExcel {
 		try {
 			file = new FileInputStream(fs);
 		} catch (FileNotFoundException e2) {
-			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
 
@@ -231,7 +228,6 @@ public class ConvertExcel {
 		try {
 			workbook = new XSSFWorkbook(file);
 		} catch (IOException e2) {
-			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
 
@@ -276,7 +272,6 @@ public class ConvertExcel {
 		try {
 			file.close();
 		} catch (IOException e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 
@@ -451,7 +446,6 @@ public class ConvertExcel {
 			importExcel();
 			
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		System.out.println("SUCCESS");
@@ -473,7 +467,6 @@ public class ConvertExcel {
 		try {
 			Desktop.getDesktop().open(file);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -487,13 +480,11 @@ public class ConvertExcel {
 		try {
 			showTestTable = conn.prepareStatement(testTable_String);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		try {
 			rs = showTestTable.executeQuery();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -510,7 +501,6 @@ public class ConvertExcel {
 		try {
 			file = new FileInputStream(fs);
 		} catch (FileNotFoundException e2) {
-			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
 
@@ -519,7 +509,6 @@ public class ConvertExcel {
 		try {
 			workbook = new XSSFWorkbook(file);
 		} catch (IOException e2) {
-			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
 
