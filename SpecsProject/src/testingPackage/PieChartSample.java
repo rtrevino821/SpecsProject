@@ -41,53 +41,53 @@ import javafx.scene.Group;
 
 public class PieChartSample extends Application {
 
-    @Override
-    public void start(Stage stage) {
+	@Override
+	public void start(Stage stage) {
 
-        Pane root = new Pane();
-        Scene scene = new Scene(root);
-        stage.setTitle("Pie Graph Company Total Spent");
-        stage.setWidth(600);
-        stage.setHeight(575);
+		Pane root = new Pane();
+		Scene scene = new Scene(root);
+		stage.setTitle("Pie Graph Company Total Spent");
+		stage.setWidth(600);
+		stage.setHeight(575);
 
-        ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-                new PieChart.Data("Art: ", test_ArtWork_Total_Spent()),
-                new PieChart.Data("Cabinets: ", test_Furniture_Total_Spent()),
-                new PieChart.Data("Pc's: ", test_Computers_Total_Spent()),
-                new PieChart.Data("Software: ", test_Computer_Software_Total_Spent()),
-                new PieChart.Data("Battery backups: ", test_Batter_Backup_Total_Spent()),
-                new PieChart.Data("Pc/misc", test_Computer_MISC_Total_Spent()),
-                new PieChart.Data("Printers", test_Printers_Total_Spent()),
-                new PieChart.Data("Transcription.", test_Transcription_Total_Spent()),
-                new PieChart.Data("Video/Projectors", test_Video_Projector_Total_Spent()),
-                new PieChart.Data("Fixtures", test_Furniture_Fixtures_Total_Spent()),
-                new PieChart.Data("LeaseHold", test_LeaseHold_Total_Spent()),
-                new PieChart.Data("Property.", test_Personal_Property_Total_Spent()));
+			ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
+				new PieChart.Data("Art: ", test_ArtWork_Total_Spent()),
+				new PieChart.Data("Cabinets: ", test_Furniture_Total_Spent()),
+				new PieChart.Data("Pc's: ", test_Computers_Total_Spent()),
+				new PieChart.Data("Software: ", test_Computer_Software_Total_Spent()),
+				new PieChart.Data("Battery backups: ", test_Batter_Backup_Total_Spent()),
+				new PieChart.Data("Pc/misc", test_Computer_MISC_Total_Spent()),
+				new PieChart.Data("Printers", test_Printers_Total_Spent()),
+				new PieChart.Data("Transcription.", test_Transcription_Total_Spent()),
+				new PieChart.Data("Video/Projectors", test_Video_Projector_Total_Spent()),
+				new PieChart.Data("Fixtures", test_Furniture_Fixtures_Total_Spent()),
+				new PieChart.Data("LeaseHold", test_LeaseHold_Total_Spent()),
+				new PieChart.Data("Property.", test_Personal_Property_Total_Spent()));
 
-        final PieChart chart = new PieChart(pieChartData);
-        chart.setTitle("Group Totals");
-        chart.setLegendSide(Side.RIGHT); // sets legends position
-        chart.setLabelsVisible(false); // set label visibility
-        // chart.setLabelLineLength(50);
-        final Label caption = new Label("");
-        caption.setTextFill(Color.WHITE);
-        caption.setStyle("-fx-font: 24 arial;");
+		final PieChart chart = new PieChart(pieChartData);
+		chart.setTitle("Group Totals");
+		chart.setLegendSide(Side.RIGHT); // sets legends position
+		chart.setLabelsVisible(false); // set label visibility
+		// chart.setLabelLineLength(50);
+		final Label caption = new Label("");
+		caption.setTextFill(Color.WHITE);
+		caption.setStyle("-fx-font: 24 arial;");
 
-        applyCustomColorSequence(pieChartData, "#AA0114", "#CCCCCC", "#FF0000", "#FF6600", "#336699", "#666666",
-                "#003366", "#000000", "#FFCC00", "#FF9900", "#00FF00", "#3399FF");
+		applyCustomColorSequence(pieChartData, "#AA0114", "#CCCCCC", "#FF0000", "#FF6600", "#336699", "#666666",
+				"#003366", "#000000", "#FFCC00", "#FF9900", "#00FF00", "#3399FF");
 
-        for (final PieChart.Data data : chart.getData()) {
-            data.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
-                double total = 0;
-                for (PieChart.Data value : chart.getData()) {
-                    total += value.getPieValue();
-                }
-                caption.setTranslateX(e.getSceneX());
-                caption.setTranslateY(e.getSceneY());
-                String text = String.format("%.1f%%", 100 * data.getPieValue() / total);
-                caption.setText(text);
-            });
-        }
+		for (final PieChart.Data data : chart.getData()) {
+			data.getNode().addEventHandler(MouseEvent.MOUSE_PRESSED, e -> {
+				double total = 0;
+				for (PieChart.Data value : chart.getData()) {
+					total += value.getPieValue();
+				}
+				caption.setTranslateX(e.getSceneX());
+				caption.setTranslateY(e.getSceneY());
+				String text = String.format("%.1f%%", 100 * data.getPieValue() / total);
+				caption.setText(text);
+			});
+		}
 
         root.getChildren().addAll(chart, caption);
         stage.setScene(scene);
@@ -148,9 +148,8 @@ public class PieChartSample extends Application {
 //            }
 
        
-        Search_By_Room(401);
-       
-       
+        //Search_By_Room(0);
+        Search_Retired_Assets();
        
     }
        
@@ -163,6 +162,34 @@ public class PieChartSample extends Application {
       }
    
    
+    public static void Search_Retired_Assets() {
+
+        Connection conn2 = sqliteConnectionTEST.dbConnector();
+        java.sql.Statement stmt;
+       String retired= " ";
+        try {
+            stmt = conn2.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT \"group\",Retired"
+                    + " From MasterTable Where MasterTable.Retired Like 'Removed'");
+
+            //boolean does_Room_Exist = false;
+
+            while (rs.next()) {
+              //  does_Room_Exist = true;  // sets room exists to true 
+                retired = rs.getString("Retired");
+                String group = rs.getString("Group");
+                System.out.println("Group: " + group + "  " + retired);
+            }
+            //if (!does_Room_Exist)
+                //System.out.println("Error Enter Valid Room Number");
+           
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
+    
    
    
     /* SEARCH BY ROOM_NUMBER RETURNS ITEM BY ROOM NUMBERS */

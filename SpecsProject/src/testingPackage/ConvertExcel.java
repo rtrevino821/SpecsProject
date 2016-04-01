@@ -298,11 +298,11 @@ public class ConvertExcel {
 		PreparedStatement prepare = null;
 		
      	String query = "insert into MasterTable(\"group\",Asset,Property_Description,Date_In_Service,Price,"
-     			+ "Tax_period,tax_net_Book_Value, Room_Number, Model_Number, Ownership, Manufacturer, "
-     			+ "Serial_Number,Warrant_Expiration,Replacement_Date, Deactivation_Date,Deactivation_Method, Condition,"
-     			+ "Floor, Supplier, Asset_over_500, Comment_History, Picture)"
-				+ "values(?,?,?,?,?,?,?,?,?,?"
-				+ ",?,?,?,?,?,?,?,?,?,?,?,?)";
+     			+ "Room_Number, Model_Number, Ownership, Manufacturer, "
+     			+ "Serial_Number,Warrant_Expiration,Replacement_Date, Deactivation_Date, Condition,"
+     			+ "Floor, Supplier, Comment_History, Retired, Deactivation_Method)"
+				+ "values(?,?,?,?,?,?,?,?"
+				+ ",?,?,?,?,?,?,?,?,?,?,?)";  //removed asset over 500 //removed picture
 			
      	prepare = conn.prepareStatement(query);
 
@@ -340,46 +340,64 @@ public class ConvertExcel {
      	prepare.setDouble(5, cellTempDbl);
      	//System.out.println("Price: " + cellTempDbl);
      	
-     	//5 tax_period
-     	cellTempDbl = cellArray[5].getNumericCellValue();
-     	prepare.setDouble(6, cellTempDbl);
-     	//System.out.println("tax period: " + cellTempDbl);
-
-     	//6 tax_net
-     	cellTempDbl = cellArray[6].getNumericCellValue();
-     	prepare.setDouble(7, cellTempDbl);
-     	//System.out.println("taxnet: " + cellTempDbl);
-
-     	//7 Room _Number
-     	cellTempDbl  = cellArray[7].getNumericCellValue();
+     	//5 Room _Number
+     	cellTempDbl  = cellArray[5].getNumericCellValue();
      	cellTempInt = (int) cellTempDbl;
-     	prepare.setDouble(8, cellTempInt);
+     	prepare.setDouble(6, cellTempInt);
      	//System.out.println("Room Number: " + cellTempInt);
 
-    	//8 Model_Number
-     	cellTempString = cellArray[8].getStringCellValue();
-     	prepare.setString(9, cellTempString);
+     	//6 Model_Number
+     	cellTempString = cellArray[6].getStringCellValue();
+     	prepare.setString(7, cellTempString);
      	//System.out.println("Room Number: " + cellTempInt);
-
-     	//9 Ownership
-     	cellTempString = cellArray[9].getStringCellValue();
-     	prepare.setString(10, cellTempString);
+     	
+     	//7 Ownership
+     	cellTempString = cellArray[7].getStringCellValue();
+     	prepare.setString(8, cellTempString);
      	//System.out.println("Ownership: "+cellTempString);
 
-       	//10 Manufacturer
-     	cellTempString = cellArray[10].getStringCellValue();
-     	prepare.setString(11, cellTempString);
+       	//8 Manufacturer
+     	cellTempString = cellArray[8].getStringCellValue();
+     	prepare.setString(9, cellTempString);
      	//System.out.println("Manufacturer: "+cellTempString);
 
-     	//11 Serial_Number
-     	cellTempString = cellArray[11].getStringCellValue();
-     	prepare.setString(12, cellTempString);
+     	//9 Serial_Number
+     	cellTempString = cellArray[9].getStringCellValue();
+     	prepare.setString(10, cellTempString);
      	//System.out.println("Serial_Number: "+cellTempString);
 
-     	//12 Warrant_Expiration
-     	today =  cellArray[12].getDateCellValue();
+     	//10 Warrant_Expiration
+     	today =  cellArray[10].getDateCellValue();
   
      	if(today == null)
+     	{
+         	prepare.setString(11, null);
+     	}
+     	else
+     	{
+     		reportDate = cellTempDate.format(today);
+         	prepare.setString(11, reportDate);
+     	}
+     		
+     
+     	//System.out.println("Warranty_Expiration: "+cellTempString);
+
+     	//11 Replacement _Date
+     	today =  cellArray[11].getDateCellValue();
+      	if(today == null)
+     	{
+         	prepare.setString(12, null);
+     	}
+     	else
+     	{
+     		reportDate = cellTempDate.format(today);
+         	prepare.setString(12, reportDate);
+     	}
+     	//System.out.println("Replacement _Date: "+cellTempString);
+
+     	//12 Deactivation_Date
+    	today =  cellArray[12].getDateCellValue();
+      	if(today == null)
      	{
          	prepare.setString(13, null);
      	}
@@ -388,62 +406,34 @@ public class ConvertExcel {
      		reportDate = cellTempDate.format(today);
          	prepare.setString(13, reportDate);
      	}
-     		
-     
-     	//System.out.println("Warranty_Expiration: "+cellTempString);
 
-     	//13 Replacement _Date
-     	today =  cellArray[13].getDateCellValue();
-      	if(today == null)
-     	{
-         	prepare.setString(14, null);
-     	}
-     	else
-     	{
-     		reportDate = cellTempDate.format(today);
-         	prepare.setString(14, reportDate);
-     	}
-     	//System.out.println("Replacement _Date: "+cellTempString);
-
-     	//14 Deactivation_Date
-    	today =  cellArray[14].getDateCellValue();
-      	if(today == null)
-     	{
-         	prepare.setString(15, null);
-     	}
-     	else
-     	{
-     		reportDate = cellTempDate.format(today);
-         	prepare.setString(15, reportDate);
-     	}
-
-     	//15 Deactivation Method
-    	cellTempString = cellArray[15].getStringCellValue();
+        //13 Condition
+     	cellTempString = cellArray[13].getStringCellValue();
+     	prepare.setString(14, cellTempString);
+      	
+     	//14 Floor
+     	cellTempString = cellArray[14].getStringCellValue();
+     	prepare.setString(15, cellTempString);
+     	
+     	//15 Supplier
+     	cellTempString = cellArray[15].getStringCellValue();
      	prepare.setString(16, cellTempString);
      	
-     	//16 Condition
+     	//16 Comment/History
      	cellTempString = cellArray[16].getStringCellValue();
      	prepare.setString(17, cellTempString);
-
-     	//17 Floor
+     	
+     	//17 Retired
      	cellTempString = cellArray[17].getStringCellValue();
      	prepare.setString(18, cellTempString);
      	
-     	//18  Supplier
+     	//18 Deactivation_Method
      	cellTempString = cellArray[18].getStringCellValue();
-     	prepare.setString(19, cellTempString);
-     	
-     	//19 Asset over 500
-     	cellTempString = cellArray[19].getStringCellValue();
-     	prepare.setString(20, (cellTempString));
+     	prepare.setString(19, (cellTempString));
      	     	
-     	//20 Comment/History
-     	cellTempString = cellArray[20].getStringCellValue();
-     	prepare.setString(21, cellTempString);
      	
-     	//21 Picture
-     	cellTempString = cellArray[21].getStringCellValue();
-     	prepare.setString(20, cellTempString);
+     	
+     	
      	
      	
      	
@@ -457,13 +447,13 @@ public class ConvertExcel {
 	public static void main(String args[]) throws IOException
 	{
 		//writeExcel();
-//		try {
-//			importExcel();
-//			
-//		} catch (SQLException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		try {
+			importExcel();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		System.out.println("SUCCESS");
 		
 	}
@@ -552,11 +542,6 @@ public class ConvertExcel {
 			}
 		}
 		return true;
-        
-        
-
-	
-			
 		
 	}
 	
