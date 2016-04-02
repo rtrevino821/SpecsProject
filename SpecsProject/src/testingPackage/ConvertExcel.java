@@ -264,6 +264,7 @@ public class ConvertExcel {
 				{
 					//break;
 					System.out.println("NULL");
+					//row.
 
 				}
 				else
@@ -284,12 +285,13 @@ public class ConvertExcel {
 	
 	public static void InsertToDatabase(Cell[] cellArray) throws SQLException
 	{
-		//Vars will be used multiple time
+		//Vars will be used multiple times
 		double cellTempDbl;
 		int cellTempInt;
-		String cellTempString;
+		String cellTempString = null;
+		//For Date Parsing
 		DateFormat cellTempDate;
-		cellTempDate = new SimpleDateFormat("MM/dd/yyyy");
+		cellTempDate = new SimpleDateFormat("yyyy-MM-dd");
 		Date today; 
 		String reportDate;
 
@@ -297,16 +299,18 @@ public class ConvertExcel {
 		Connection conn = sqliteConnectionTEST.dbConnector();
 		PreparedStatement prepare = null;
 		
-     	String query = "insert into MasterTable(\"group\",Asset,Property_Description,Date_In_Service,Price,"
-     			+ "Room_Number, Model_Number, Ownership, Manufacturer, "
-     			+ "Serial_Number,Warrant_Expiration,Replacement_Date, Deactivation_Date, Condition,"
-     			+ "Floor, Supplier, Comment_History, Retired, Deactivation_Method)"
-				+ "values(?,?,?,?,?,?,?,?"
-				+ ",?,?,?,?,?,?,?,?,?,?,?)";  //removed asset over 500 //removed picture
+     	String query = "insert into MasterTable (Item_Name,Item_Description,Category,ID_Tag,Room,"//1-5
+     			+ "Floor, Date_Acquired, Ownership, Lease_Term,Lease_Expiration,"//5-10
+     			+ "Rent_Due_Date,Supplier,Manufacturer,Model_Number,Serial_Number,"//10-15
+     			+ "Warranty_Expiration_Date,Replacement_Date,Deactivated, Deactivation_Date,Deactivation_Method,"//15-20
+     			+ "Price, Condition,Quality)"//20-23
+				+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?"
+				+ ",?,?,?,?,?)";  //removed asset over 500 //removed picture
 			
      	prepare = conn.prepareStatement(query);
-
-     	//begin parsing to send to sqlite //0 Group
+     	//count maatches array index
+     	//begin parsing to send to sqlite 
+     	//0 Item Name
      	if(cellArray[0].getStringCellValue()== null)
      	{
          	prepare.setString(1, null);
@@ -318,58 +322,87 @@ public class ConvertExcel {
      	}
      	//System.out.println("Group: "+cellTempString);
 
-     	//1 Asset
-     	cellTempDbl = cellArray[1].getNumericCellValue();
-     	cellTempInt = (int) cellTempDbl;
-     	prepare.setInt(2, cellTempInt);
-     	//System.out.println("Asset: "+cellTempInt);
+     	//System.out.println(cellTempString);
+     	//1 Item-Description
+    	if(cellArray[1] == null)
+     	{
+         	prepare.setString(2, null);
 
-     	//2 Property_Description
-     	cellTempString = cellArray[2].getStringCellValue();
-     	prepare.setString(3, cellTempString);
+     	}
+     	else{
+         	cellTempString = cellArray[1].getStringCellValue();
+     		prepare.setString(2, cellTempString);
+     	}
      	//System.out.println("Property: "+cellTempString);
     
-     	//3 Date_In_Service
-     	today =  cellArray[3].getDateCellValue();
-     	reportDate = cellTempDate.format(today);
-     	prepare.setString(4, reportDate);
-     	//System.out.println("Date: "+reportDate);
-
-     	//4 Price
-     	cellTempDbl = cellArray[4].getNumericCellValue();
-     	prepare.setDouble(5, cellTempDbl);
-     	//System.out.println("Price: " + cellTempDbl);
+     	//2 Category
+    	cellTempString = cellArray[2].getStringCellValue();
+     	prepare.setString(3, cellTempString);
      	
-     	//5 Room _Number
-     	cellTempDbl  = cellArray[5].getNumericCellValue();
+     	//3 ID_Tag
+     	cellTempDbl  = cellArray[3].getNumericCellValue();
      	cellTempInt = (int) cellTempDbl;
-     	prepare.setDouble(6, cellTempInt);
-     	//System.out.println("Room Number: " + cellTempInt);
+     	prepare.setDouble(4, cellTempInt);
 
-     	//6 Model_Number
-     	cellTempString = cellArray[6].getStringCellValue();
-     	prepare.setString(7, cellTempString);
-     	//System.out.println("Room Number: " + cellTempInt);
+     	//4 Room
+     	cellTempDbl  = cellArray[4].getNumericCellValue();
+     	cellTempInt = (int) cellTempDbl;
+     	prepare.setDouble(5, cellTempInt);
      	
+     	//5 floor
+    	if(cellArray[5] == null)
+     	{
+         	prepare.setString(6, null);
+
+     	}
+     	else{
+         	cellTempString = cellArray[5].getStringCellValue();
+     		prepare.setString(6, cellTempString);
+     	}
+     	
+     	//6 Date_Acquired
+     	today =  cellArray[6].getDateCellValue();
+      	if(today == null)
+     	{
+         	prepare.setString(7, null);
+     	}
+     	else
+     	{
+     		reportDate = cellTempDate.format(today);
+         	prepare.setString(7, reportDate);
+     	}
+
      	//7 Ownership
-     	cellTempString = cellArray[7].getStringCellValue();
+    	cellTempString = cellArray[7].getStringCellValue();
      	prepare.setString(8, cellTempString);
-     	//System.out.println("Ownership: "+cellTempString);
+      	
+     	//8 Lease Term
+     	today =  cellArray[8].getDateCellValue();
+      	if(today == null)
+     	{
+         	prepare.setString(9, null);
+     	}
+     	else
+     	{
+     		reportDate = cellTempDate.format(today);
+         	prepare.setString(9, reportDate);
+     	}
 
-       	//8 Manufacturer
-     	cellTempString = cellArray[8].getStringCellValue();
-     	prepare.setString(9, cellTempString);
-     	//System.out.println("Manufacturer: "+cellTempString);
-
-     	//9 Serial_Number
-     	cellTempString = cellArray[9].getStringCellValue();
-     	prepare.setString(10, cellTempString);
-     	//System.out.println("Serial_Number: "+cellTempString);
-
-     	//10 Warrant_Expiration
-     	today =  cellArray[10].getDateCellValue();
-  
-     	if(today == null)
+     	//9 Lease_Expiraion
+    	today =  cellArray[9].getDateCellValue();
+      	if(today == null)
+     	{
+         	prepare.setString(10, null);
+     	}
+     	else
+     	{
+     		reportDate = cellTempDate.format(today);
+         	prepare.setString(10, reportDate);
+     	}
+      	
+     	//10 Rent_Due_Day
+    	today =  cellArray[10].getDateCellValue();
+      	if(today == null)
      	{
          	prepare.setString(11, null);
      	}
@@ -378,62 +411,77 @@ public class ConvertExcel {
      		reportDate = cellTempDate.format(today);
          	prepare.setString(11, reportDate);
      	}
-     		
-     
-     	//System.out.println("Warranty_Expiration: "+cellTempString);
-
-     	//11 Replacement _Date
-     	today =  cellArray[11].getDateCellValue();
-      	if(today == null)
-     	{
-         	prepare.setString(12, null);
-     	}
-     	else
-     	{
-     		reportDate = cellTempDate.format(today);
-         	prepare.setString(12, reportDate);
-     	}
-     	//System.out.println("Replacement _Date: "+cellTempString);
-
-     	//12 Deactivation_Date
-    	today =  cellArray[12].getDateCellValue();
-      	if(today == null)
-     	{
-         	prepare.setString(13, null);
-     	}
-     	else
-     	{
-     		reportDate = cellTempDate.format(today);
-         	prepare.setString(13, reportDate);
-     	}
-
-        //13 Condition
+      	
+      	//11 Supplier
+      	cellTempString = cellArray[11].getStringCellValue();
+     	prepare.setString(12, cellTempString);
+      	
+      	//12 Manufacturer
+     	cellTempString = cellArray[12].getStringCellValue();
+     	prepare.setString(13, cellTempString);
+      	
+      	//13 Model_Number
      	cellTempString = cellArray[13].getStringCellValue();
      	prepare.setString(14, cellTempString);
-      	
-     	//14 Floor
+     	
+     	//14 Serial_Number
      	cellTempString = cellArray[14].getStringCellValue();
      	prepare.setString(15, cellTempString);
      	
-     	//15 Supplier
-     	cellTempString = cellArray[15].getStringCellValue();
-     	prepare.setString(16, cellTempString);
+     	//15 Warranty_Expiration
+     	today =  cellArray[15].getDateCellValue();
+      	if(today == null)
+     	{
+         	prepare.setString(16, null);
+     	}
+     	else
+     	{
+     		reportDate = cellTempDate.format(today);
+         	prepare.setString(16, reportDate);
+     	}
+     	//16 Replacement Date
+      	today =  cellArray[16].getDateCellValue();
+      	if(today == null)
+     	{
+         	prepare.setString(17, null);
+     	}
+     	else
+     	{
+     		reportDate = cellTempDate.format(today);
+         	prepare.setString(17, reportDate);
+     	}
+     	//17 Deactivation_Date
+      	today =  cellArray[17].getDateCellValue();
+      	if(today == null)
+     	{
+         	prepare.setString(18, null);
+     	}
+     	else
+     	{
+     		reportDate = cellTempDate.format(today);
+         	prepare.setString(18, reportDate);
+     	}
+     	//18 Deactivation
+    	cellTempString = cellArray[18].getStringCellValue();
+     	prepare.setString(19, cellTempString);
      	
-     	//16 Comment/History
-     	cellTempString = cellArray[16].getStringCellValue();
-     	prepare.setString(17, cellTempString);
+     	//19 Deactivation_Method
+     	cellTempString = cellArray[19].getStringCellValue();
+     	prepare.setString(20, cellTempString);
      	
-     	//17 Retired
-     	cellTempString = cellArray[17].getStringCellValue();
-     	prepare.setString(18, cellTempString);
+     	//20 Price
+     	cellTempDbl  = cellArray[20].getNumericCellValue();
+     	prepare.setDouble(21, cellTempDbl);
      	
-     	//18 Deactivation_Method
-     	cellTempString = cellArray[18].getStringCellValue();
-     	prepare.setString(19, (cellTempString));
-     	     	
+     	//21 Condition
+     	cellTempString = cellArray[21].getStringCellValue();
+     	prepare.setString(22, cellTempString);
      	
+     	//22 Quality
+     	cellTempString = cellArray[22].getStringCellValue();
+     	prepare.setString(23, cellTempString);
      	
-     	
+    	
      	
      	
      	
