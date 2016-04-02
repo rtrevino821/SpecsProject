@@ -227,6 +227,7 @@ public class loginGUI extends JFrame {
 					// Opens the Dashboard if the Login is correct
 					if (count == 1) {
 						mainScreen regFace = new mainScreen();
+						//mainDashboard regFace = new mainDashboard();
 						// regFace.setVisible(true);
 						dispose();
 						// If user and pass are incorrect
@@ -264,6 +265,7 @@ public class loginGUI extends JFrame {
 					}
 					if (count == 1) {
 						mainScreen regFace = new mainScreen();
+						//mainDashboard regFace = new mainDashboard();
 						// regFace.setVisible(true);
 						dispose();
 					} else if (count == 2) {
