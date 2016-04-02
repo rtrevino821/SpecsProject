@@ -14,6 +14,7 @@ import javax.swing.ComboBoxModel;
 import javax.swing.DefaultCellEditor;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 
 import java.awt.Font;
@@ -70,10 +71,12 @@ public class newInsert{
 		    JTextField field8c = new JTextField();
 		    JTextField field9 = new JTextField();
 		    JTextField field10 = new JTextField();
+		    JTextField field10a = new JTextField();
 		    JTextField field11 = new JTextField();
 		    JTextField field12 = new JTextField();
 		    JTextField field13 = new JTextField();
 		    JTextField field14 = new JTextField();
+		    JCheckBox field14a = new JCheckBox();
 		    JTextField field15 = new JTextField();
 		    JTextField field16 = new JTextField();
 		    JTextField field17 = new JTextField();
@@ -153,15 +156,14 @@ public class newInsert{
 		
 		JButton btnInsert = new JButton("Insert");
 		springLayout.putConstraint(SpringLayout.WEST, btnInsert, 59, SpringLayout.WEST, frmInsertAsset.getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, btnInsert, -23, SpringLayout.SOUTH, frmInsertAsset.getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, btnInsert, -28, SpringLayout.SOUTH, frmInsertAsset.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, btnInsert, 239, SpringLayout.WEST, frmInsertAsset.getContentPane());
 		btnInsert.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 22));
 		frmInsertAsset.getContentPane().add(btnInsert);
 		
 		JButton btnNewButton_1 = new JButton("Clear Fields");
-		springLayout.putConstraint(SpringLayout.NORTH, btnNewButton_1, 0, SpringLayout.NORTH, btnInsert);
-		springLayout.putConstraint(SpringLayout.SOUTH, btnNewButton_1, -28, SpringLayout.SOUTH, frmInsertAsset.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, btnNewButton_1, 413, SpringLayout.WEST, frmInsertAsset.getContentPane());
+		springLayout.putConstraint(SpringLayout.SOUTH, btnNewButton_1, -28, SpringLayout.SOUTH, frmInsertAsset.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, btnNewButton_1, 593, SpringLayout.WEST, frmInsertAsset.getContentPane());
 		btnNewButton_1.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 22));
 		frmInsertAsset.getContentPane().add(btnNewButton_1);
@@ -261,10 +263,12 @@ public class newInsert{
 	    field8c.setFont(font);
 	    field9.setFont(font);
 	    field10.setFont(font);
+	    field10a.setFont(font);
 	    field11.setFont(font);
 	    field12.setFont(font);
 	    field13.setFont(font);
 	    field14.setFont(font);
+	    field14a.setFont(font);
 	    field15.setFont(font);
 	    field16.setFont(font);
 	    field17.setFont(font);
@@ -298,10 +302,12 @@ public class newInsert{
 	    	"Rent Due Date:    ", field8c,
 	    	"Supplier:    ", field9,
 	    	"Manufacturer:    ", field10,
+	    	"Model #:    ",field10a,
 	    	"Serial #:    ", field11,
 	    	"Warranty Expiration:    ", field12,
 	    	"Replacement Date:    ", field13,
 	    	"Deactivation Date:    ", field14,
+	    	"Deactivated:    ",field14a,
 	    	"Deactivation Method:    ", field15,
 	    	"Price:    ", field16,
 	    	"Quality:    ", field17,
@@ -316,6 +322,7 @@ public class newInsert{
     	panel.setBorder(new EmptyBorder(20, 20, 20, 20));
     	panel.setBackground(new Color(244, 244, 244));
     	JScrollPane scrollPane = new JScrollPane();
+    	springLayout.putConstraint(SpringLayout.NORTH, btnNewButton_1, 23, SpringLayout.SOUTH, scrollPane);
     	springLayout.putConstraint(SpringLayout.NORTH, btnInsert, 23, SpringLayout.SOUTH, scrollPane);
     	springLayout.putConstraint(SpringLayout.SOUTH, scrollPane, -98, SpringLayout.SOUTH, frmInsertAsset.getContentPane());
     	springLayout.putConstraint(SpringLayout.NORTH, scrollPane, 24, SpringLayout.NORTH, frmInsertAsset.getContentPane());
@@ -467,6 +474,4 @@ public class newInsert{
 			}
 		});
 	}
-
-
 }
