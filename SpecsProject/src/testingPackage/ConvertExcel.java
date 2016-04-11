@@ -13,8 +13,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.sql.Types;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -41,10 +43,13 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.joda.time.DateTime;
 
 
-
+/**
+ *  Converts Data from JTable to excel
+ *  boolean tempalteState, when true only writes the column header for excel 
+ */
 public class ConvertExcel {
-	public static void writeExcel()throws IOException
-	{
+	public static void writeExcel(boolean templateState)throws IOException
+	{    
 		
 		JTable table = new JTable();
 	    DateTime dt = new DateTime();
@@ -64,9 +69,15 @@ public class ConvertExcel {
 	    for(int headings = 0; headings < model.getColumnCount(); headings++){ //For each column
 	        headerRow.createCell(headings).setCellValue(model.getColumnName(headings));//Write column name
         	colName[headings] = table.getColumnName(headings);
-
+        	
 	    }
 
+	    if(templateState == true)
+	    {//When Template is chosen only print columns
+	    	 wb.write(new FileOutputStream(file.toString()));//Save the file     
+	  	    openExcel(file);
+	    	return;
+	    }
 	    for(int rows = 0; rows < model.getRowCount(); rows++){ //For each table row
 	        for(int cols = 0; cols < table.getColumnCount(); cols++){ //For each table column
 	        	if(table.getColumnName(cols).equals(colName[cols]) )
@@ -99,7 +110,11 @@ public class ConvertExcel {
 	}//end of method
 	
 	//overloaded method for TestMain
-	public static void writeExcel(JTable table)throws IOException
+	/**
+	 *  
+	 *  
+	 */
+	private static void writeExcel(JTable table)throws IOException
 	{
 
 	    String excelName = excelName();
@@ -114,8 +129,9 @@ public class ConvertExcel {
 	    for(int headings = 0; headings < model.getColumnCount(); headings++){ //For each column
 	        headerRow.createCell(headings).setCellValue(model.getColumnName(headings));//Write column name
         	colName[headings] = table.getColumnName(headings);
-
+        	
 	    }
+	
 
 	    for(int rows = 0; rows < model.getRowCount(); rows++){ //For each table row
 	        for(int cols = 0; cols < table.getColumnCount(); cols++){ //For each table column
@@ -152,7 +168,11 @@ public class ConvertExcel {
 	
 	public static void importExcel() throws SQLException
 	{
+		//Receives a a prepare statement with query to insert to table
+		PreparedStatement prepare = initPrepare();
+
 		FileInputStream file = null;
+
 		try {
 			file = new FileInputStream(new File("Excel\\Inventory_Project_SpecificationsV2.xlsx"));
 		} catch (FileNotFoundException e2) {
@@ -179,33 +199,44 @@ public class ConvertExcel {
         int rowsCount = sheet.getLastRowNum();
         
         String [] colHeader =  new String[rowsCount];
+        int columnLength = 0;
         for(int count = 0; count < row.getLastCellNum(); count++)
         {//get column headers from excel
         	Cell cell = row.getCell(count);
+        	columnLength = count+1; 
         	colHeader[count] = cell.getStringCellValue();
-        	System.out.println(colHeader[count]);
+        	//System.out.println(colHeader[count]);
         }
 	    
-	    
-        System.out.println("Total Number of Rows: " + (rowsCount + 1));
-        for (int i = 3; i <= rowsCount; i++) {//start at 1 to skip column
-            row = sheet.getRow(i);
-            int colCounts = row.getLastCellNum();//null pointer needs to be handled
+	  
+        //System.out.println("Total Number of Rows: " + (rowsCount + 1));
+        for (int i = 3; i <= rowsCount-1; i++) {//start at 1 to skip column
+            row = sheet.getRow(i);//change colcounts to row
+            int colCounts = columnLength;//assign colCounts to the length of max num of cols
             Cell [] cellArray = new Cell[colCounts];
             System.out.println("Total Number of Cols: " + colCounts);
-            for (int j = 0; j < colCounts; j++) {
-            	if (row.getCell(j) == null)
+            for (int j = 0; j <= columnLength; j++) {
+            	if(j==23)
             	{
+            		prepare.executeUpdate();
+            	}
+            	
+            	else if (row.getCell(j) == null)
+            	{//if cel is blank, create a blank cell
             		//break;
-                    System.out.println("NULL");
+            		//System.out.println("NULL at " + i + " , " + j );
+            		cellArray[j] = row.getCell(j, Row.CREATE_NULL_AS_BLANK);
+                    prepare = getParepareValues(cellArray,j,prepare);
 
             	}
-            	else
+            	else{
             		cellArray[j] = row.getCell(j);
-               //System.out.println("[" + i + "," + j + "]=" + cell.getStringCellValue());
+					//System.out.println("Loc: " + i +" ," + j);
+		            prepare = getParepareValues(cellArray,j,prepare);
+            	}
+            	
             }// end of j loop
-            InsertToDatabase(cellArray);
-			
+            
         }//end of i loop
 	    try {
 			file.close();
@@ -216,74 +247,32 @@ public class ConvertExcel {
 	   
 }//end of method
 
-	public static void importExcel(File fs) throws SQLException
+	public static PreparedStatement initPrepare()
 	{
-		FileInputStream file = null;
-		try {
-			file = new FileInputStream(fs);
-		} catch (FileNotFoundException e2) {
+		Connection conn = sqliteConnectionTEST.dbConnector();
+		PreparedStatement prepare = null;
+		
+     	String query = "insert into MasterTable (Item_Name,Item_Description,Category,ID_Tag,Room,"//1-5
+     			+ "Floor, Date_Acquired, Ownership, Lease_Term,Lease_Expiration,"//5-10
+     			+ "Rent_Due_Date,Supplier,Manufacturer,Model_Number,Serial_Number,"//10-15
+     			+ "Warranty_Expiration_Date,Replacement_Date,Deactivation_Date,Deactivated,Deactivation_Method,"//15-20
+     			+ "Price, Condition,Quality)"//20-23
+				+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?"
+				+ ",?,?,?,?,?)";  //removed asset over 500 //removed picture
+			
+     	try {
+			prepare = conn.prepareStatement(query);
+		} catch (SQLException e) {
 			// TODO Auto-generated catch block
-			e2.printStackTrace();
+			e.printStackTrace();
 		}
-
-		//Get the workbook instance for XLS file 
-		XSSFWorkbook workbook = null;
-		try {
-			workbook = new XSSFWorkbook(file);
-		} catch (IOException e2) {
-			// TODO Auto-generated catch block
-			e2.printStackTrace();
-		}
-
-
-		//Get first sheet from the workbook
-		XSSFSheet sheet = workbook.getSheetAt(0);
-
-		//Iterate through each rows from first sheet
-		Iterator<Row> rowIterator = sheet.iterator();
-		Row row = sheet.getRow(0);
-		int rowsCount = sheet.getLastRowNum();
-
-		String [] colHeader =  new String[rowsCount];
-		for(int count = 0; count < row.getLastCellNum(); count++)
-		{//get column headers from excel
-			Cell cell = row.getCell(count);
-			colHeader[count] = cell.getStringCellValue();
-			System.out.println(colHeader[count]);
-		}
-
-
-		System.out.println("Total Number of Rows: " + (rowsCount + 1));
-		for (int i = 3; i <= rowsCount; i++) {//start at 1 to skip column
-			row = sheet.getRow(i);
-			int colCounts = row.getLastCellNum();//null pointer needs to be handled
-			Cell [] cellArray = new Cell[colCounts];
-			System.out.println("Total Number of Cols: " + colCounts);
-			for (int j = 0; j < colCounts; j++) {
-				if (row.getCell(j) == null)
-				{
-					//break;
-					System.out.println("NULL");
-					//row.
-
-				}
-				else
-					cellArray[j] = row.getCell(j);
-				//System.out.println("[" + i + "," + j + "]=" + cell.getStringCellValue());
-			}// end of j loop
-			InsertToDatabase(cellArray);
-
-		}//end of i loop
-		try {
-			file.close();
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-	}//end of method
+     	return prepare;
+	}
 	
-	public static void InsertToDatabase(Cell[] cellArray) throws SQLException
+	/**
+	 *  Inputs value from excel into preparedStamtent
+	 */
+	public static PreparedStatement getParepareValues(Cell[] cellArray, int j, PreparedStatement prepare) 
 	{
 		//Vars will be used multiple times
 		double cellTempDbl;
@@ -292,216 +281,136 @@ public class ConvertExcel {
 		//For Date Parsing
 		DateFormat cellTempDate;
 		cellTempDate = new SimpleDateFormat("yyyy-MM-dd");
-		Date today; 
-		String reportDate;
+		Date typeDate; 
+		String dateFormattedString;
 
-		
-		Connection conn = sqliteConnectionTEST.dbConnector();
-		PreparedStatement prepare = null;
-		
-     	String query = "insert into MasterTable (Item_Name,Item_Description,Category,ID_Tag,Room,"//1-5
-     			+ "Floor, Date_Acquired, Ownership, Lease_Term,Lease_Expiration,"//5-10
-     			+ "Rent_Due_Date,Supplier,Manufacturer,Model_Number,Serial_Number,"//10-15
-     			+ "Warranty_Expiration_Date,Replacement_Date,Deactivated, Deactivation_Date,Deactivation_Method,"//15-20
-     			+ "Price, Condition,Quality)"//20-23
-				+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?"
-				+ ",?,?,?,?,?)";  //removed asset over 500 //removed picture
+		//System.out.println("J is :" + j);
+		//Ints col 3,5
 			
-     	prepare = conn.prepareStatement(query);
-     	//count maatches array index
-     	//begin parsing to send to sqlite 
-     	//0 Item Name
-     	if(cellArray[0].getStringCellValue()== null)
-     	{
-         	prepare.setString(1, null);
+		if(j==3 || j == 4)
+		{
+			if(cellArray[j].getCellType() == Cell.CELL_TYPE_BLANK)
+			{
+				try {
+					prepare.setNull(j+1, Types.INTEGER);
+					return prepare;
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			cellTempDbl  = cellArray[j].getNumericCellValue();
+			cellTempInt = (int) cellTempDbl;
+			try {
+				if(j+1 == 4)
+				{
+					System.out.println("Asset num: " + cellTempInt);
+				}
+				prepare.setInt(j+1, cellTempInt);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return prepare;
+		}
+		//Dates 
+		else if(j==6||j==8||j==9||j==10|
+				j==15||j==16||j==17)
+		{
+			if(cellArray[j] == null || cellArray[j].getCellType() == Cell.CELL_TYPE_BLANK)
+			{
+				try {
+					prepare.setString(j+1, null);
+					return prepare;
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return prepare;
+			}
+			
+		 	typeDate =  cellArray[j].getDateCellValue();
+		 	dateFormattedString = cellTempDate.format(typeDate);
+		 	try {
+		 		prepare.setString(j+1, dateFormattedString);
+		 		return prepare;
+		 	} catch (SQLException e) {
+		 		// TODO Auto-generated catch block
+		 		e.printStackTrace();
+		 	}
+		 	return prepare;
 
-     	}
-     	else{
-         	cellTempString = cellArray[0].getStringCellValue();
-     		prepare.setString(1, cellTempString);
-     	}
-     	//System.out.println("Group: "+cellTempString);
+		}
+		//Double
+		else if(j==20)
+		{
+			if(cellArray[j].getCellType() == Cell.CELL_TYPE_BLANK)
+			{
+				try {
+					prepare.setNull(j+1, Types.DOUBLE);
+					return prepare;
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			cellTempDbl  = cellArray[j].getNumericCellValue();
+			try {
+				prepare.setDouble(j+1, cellTempDbl);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			//System.out.println(cellTempDbl);
+			return prepare;
 
-     	//System.out.println(cellTempString);
-     	//1 Item-Description
-    	if(cellArray[1] == null)
-     	{
-         	prepare.setString(2, null);
-
-     	}
-     	else{
-         	cellTempString = cellArray[1].getStringCellValue();
-     		prepare.setString(2, cellTempString);
-     	}
-     	//System.out.println("Property: "+cellTempString);
-    
-     	//2 Category
-    	cellTempString = cellArray[2].getStringCellValue();
-     	prepare.setString(3, cellTempString);
+		}
+		//String
+		else
+		{
+			if(cellArray[j] == null || cellArray[j].getCellType() == Cell.CELL_TYPE_BLANK)
+	     	{
+	         	try {
+					prepare.setString(j+1, null);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return prepare;
+	     	}
+	     	else{
+	         	cellTempString = cellArray[j].getStringCellValue();
+	     		try {
+					prepare.setString(j+1, cellTempString);
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				return prepare;
+	     	}
+		}
      	
-     	//3 ID_Tag
-     	cellTempDbl  = cellArray[3].getNumericCellValue();
-     	cellTempInt = (int) cellTempDbl;
-     	prepare.setDouble(4, cellTempInt);
-
-     	//4 Room
-     	cellTempDbl  = cellArray[4].getNumericCellValue();
-     	cellTempInt = (int) cellTempDbl;
-     	prepare.setDouble(5, cellTempInt);
-     	
-     	//5 floor
-    	if(cellArray[5] == null)
-     	{
-         	prepare.setString(6, null);
-
-     	}
-     	else{
-         	cellTempString = cellArray[5].getStringCellValue();
-     		prepare.setString(6, cellTempString);
-     	}
-     	
-     	//6 Date_Acquired
-     	today =  cellArray[6].getDateCellValue();
-      	if(today == null)
-     	{
-         	prepare.setString(7, null);
-     	}
-     	else
-     	{
-     		reportDate = cellTempDate.format(today);
-         	prepare.setString(7, reportDate);
-     	}
-
-     	//7 Ownership
-    	cellTempString = cellArray[7].getStringCellValue();
-     	prepare.setString(8, cellTempString);
-      	
-     	//8 Lease Term
-     	today =  cellArray[8].getDateCellValue();
-      	if(today == null)
-     	{
-         	prepare.setString(9, null);
-     	}
-     	else
-     	{
-     		reportDate = cellTempDate.format(today);
-         	prepare.setString(9, reportDate);
-     	}
-
-     	//9 Lease_Expiraion
-    	today =  cellArray[9].getDateCellValue();
-      	if(today == null)
-     	{
-         	prepare.setString(10, null);
-     	}
-     	else
-     	{
-     		reportDate = cellTempDate.format(today);
-         	prepare.setString(10, reportDate);
-     	}
-      	
-     	//10 Rent_Due_Day
-    	today =  cellArray[10].getDateCellValue();
-      	if(today == null)
-     	{
-         	prepare.setString(11, null);
-     	}
-     	else
-     	{
-     		reportDate = cellTempDate.format(today);
-         	prepare.setString(11, reportDate);
-     	}
-      	
-      	//11 Supplier
-      	cellTempString = cellArray[11].getStringCellValue();
-     	prepare.setString(12, cellTempString);
-      	
-      	//12 Manufacturer
-     	cellTempString = cellArray[12].getStringCellValue();
-     	prepare.setString(13, cellTempString);
-      	
-      	//13 Model_Number
-     	cellTempString = cellArray[13].getStringCellValue();
-     	prepare.setString(14, cellTempString);
-     	
-     	//14 Serial_Number
-     	cellTempString = cellArray[14].getStringCellValue();
-     	prepare.setString(15, cellTempString);
-     	
-     	//15 Warranty_Expiration
-     	today =  cellArray[15].getDateCellValue();
-      	if(today == null)
-     	{
-         	prepare.setString(16, null);
-     	}
-     	else
-     	{
-     		reportDate = cellTempDate.format(today);
-         	prepare.setString(16, reportDate);
-     	}
-     	//16 Replacement Date
-      	today =  cellArray[16].getDateCellValue();
-      	if(today == null)
-     	{
-         	prepare.setString(17, null);
-     	}
-     	else
-     	{
-     		reportDate = cellTempDate.format(today);
-         	prepare.setString(17, reportDate);
-     	}
-     	//17 Deactivation_Date
-      	today =  cellArray[17].getDateCellValue();
-      	if(today == null)
-     	{
-         	prepare.setString(18, null);
-     	}
-     	else
-     	{
-     		reportDate = cellTempDate.format(today);
-         	prepare.setString(18, reportDate);
-     	}
-     	//18 Deactivation
-    	cellTempString = cellArray[18].getStringCellValue();
-     	prepare.setString(19, cellTempString);
-     	
-     	//19 Deactivation_Method
-     	cellTempString = cellArray[19].getStringCellValue();
-     	prepare.setString(20, cellTempString);
-     	
-     	//20 Price
-     	cellTempDbl  = cellArray[20].getNumericCellValue();
-     	prepare.setDouble(21, cellTempDbl);
-     	
-     	//21 Condition
-     	cellTempString = cellArray[21].getStringCellValue();
-     	prepare.setString(22, cellTempString);
-     	
-     	//22 Quality
-     	cellTempString = cellArray[22].getStringCellValue();
-     	prepare.setString(23, cellTempString);
-     	
-    	
-     	
-     	
-     	
-     	//execute query close connectionS
-     	prepare.executeUpdate();
-     	conn.close();
-
 	}//end of method
-	
-		
+			
 	public static void main(String args[]) throws IOException
 	{
 		//writeExcel();
+		long startTime = System.currentTimeMillis();
+
 		try {
 			importExcel();
 			
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
+			System.out.println("ERROR");
 			e.printStackTrace();
 		}
+		long endTime   = System.currentTimeMillis();
+		long totalTime = endTime - startTime;
+		SimpleDateFormat sdf = new SimpleDateFormat("mm:ss");    
+		Date resultdate = new Date(totalTime);
+		//System.out.println(sdf.format(resultdate));
 		System.out.println("SUCCESS");
 		
 	}
@@ -525,7 +434,9 @@ public class ConvertExcel {
 			e.printStackTrace();
 		}
 	}
-	
+	/**
+	 *  Verifies File import meets sqlite's standard by checking if the columns match
+	 */
 	public static boolean validateExcel(File fs) throws SQLException 
 	{
 		Connection conn = sqliteConnectionTEST.dbConnector();
@@ -586,21 +497,51 @@ public class ConvertExcel {
 			Cell cell = row.getCell(count);
 			if(!cell.getStringCellValue().equals(c[count]))
 			{
+				conn.close();
 				return false;
+				
 			}
+//			else
+//				System.out.println(cell.getStringCellValue());
 		}
+		
+		conn.close();
 		return true;
 		
 	}
-	
-	
 	
 	//checks dir if fielname already, if it does output new filename 
 	public static String excelName()
 	{
 		String fileLocation  = System.getProperty("user.dir");
+		
+		File theDir = new File("Excel");
+
+		// if the directory does not exist, create it
+		if (!theDir.exists()) {
+			//System.out.println("creating directory: " + System.getProperty("user.dir") + "/Excel");
+			boolean result = false;
+
+			try{
+				theDir.mkdir();
+				result = true;
+			} 
+			catch(SecurityException se){
+				//handle it
+			}        
+			if(result) {    
+				System.out.println("DIR created");  
+			}
+		}
 		File folder = new File(fileLocation + "/Excel/");
 		File[] listOfFiles = folder.listFiles();
+		
+
+
+		
+
+
+		
 		
 		File file = new File("Excel\\Form.xlsx");
 		//File file2 = new File("Excel\\Apachi " + date + ".xlsx");
@@ -678,6 +619,85 @@ public class ConvertExcel {
             dm.addRow(row);
         }
 	}
+
+	//Overload for user to import excel
+	public static void importExcel(File fs) throws SQLException
+	{//uncomment
+		PreparedStatement prepare = initPrepare();
+
+		FileInputStream file = null;
+		try {
+			file = new FileInputStream(fs);
+		} catch (FileNotFoundException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+
+		//Get the workbook instance for XLS file 
+		XSSFWorkbook workbook = null;
+		try {
+			workbook = new XSSFWorkbook(file);
+		} catch (IOException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+
+
+		//Get first sheet from the workbook
+		XSSFSheet sheet = workbook.getSheetAt(0);
+
+		//Iterate through each rows from first sheet
+		Iterator<Row> rowIterator = sheet.iterator();
+		Row row = sheet.getRow(0);
+		int rowsCount = sheet.getLastRowNum();
+
+		String [] colHeader =  new String[rowsCount];
+		int columnLength = 0;
+		for(int count = 0; count < row.getLastCellNum(); count++)
+		{//get column headers from excel
+			Cell cell = row.getCell(count);
+			columnLength = count+1; 
+			colHeader[count] = cell.getStringCellValue();
+			//System.out.println(colHeader[count]);
+		}
+
+		//System.out.println("Total Number of Rows: " + (rowsCount + 1));
+		for (int i = 3; i <= rowsCount-1; i++) {//start at 1 to skip column
+			row = sheet.getRow(i);//change colcounts to row
+			int colCounts = columnLength;//assign colCounts to the length of max num of cols
+			Cell [] cellArray = new Cell[colCounts];
+			//System.out.println("Total Number of Cols: " + colCounts);
+			for (int j = 0; j <= columnLength; j++) {
+				if(j==23)
+				{
+					prepare.executeUpdate();
+				}
+
+				else if (row.getCell(j) == null)
+				{//if cel is blank, create a blank cell
+					//break;
+					//System.out.println("NULL at " + i + " , " + j );
+					cellArray[j] = row.getCell(j, Row.CREATE_NULL_AS_BLANK);
+					prepare = getParepareValues(cellArray,j,prepare);
+
+				}
+				else{
+					cellArray[j] = row.getCell(j);
+					//System.out.println("Loc: " + i +" ," + j);
+					prepare = getParepareValues(cellArray,j,prepare);
+				}
+
+			}// end of j loop
+
+		}//end of i loop
+		try {
+			file.close();
+		} catch (IOException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 	
-	
-}
+		
+	}//end of method
+		
+}//End of ConvertExcel
