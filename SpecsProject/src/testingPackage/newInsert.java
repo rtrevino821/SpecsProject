@@ -16,6 +16,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFormattedTextField;
 
 import java.awt.Font;
 import java.awt.GridLayout;
@@ -23,15 +24,19 @@ import java.awt.GridLayout;
 import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
+import javax.swing.text.MaskFormatter;
 
 import org.apache.poi.util.SystemOutLogger;
 
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.Connection;
@@ -39,6 +44,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
@@ -51,41 +60,55 @@ import javax.swing.border.EmptyBorder;
 
 public class newInsert{
 
-	private JFrame frmInsertAsset;
 	//private JComboBox <String> field3;
 	private static JTable testTable;
 	
+	//init Frame and springLayout
+	private JFrame frmInsertAsset = new JFrame();
+	SpringLayout springLayout = new SpringLayout();
+	JPanel g1_Jpanel;
+
+	//prepare statemnt
+	private PreparedStatement prepare;
+	private String numSwap;
+	private MaskFormatter formatter;
+	DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+	
+	
 	// instantiating textfields for each jlabel
-			JTextField field1 = new JTextField();
-			
-		    JTextField field2 = new JTextField();
-		    JComboBox field3 = new JComboBox();
-		    //test_All_Groups();
-		    JTextField field4 = new JTextField();
-		    JTextField field5 = new JTextField();
-		    JTextField field6 = new JTextField();
-		    JTextField field7 = new JTextField();
-		    JComboBox field8;
-		    JTextField field8a = new JTextField();
-		    JTextField field8b = new JTextField();
-		    JTextField field8c = new JTextField();
-		    JTextField field9 = new JTextField();
-		    JTextField field10 = new JTextField();
-		    JTextField field10a = new JTextField();
-		    JTextField field11 = new JTextField();
-		    JTextField field12 = new JTextField();
-		    JTextField field13 = new JTextField();
-		    JTextField field14 = new JTextField();
-		    JCheckBox field14a = new JCheckBox();
-		    JTextField field15 = new JTextField();
-		    JTextField field16 = new JTextField();
-		    JTextField field17 = new JTextField();
-		    JTextField field18 = new JTextField();
-		    JTextField field19 = new JTextField();
-		    JTextField field20 = new JTextField();
-		    JTextField field21 = new JTextField();
-		    JTextField field22 = new JTextField();
-		    JTextField field23 = new JTextField();
+	JTextField field1 = new JTextField();
+
+	JTextField field2 = new JTextField();
+	JComboBox field3 = new JComboBox();
+	//test_All_Groups();
+	JTextField field4 = new JTextField();
+	JTextField field5 = new JTextField();
+	JTextField field6 = new JTextField();	
+	JFormattedTextField field7;
+	JComboBox field8 = new JComboBox();
+	JFormattedTextField field8a = new JFormattedTextField();
+	JFormattedTextField field8b = new JFormattedTextField();
+	JFormattedTextField field8c = new JFormattedTextField();
+	JTextField field9 = new JTextField();
+	JTextField field10 = new JTextField();
+	JTextField field10a = new JTextField();
+	JTextField field11 = new JTextField();
+	JFormattedTextField field12 = new JFormattedTextField();
+	JFormattedTextField field13 = new JFormattedTextField();
+	JFormattedTextField field14 = new JFormattedTextField();
+	JCheckBox field14a = new JCheckBox();
+	JTextField field15 = new JTextField();
+	JTextField field16 = new JTextField();
+	JTextField field17 = new JTextField();
+	JTextField field18 = new JTextField();
+	JTextField field19 = new JTextField();
+	JTextField field20 = new JTextField();
+	JTextField field21 = new JTextField();
+	JTextField field22 = new JTextField();
+	JTextField field23 = new JTextField();
+	
+
 
 
 	/**
@@ -130,21 +153,7 @@ public class newInsert{
 	private void initialize() {
 		
 		Connection conn = sqliteConnectionTEST.dbConnector();
-		
-		frmInsertAsset = new JFrame();
-		frmInsertAsset.setVisible(true);
-		frmInsertAsset.getContentPane().setBackground(new Color(244, 244, 244));
-		frmInsertAsset.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 12));
-		frmInsertAsset.setTitle("Insert Asset");
-		frmInsertAsset.setBounds(100, 100, 1504, 793);
-		frmInsertAsset.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		frmInsertAsset.setLocationRelativeTo(null);
-		frmInsertAsset.getContentPane().setLayout(null);
-		SpringLayout springLayout = new SpringLayout();
-		frmInsertAsset.getContentPane().setLayout(springLayout);
-		
-		ImageIcon icon = new ImageIcon(getClass().getResource("/Resources/appIconImage.png"));
-		frmInsertAsset.setIconImage(icon.getImage());
+		setFrame();
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		scrollPane_1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
@@ -167,43 +176,11 @@ public class newInsert{
 		springLayout.putConstraint(SpringLayout.EAST, btnNewButton_1, 593, SpringLayout.WEST, frmInsertAsset.getContentPane());
 		btnNewButton_1.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 22));
 		frmInsertAsset.getContentPane().add(btnNewButton_1);
-		
-
+	
 		//bullshitcomment
-		
-		
-		// Font styling for TextFields
-		Font font = new Font("Segoe UI Semilight", Font.PLAIN, 20);
-	    
-//		// instantiating textfields for each jlabel
-//		JTextField field1 = new JTextField();
-//		
-//	    JTextField field2 = new JTextField();
-//	    field3 = new JComboBox();
+	
 	    addCategoryColumns();
-//	    JTextField field4 = new JTextField();
-//	    JTextField field5 = new JTextField();
-//	    JTextField field6 = new JTextField();
-//	    JTextField field7 = new JTextField();
-	    field8 = new JComboBox();
-//	    JTextField field8a = new JTextField();
-//	    JTextField field8b = new JTextField();
-//	    JTextField field9 = new JTextField();
-//	    JTextField field10 = new JTextField();
-//	    JTextField field11 = new JTextField();
-//	    JTextField field12 = new JTextField();
-//	    JTextField field13 = new JTextField();
-//	    JTextField field14 = new JTextField();
-//	    JTextField field15 = new JTextField();
-//	    JTextField field16 = new JTextField();
-//	    JTextField field17 = new JTextField();
-//	    JTextField field18 = new JTextField();
-//	    JTextField field19 = new JTextField();
-//	    JTextField field20 = new JTextField();
-//	    JTextField field21 = new JTextField();
-//	    JTextField field22 = new JTextField();
-//	    JTextField field23 = new JTextField();
-	    
+
 	    field3.setSelectedIndex(-1);
 	    field3.addActionListener(new ActionListener(){
 			@Override
@@ -250,35 +227,6 @@ public class newInsert{
             }
         });
 	    
-	    field1.setFont(font);
-	    field2.setFont(font);
-	    field3.setFont(font);
-	    field4.setFont(font);
-	    field5.setFont(font);
-	    field6.setFont(font);
-	    field7.setFont(font);
-	    field8.setFont(font);
-	    field8a.setFont(font);
-	    field8b.setFont(font);
-	    field8c.setFont(font);
-	    field9.setFont(font);
-	    field10.setFont(font);
-	    field10a.setFont(font);
-	    field11.setFont(font);
-	    field12.setFont(font);
-	    field13.setFont(font);
-	    field14.setFont(font);
-	    field14a.setFont(font);
-	    field15.setFont(font);
-	    field16.setFont(font);
-	    field17.setFont(font);
-	    field18.setFont(font);
-	    field19.setFont(font);
-	    field20.setFont(font);
-	    field21.setFont(font);
-	    field22.setFont(font);
-	    field23.setFont(font);
-	    
 	    String[] ownership = {
 	    		"Leased", "Owned", "Rented"
 	    };
@@ -286,6 +234,26 @@ public class newInsert{
 	    field8.addItem(ownership[1]);
 	    field8.addItem(ownership[0]);
 	    field8.addItem(ownership[2]);
+	    
+	    //Adding mask to Date textFields
+		try {
+			formatter = new MaskFormatter("##'-##'-####");
+		} catch (ParseException e2) {
+			// TODO Auto-generated catch block
+			e2.printStackTrace();
+		}
+		field7 = new JFormattedTextField(formatter);
+		field8a  = new JFormattedTextField(formatter);
+		field8a.setEnabled(false);
+		field8b  = new JFormattedTextField(formatter);
+		field8b.setEnabled(false);
+		field8c  = new JFormattedTextField(formatter);
+		field8c.setEnabled(false);
+		field12 = new JFormattedTextField(formatter);
+		field13 = new JFormattedTextField(formatter);
+		field14 = new JFormattedTextField(formatter);
+		field15.setEnabled(false);
+
 	    
 	    // array of labels and corresponding textFields for use in display()
 	    Object[] fields = {
@@ -314,13 +282,13 @@ public class newInsert{
 	    	"Condition:    ", field18
 	    };
 		//panel.setBounds(100, 100, 1439, 928);
-    	
+    	setFont();
     	
     	GridLayout gl_panel = new GridLayout(0,2);
     	gl_panel.setVgap(20);
-    	JPanel panel = new JPanel(gl_panel);
-    	panel.setBorder(new EmptyBorder(20, 20, 20, 20));
-    	panel.setBackground(new Color(244, 244, 244));
+    	g1_Jpanel = new JPanel(gl_panel);
+    	g1_Jpanel.setBorder(new EmptyBorder(20, 20, 20, 20));
+    	g1_Jpanel.setBackground(new Color(244, 244, 244));
     	JScrollPane scrollPane = new JScrollPane();
     	springLayout.putConstraint(SpringLayout.NORTH, btnNewButton_1, 23, SpringLayout.SOUTH, scrollPane);
     	springLayout.putConstraint(SpringLayout.NORTH, btnInsert, 23, SpringLayout.SOUTH, scrollPane);
@@ -331,15 +299,15 @@ public class newInsert{
     	scrollPane.setLocation(15, 80);
     	//scrollPane.setSize(561, 610);
     	scrollPane.getVerticalScrollBar().setUnitIncrement(16);
-    	scrollPane.setViewportView(panel);
+    	scrollPane.setViewportView(g1_Jpanel);
     	frmInsertAsset.getContentPane().add(scrollPane);
     	
     	int i=0;
     	while (i < fields.length) {
     		JLabel label = new JLabel((String) fields[i++], JLabel.RIGHT);
     		label.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 20));
-    		panel.add(label);
-    		panel.add((Component) fields[i++]);
+    		g1_Jpanel.add(label);
+    		g1_Jpanel.add((Component) fields[i++]);
     	}
     	
 
@@ -360,7 +328,78 @@ public class newInsert{
     	//testTable.getColumnModel().getColumn(1).setMinWidth(30);
     	//testTable.getColumnModel().getColumn(1).setMaxWidth(80);
     	//testTable.getColumnModel().getColumn(1).setPreferredWidth(50);
+    	
+    	
+    	//Inserting
+		prepare = null;
+		
+     	String query = "insert into MasterTable (Item_Name,Item_Description,Category,ID_Tag,Room,"//1-5
+     			+ "Floor, Date_Acquired, Ownership, Lease_Term,Lease_Expiration,"//5-10
+     			+ "Rent_Due_Date,Supplier,Manufacturer,Model_Number,Serial_Number,"//10-15
+     			+ "Warranty_Expiration_Date,Replacement_Date,Deactivation_Date,Deactivated,Deactivation_Method,"//15-20
+     			+ "Price, Condition,Quality)"//20-23
+				+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?"
+				+ ",?,?,?,?,?)";  //removed asset over 500 //removed picture
+			
+     	try {
+			prepare = conn.prepareStatement(query);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	getInsert();
 	}
+	
+	public void setFrame()
+	{
+		frmInsertAsset.setVisible(true);
+		frmInsertAsset.getContentPane().setBackground(new Color(244, 244, 244));
+		frmInsertAsset.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 12));
+		frmInsertAsset.setTitle("Insert Asset");
+		frmInsertAsset.setBounds(100, 100, 1504, 793);
+		frmInsertAsset.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		frmInsertAsset.setLocationRelativeTo(null);
+		frmInsertAsset.getContentPane().setLayout(null);
+		frmInsertAsset.getContentPane().setLayout(springLayout);
+		
+		ImageIcon icon = new ImageIcon(getClass().getResource("/Resources/appIconImage.png"));
+		frmInsertAsset.setIconImage(icon.getImage());
+	}
+	
+	public void setFont(){
+		// Font styling for TextFields
+		Font font = new Font("Segoe UI Semilight", Font.PLAIN, 20);
+	    field1.setFont(font);
+	    field2.setFont(font);
+	    field3.setFont(font);
+	    field4.setFont(font);
+	    field5.setFont(font);
+	    field6.setFont(font);
+	    field7.setFont(font);
+	    field8.setFont(font);
+	    field8a.setFont(font);
+	    field8b.setFont(font);
+	    field8c.setFont(font);
+	    field9.setFont(font);
+	    field10.setFont(font);
+	    field10a.setFont(font);
+	    field11.setFont(font);
+	    field12.setFont(font);
+	    field13.setFont(font);
+	    field14.setFont(font);
+	    field14a.setFont(font);
+	    field15.setFont(font);
+	    field16.setFont(font);
+	    field17.setFont(font);
+	    field18.setFont(font);
+	    field19.setFont(font);
+	    field20.setFont(font);
+	    field21.setFont(font);
+	    field22.setFont(font);
+	    field23.setFont(font);
+	}
+	
 	
 	public static void UpDateTable() 
 	{
@@ -438,11 +477,11 @@ public class newInsert{
         
         try {
             stmt = conn2.createStatement(); // \"group\",price //\"group\",price
-            ResultSet rs = stmt.executeQuery("SELECT Distinct \"group\" From MasterTable");
+            ResultSet rs = stmt.executeQuery("SELECT Distinct Category From MasterTable");
 
             String group = "";
             while (rs.next()) {
-                group = rs.getString("Group");
+                group = rs.getString("Category");
                 field3.addItem(group);
                 
                 //System.out.println("Group name: " + group);
@@ -463,15 +502,235 @@ public class newInsert{
 	    field8c.setEnabled(rentEnabled );
 	}
 
-	public void categoriesLisnter ()
+	public void getInsert()
 	{
-		field3.addItemListener(new ItemListener() {
+		//1 1Item Name
+		field1.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent e) {
+
+				System.out.println(field1.getText());
+
+			}
+		});
+
+		//4 Id Tag
+		field4.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent e) {
+				field4.setName("field4");
+				System.out.println(Integer.parseInt(field4.getName().substring(5, 6)));
+				getIntegerInput(field4, e);
+			
+			}
+		});
+		
+		//7 Date Acquired
+		field7.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent e) {
+				field7.setName("field7");
+				getDateInput(field7, e);
+				dateFocusListener(field7);
+			}
+		});
+		
+		
+		//14a Deactivated JCheckBox 
+		field14a.addItemListener(new ItemListener() {
+			@Override
 			public void itemStateChanged(ItemEvent e) {
-				if(e.getSource().equals("<New Category>"))
+				if(e.getStateChange() == ItemEvent.SELECTED) {//checkbox has been selected
+					field15.setEnabled(true);
+				} else {//checkbox has been deselected
+					field15.setEnabled(false);
+				};
+			}
+		});
+
+
+		
+	
+	}
+
+//	public boolean nullCheckJTextField(JTextField jText){
+//		if(jText.getText().equals(""))
+//		{
+//			System.out.println("NO");
+//			
+//		}
+//		return false;
+//	}
+	
+	/**
+	 *  For all date inputs, converts user's input to sqlite's format
+	 */
+	public void getDateInput(JFormattedTextField jText, KeyEvent e)
+	{
+		jText.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent e) {
+				String input = jText.getText();
+				Date date1 = null;
+				SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy");
+				SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+				//field7text=dateFormat.format(sdf.parse(date1));
+				try {
+					//date1 = dateFormat.parse(field7.getText());
+
+					input=sdf1.format(sdf.parse(jText.getText()));
+					//System.out.println("Substring: " + jText.getText().substring(0, 10));
+					prepare.setString(Integer.parseInt(jText.getName().substring(5, 6)), input);
+					System.out.println(jText.getName() + ": " + jText.getValue());
+					//System.out.println(input);
+
+				} catch (ParseException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+				//field7text = dateFormat.format(date1);
+				catch (NumberFormatException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (SQLException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+				//System.out.println(jText.getText().substring(0, 10));
+
+
+			}
+		});
+	}
+	/**
+	 *  Implements a focusLisnter for jtextfield param to check when box is empty
+	 */
+	public void dateFocusListener(JFormattedTextField jText)
+	{
+		jText.addFocusListener(new FocusAdapter(){
+			@Override
+			
+			public void focusLost(FocusEvent arg0) {
+				//field7.setFocusLostBehavior(JFormattedTextField.PERSIST);
+				if(jText.getText().contains("  -  -    "))
 				{
-					System.out.println("NEW");
+					//PlaceHolder
+					System.out.println("----");
+					System.out.println("GOT YA");
+					System.out.println("----");
+
 				}
 			}
 		});
 	}
-}
+	
+	public boolean isDateEmpty(JFormattedTextField jText)
+	{
+		
+//		if(jText.getText().substring(0).contains(""))
+//		{
+//			//custom title, warning icon
+//			JOptionPane.showMessageDialog(g1_Jpanel,
+//			    "Eggs are not supposed to be green.",
+//			    "Inane warning",
+//			    JOptionPane.WARNING_MESSAGE);		}
+
+		return false;
+	}
+	/**
+	 *  Verifies that integers are only accept in textboxW
+	 */
+	public void getIntegerInput(JTextField jText, KeyEvent e){
+		numSwap = null;
+
+		jText.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				String temp = jText.getText();
+				//only accepts positives doubles
+				
+				String regex = "(?<![-.])\\b[0-9]+\\b(?!\\.[0-9])";
+
+//				(?<![-.])   # Assert that the previous character isn't a minus sign or a dot.
+//				\b          # Anchor the match to the start of a number.
+//				[0-9]+      # Match a number.
+//				\b          # Anchor the match to the end of the number.
+//				(?!\.[0-9]) # Assert that no decimal part follows.
+
+				if(temp.matches(regex))
+				{
+					numSwap = temp;
+					int round = (Integer.parseInt(jText.getText()));
+					try {
+						prepare.setInt(Integer.parseInt(jText.getName().substring(5, 6)), round);
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				else if((e.getKeyCode() == KeyEvent.VK_BACK_SPACE) || (e.getKeyCode() == KeyEvent.VK_DELETE) 
+						&& temp.length() == 0)
+			    {//deletes the element in textbox
+					jText.setText("");
+					numSwap="";
+			    }
+				else if(temp.length() == 0)
+				{//empties textbox
+					jText.setText("");
+					numSwap="";
+				}
+				else{
+					jText.setText(numSwap);
+				}
+
+			}
+		});
+	}//End of Method
+	
+	/**
+	 *  Verifies that Doubles are only accept in textbox
+	 */
+	public void getDoubleInput(JTextField jText, KeyEvent e){
+		numSwap = null;
+
+		jText.addKeyListener(new KeyAdapter() {
+			@Override
+			public void keyReleased(KeyEvent e) {
+				String temp = jText.getText();
+				//only accepts positives doubles
+
+				String regex = "^[0-9.]+([,.][0-9]+)?$";
+
+				//				(?<![-.])   # Assert that the previous character isn't a minus sign or a dot.
+				//				\b          # Anchor the match to the start of a number.
+				//				[0-9]+      # Match a number.
+				//				\b          # Anchor the match to the end of the number.
+				//				(?!\.[0-9]) # Assert that no decimal part follows.
+
+				if(temp.matches(regex))
+				{
+					numSwap = temp;
+					int round = (Integer.parseInt(jText.getText()));
+					try {
+						prepare.setInt(Integer.parseInt(jText.getName().substring(5, 6)), round);
+					} catch (SQLException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+				}
+				else if((e.getKeyCode() == KeyEvent.VK_BACK_SPACE) || (e.getKeyCode() == KeyEvent.VK_DELETE) 
+						&& temp.length() == 0)
+				{//deletes the element in textbox
+					jText.setText("");
+					numSwap="";
+				}
+				else if(temp.length() == 0)
+				{//empties textbox
+					jText.setText("");
+					numSwap="";
+				}
+				else{
+					jText.setText(numSwap);
+				}
+
+			}
+		});
+	}//End of Method	
+}//End of NewInsert
