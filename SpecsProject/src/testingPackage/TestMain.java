@@ -21,6 +21,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 
 import net.proteanit.sql.DbUtils;
 import javax.swing.JScrollPane;
@@ -32,6 +33,7 @@ public class TestMain {
 
 	private JFrame frame;
 	private static JTable testTable;
+	private JScrollPane scrollPane;
 	
 	/**
 	 * Launch the application.
@@ -61,7 +63,7 @@ public class TestMain {
 	public TestMain() throws SQLException {
 		Connection conn = sqliteConnectionTEST.dbConnector();
 		initialize();
-		UpDateTable();
+		
 	}
 
 	/**
@@ -147,24 +149,15 @@ public class TestMain {
 		});
 		
 		JScrollPane scrollPane = new JScrollPane();
+
 		scrollPane.setBounds(6, 97, 1406, 665);
 		panel.add(scrollPane);
 		
 		
-		
-		
-		testTable = new JTable();
-		testTable.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 22));
-		
-		 ((DefaultCellEditor) testTable.getDefaultEditor(Object.class))
-         .getComponent().setFont(testTable.getFont());
-		 
-		testTable.getTableHeader().setFont(new Font("Segoe UI Semilight", Font.PLAIN, 22));
-		testTable.setRowHeight(testTable.getRowHeight() + 20);
-		testTable.putClientProperty("terminateEditOnFocusLost", true);
+		//TABLE
+		initTable();
 		scrollPane.setViewportView(testTable);
-		//testTable.setAutoCreateColumnsFromModel(true);
-		testTable.setAutoCreateRowSorter(true);
+		
 		
 		
 		
@@ -185,6 +178,60 @@ public class TestMain {
 		
 	}
 	
+	public void initTable() throws SQLException
+	{
+		Connection conn = sqliteConnectionTEST.dbConnector();
+		DefaultTableModel dm = new DefaultTableModel()
+		{
+//			Class[] types = new Class [] {
+//					//COL. TYPES ARE HERE!!!
+//					java.lang.String.class, java.lang.Integer.class, java.lang.String.class, java.lang.Object.class
+//					,java.lang.Integer.class
+//			};
+
+			@Override
+			public Class getColumnClass(int c) {
+				//System.out.println(getValueAt(0, c).getClass().toString());
+				if(c == 1)
+				{
+					return Integer.class;
+				}
+				   return getValueAt(0, c).getClass();
+				}
+		};
+        //query and resultset
+		String testTable_String = "Select * from Artwork";
+		PreparedStatement showTestTable = conn.prepareStatement(testTable_String);
+		ResultSet rsTest = showTestTable.executeQuery();
+		addRowsAndColumns(rsTest, dm);
+		
+		testTable = new JTable(dm)	{
+
+
+		};
+		testTable.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 22));
+		
+		 ((DefaultCellEditor) testTable.getDefaultEditor(Object.class))
+         .getComponent().setFont(testTable.getFont());
+		 
+		testTable.getTableHeader().setFont(new Font("Segoe UI Semilight", Font.PLAIN, 22));
+		testTable.setRowHeight(testTable.getRowHeight() + 20);
+		testTable.putClientProperty("terminateEditOnFocusLost", true);
+		//testTable.setAutoCreateColumnsFromModel(true);
+		//testTable.setAutoCreateRowSorter(true);
+		TableRowSorter<TableModel> sorter= new TableRowSorter<TableModel>(dm);
+		testTable.setRowSorter(sorter);
+		
+
+		int y = testTable.getSelectedColumn();
+		int x = testTable.getSelectedColumn();
+
+		System.out.println("x: " + x + " y: " + y);
+		
+	}
+	
+
+	
 	
 	
 	public static void UpDateTable() 
@@ -192,7 +239,10 @@ public class TestMain {
 		try 
 		{
 			Connection conn = sqliteConnectionTEST.dbConnector();
-			DefaultTableModel dm = new DefaultTableModel();
+			DefaultTableModel dm = new DefaultTableModel()
+			{
+				
+			};
 	        //query and resultset
 			String testTable_String = "Select * from Artwork";
 			PreparedStatement showTestTable = conn.prepareStatement(testTable_String);
@@ -222,12 +272,23 @@ public class TestMain {
         String c[]=new String[cols];
         for(int i=0;i<cols;i++){
             c[i]=rsmd.getColumnName(i+1);
-            dm.addColumn(c[i]);
+            dm.addColumn(rsmd.getColumnName(i+1));
         }
         
         Object row[]=new Object[cols];
         while(rs.next()){
              for(int i=0;i<cols;i++){
+            	 if(i== 1)
+            	 {
+                     row[i]=Integer.parseInt(rs.getString(2));
+                     System.out.println(row[i].getClass().toString());
+            	 }
+//            	 if(i ==4)
+//            	 {
+//                     row[i]=Double.parseDouble(rs.getString(5));
+//
+//            	 }
+            	 else
                     row[i]=rs.getString(i+1);
                 }
             dm.addRow(row);

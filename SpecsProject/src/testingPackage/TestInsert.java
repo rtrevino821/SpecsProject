@@ -4,6 +4,7 @@ import com.nitido.utils.toaster.Toaster;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.text.DefaultFormatter;
 import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -208,7 +209,7 @@ public class TestInsert extends JFrame {
 			public void keyReleased(KeyEvent e) {
 				try {
 					String temp = textField_1.getText();
-					String regex = "^[1-9]\\d*$";
+					String regex = "(?<![-.])\\b[0-9]+\\b(?!\\.[0-9])";
 					if(temp.matches(regex))
 					{//refractor to method
 						main = temp;
@@ -267,6 +268,7 @@ public class TestInsert extends JFrame {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				try {
+					
 					prepare.setString(4, String.valueOf(textField_3.getText()));
 				} catch (SQLException e1) {
 					e1.printStackTrace();

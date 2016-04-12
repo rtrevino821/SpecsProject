@@ -204,6 +204,7 @@ public class MainScreen extends JFrame{
 		lblHelloSteve.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 36));
 		lblHelloSteve.setBounds(961, 25, 400, 56);
 		frame.getContentPane().add(lblHelloSteve);
+<<<<<<< HEAD
 
 
 		/** OLD PIE CHART TO BE REPLACED **/
@@ -211,6 +212,13 @@ public class MainScreen extends JFrame{
 //		lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/Resources/pieChart.jpg")));
 //		lblNewLabel.setBounds(648, 272, 471, 411);
 //		frame.getContentPane().add(lblNewLabel);
+=======
+		
+		JLabel lblNewLabel = new JLabel("");
+		//lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/Resources/pieChart.jpg")));
+		lblNewLabel.setBounds(648, 272, 471, 411);
+		frame.getContentPane().add(lblNewLabel);
+>>>>>>> 6ac9b7702283420cdfd820a65e2f0c29197bb0f1
 		
 		JLabel lblATeamSoftware = new JLabel("A Team Software Suite 2016");
 		lblATeamSoftware.setHorizontalAlignment(SwingConstants.RIGHT);
