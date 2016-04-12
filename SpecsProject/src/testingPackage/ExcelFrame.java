@@ -1,40 +1,20 @@
 package testingPackage;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFileChooser;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.text.Utilities;
-import javax.swing.UIManager;
-import javax.swing.JButton;
-import java.awt.FlowLayout;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.FormSpecs;
-import com.jgoodies.forms.layout.RowSpec;
-import javax.swing.GroupLayout;
-import javax.swing.ImageIcon;
+import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
+import javax.swing.LayoutStyle.ComponentPlacement;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
-import java.util.logging.Logger;
-import java.awt.event.ActionEvent;
-import javax.swing.LayoutStyle.ComponentPlacement;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.Toolkit;
 
 public class ExcelFrame extends JFrame {
 
@@ -123,9 +103,6 @@ public class ExcelFrame extends JFrame {
 							}
 								
 						} catch (SQLException e1) {
-<<<<<<< HEAD
-=======
-							// TODO Auto-generated catch block
 							if(e1.toString().contains(" [SQLITE_BUSY]  The database file is locked "
 									+ "(database is locked)"))
 							{//Occurs when connection is not closed
@@ -141,7 +118,6 @@ public class ExcelFrame extends JFrame {
 								try {
 									input = new Scanner(new File("Log.txt"));
 								} catch (FileNotFoundException e2) {
-									// TODO Auto-generated catch block
 									e2.printStackTrace();
 								}
 								
@@ -154,8 +130,6 @@ public class ExcelFrame extends JFrame {
 									    JOptionPane.ERROR_MESSAGE);	
 								
 							}
-						
->>>>>>> 6ac9b7702283420cdfd820a65e2f0c29197bb0f1
 							e1.printStackTrace();
 						}
 						//This is where a real application would open the file.
@@ -173,10 +147,7 @@ public class ExcelFrame extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					ConvertExcel.writeExcel(false);
-				} catch (IOException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
+				} catch (IOException e1) {e1.printStackTrace();}
 			}
 		});
 		
@@ -185,10 +156,7 @@ public class ExcelFrame extends JFrame {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					ConvertExcel.writeExcel(true);
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				} catch (IOException e) {e.printStackTrace();}
 
 			}
 		});
