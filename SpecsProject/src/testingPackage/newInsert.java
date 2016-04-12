@@ -311,7 +311,9 @@ public class newInsert{
     	}
     	
 
-		testTable = new JTable();
+		testTable = new JTable(){
+			
+		};
 		testTable.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 22));
 		
 		 ((DefaultCellEditor) testTable.getDefaultEditor(Object.class))
@@ -406,7 +408,29 @@ public class newInsert{
 		try 
 		{
 			Connection conn = sqliteConnectionTEST.dbConnector();
-			DefaultTableModel dm = new DefaultTableModel();
+			DefaultTableModel dm = new DefaultTableModel(){
+				@Override
+				public Class getColumnClass(int c) {
+					//System.out.println(getValueAt(0, c).getClass().toString());
+					if(c == 3 || c == 4 )
+					{
+						return Integer.class;
+					}
+					else if(c==6||c==8||c==9||c==10|
+							c==15||c==16||c==17)
+					{
+						return String.class;
+					}
+					else if(c==20)
+					{
+						return Double.class;
+					}
+					else
+						return String.class;
+			
+			}
+				
+			};
 	        //query and resultset
 			String testTable_String = "Select * from MasterTable";
 			PreparedStatement showTestTable = conn.prepareStatement(testTable_String);
@@ -442,6 +466,12 @@ public class newInsert{
         Object row[]=new Object[cols];
         while(rs.next()){
              for(int i=0;i<cols;i++){
+            	 if(i==3)
+            	 {
+                     row[i]=Integer.parseInt(rs.getString(4));
+
+            	 }
+            	 else
                     row[i]=rs.getString(i+1);
                 }
             dm.addRow(row);
