@@ -517,5 +517,4 @@ public class reportsFrame{
 	    yearExpired.setEnabled(!ByYearEnabled);
 	    	
 	}
-
 }

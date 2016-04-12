@@ -22,10 +22,13 @@ import javax.swing.ImageIcon;
 import javax.swing.GroupLayout.Alignment;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Scanner;
 import java.util.logging.Logger;
 import java.awt.event.ActionEvent;
 import javax.swing.LayoutStyle.ComponentPlacement;
@@ -64,7 +67,7 @@ public class ExcelFrame extends JFrame {
 	public ExcelFrame() {
 		setIconImage(Toolkit.getDefaultToolkit().getImage(ExcelFrame.class.getResource("/Resources/appIconImage.png")));
 		setTitle("Excel Options");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 268, 223);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
@@ -91,10 +94,8 @@ public class ExcelFrame extends JFrame {
 						//excelFilter.accept(file);
 						try {
 							if(ConvertExcel.validateExcel(file)){
-								ImageIcon icon = new ImageIcon(getClass().getResource("/Resources/black-check-mark-md.png"));
+								//ImageIcon icon = new ImageIcon(getClass().getResource("/Resources/black-check-mark-md.png"));
 
-								
-								
 								long startTime = System.currentTimeMillis();
 								
 								ConvertExcel.importExcel(file);
@@ -107,7 +108,7 @@ public class ExcelFrame extends JFrame {
 								System.out.println("SUCCESS");
 								JOptionPane.showMessageDialog(contentPane,
 									    "Successfully added excel file to database."
-										+"\n Time: " + sdf.format(resultdate) ,
+										+"\nTime: " + sdf.format(resultdate) ,
 									    "Loading",
 									    JOptionPane.INFORMATION_MESSAGE
 									    );	
@@ -133,9 +134,19 @@ public class ExcelFrame extends JFrame {
 							}
 							else if(e1.toString().contains("[SQLITE_CONSTRAINT]  Abort due to constraint violation"))
 							{
+								Scanner input = null;
+								String line;
+								try {
+									input = new Scanner(new File("Log.txt"));
+								} catch (FileNotFoundException e2) {
+									// TODO Auto-generated catch block
+									e2.printStackTrace();
+								}
+								
+								line = input.nextLine();
 								JOptionPane.showMessageDialog(contentPane,
-									    "Duplicates Entry found in .XLS " 
-									  // + "Asset: " + e1.getSQLState()
+									    "Duplicates Entry found in .XLS \n" 
+									   + line
 									    ,
 									    "ERROR",
 									    JOptionPane.ERROR_MESSAGE);	

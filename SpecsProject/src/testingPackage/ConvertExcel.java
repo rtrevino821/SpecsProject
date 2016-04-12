@@ -8,6 +8,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -114,7 +115,7 @@ public class ConvertExcel {
 	 *  
 	 *  
 	 */
-	private static void writeExcel(JTable table)throws IOException
+	public static void writeExcel(JTable table)throws IOException
 	{
 
 	    String excelName = excelName();
@@ -305,8 +306,20 @@ public class ConvertExcel {
 			try {
 				if(j+1 == 4)
 				{
-					System.out.println("Asset num: " + cellTempInt);
+					FileWriter fw = null;
+
+					try {
+						fw = new FileWriter("Log.txt");
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					} // needed so printwriter will not overwrite
+					PrintWriter writer = new PrintWriter(fw);
+					System.out.println("ID Tag: " + cellTempInt);
+					writer.println("ID Tag: " + cellTempInt);
+					writer.close();
 				}
+				
 				prepare.setInt(j+1, cellTempInt);
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
@@ -535,13 +548,6 @@ public class ConvertExcel {
 		}
 		File folder = new File(fileLocation + "/Excel/");
 		File[] listOfFiles = folder.listFiles();
-		
-
-
-		
-
-
-		
 		
 		File file = new File("Excel\\Form.xlsx");
 		//File file2 = new File("Excel\\Apachi " + date + ".xlsx");
