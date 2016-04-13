@@ -95,7 +95,6 @@ public class TestMain {
 				try {
 					new TestInsert();
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -117,7 +116,6 @@ public class TestMain {
 			            	System.out.println("Row Count: " + rowCount);
 							deleteRow(row+1);
 						} catch (SQLException e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 			        }// end of if condition
@@ -126,7 +124,6 @@ public class TestMain {
 			            System.out.println("Num of Rows in Else: " + rowCount);
 			            deleteLastRow(row);
 					} catch (SQLException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					  
@@ -146,7 +143,6 @@ public class TestMain {
 				try {
 					UpDateTable();
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -172,7 +168,6 @@ public class TestMain {
 				try {
 					ConvertExcel.writeExcel(testTable);
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}

@@ -212,7 +212,6 @@ public class mainDashboard {
 				try {
 					checkoutTable.print(JTable.PrintMode.FIT_WIDTH, header, footer);
 				} catch (PrinterException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
