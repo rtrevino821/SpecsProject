@@ -257,7 +257,7 @@ public class ConvertExcel {
 		//System.out.println("J is :" + j);
 		//Ints col 3,5
 
-		if(j==3 || j == 4)
+		if(j==3)
 		{
 			if(cellArray[j].getCellType() == Cell.CELL_TYPE_BLANK)
 			{

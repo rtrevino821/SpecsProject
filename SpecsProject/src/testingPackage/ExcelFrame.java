@@ -131,11 +131,14 @@ public class ExcelFrame extends JFrame {
 								
 							}
 							e1.printStackTrace();
+							
 						}
+						
+						
 						//This is where a real application would open the file.
-						System.out.println(("Opening: " + file.getName() + "."));
+						//System.out.println(("Opening: " + file.getName() + "."));
 					} else {
-						System.out.println(("Open command cancelled by user."));
+						//System.out.println(("Open command cancelled by user."));
 					}
 				}
 			}
