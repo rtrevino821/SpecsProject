@@ -114,19 +114,19 @@ public class PieChartSample extends Application {
 
     public static void main(String[] args) {
         launch(args);
-//        System.out.println("Cabinets:  "+test_Furniture_Total_Spent()+ "  correct value "+ "\n");
-//        System.out.println("Pc's:  "+test_Computers_Total_Spent()+"  correct value"+"\n");
-//        System.out.println("furniture:  " + test_Furniture_Fixtures_Total_Spent() + "  correct value"+"\n");
-//        System.out.println("Art:  "+test_ArtWork_Total_Spent()+ "  correct value" + "\n");
-//        System.out.println("Software:  "+test_Computer_Software_Total_Spent()+ "  correct value"+"\n");
-//        System.out.println("battery:  "+test_Batter_Backup_Total_Spent()+ "  correct value"+"\n");   
-//        System.out.println("Misc:  " +test_Computer_MISC_Total_Spent()+ "  correct value"+"\n");
-//        System.out.println("printers:  "+ test_Printers_Total_Spent()+ "  correct value"+ "\n");
-//        System.out.println("transcription:  "+ test_Transcription_Total_Spent()+ "  correct value" + "\n");
-//        System.out.println("video_projectors:  " + test_Video_Projector_Total_Spent()+ "  correct value" +  "\n");
-//        System.out.println("personal property:  "  + test_Personal_Property_Total_Spent()+ "  correct value" +"\n");
-//        System.out.println("LeaseHold: "+test_LeaseHold_Total_Spent()+ "\n");
-//        System.out.println("\n" +"TOTAL DOLLAR SPENT:  " +test_Everything_Total_Spent());
+        System.out.println("Cabinets:  "+test_Furniture_Total_Spent()+ "  correct value "+ "\n");
+        System.out.println("Pc's:  "+test_Computers_Total_Spent()+"  correct value"+"\n");
+        System.out.println("furniture:  " + test_Furniture_Fixtures_Total_Spent() + "  correct value"+"\n");
+        System.out.println("Art:  "+test_ArtWork_Total_Spent()+ "  correct value" + "\n");
+        System.out.println("Software:  "+test_Computer_Software_Total_Spent()+ "  correct value"+"\n");
+        System.out.println("battery:  "+test_Batter_Backup_Total_Spent()+ "  correct value"+"\n");   
+        System.out.println("Misc:  " +test_Computer_MISC_Total_Spent()+ "  correct value"+"\n");
+        System.out.println("printers:  "+ test_Printers_Total_Spent()+ "  correct value"+ "\n");
+        System.out.println("transcription:  "+ test_Transcription_Total_Spent()+ "  correct value" + "\n");
+        System.out.println("video_projectors:  " + test_Video_Projector_Total_Spent()+ "  correct value" +  "\n");
+        System.out.println("personal property:  "  + test_Personal_Property_Total_Spent()+ "  correct value" +"\n");
+        System.out.println("LeaseHold: "+test_LeaseHold_Total_Spent()+ "\n");
+        System.out.println("\n" +"TOTAL DOLLAR SPENT:  " +test_Everything_Total_Spent());
        
        
     //    String date ="2001-10-17";
