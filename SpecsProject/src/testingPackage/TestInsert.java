@@ -1,40 +1,20 @@
 package testingPackage;
 
-import java.awt.BorderLayout;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.text.MaskFormatter;
-
-import org.joda.time.DateTime;
-import org.joda.time.LocalDate;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-
 import com.nitido.utils.toaster.Toaster;
 
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.UIManager;
-import javax.swing.JButton;
-import javax.swing.JFormattedTextField;
-
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.text.DefaultFormatter;
+import javax.swing.text.MaskFormatter;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.Font;
-import javax.swing.SwingConstants;
 
 public class TestInsert extends JFrame {
 
@@ -141,11 +121,9 @@ public class TestInsert extends JFrame {
 							
 							
 						} catch (SQLException e2) {
-							// TODO Auto-generated catch block
 							e2.printStackTrace();
 						}
 					}
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 
@@ -214,7 +192,6 @@ public class TestInsert extends JFrame {
 				try {
 					prepare.setString(1, textField.getText());
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -232,7 +209,7 @@ public class TestInsert extends JFrame {
 			public void keyReleased(KeyEvent e) {
 				try {
 					String temp = textField_1.getText();
-					String regex = "^[1-9]\\d*$";
+					String regex = "(?<![-.])\\b[0-9]+\\b(?!\\.[0-9])";
 					if(temp.matches(regex))
 					{//refractor to method
 						main = temp;
@@ -254,7 +231,6 @@ public class TestInsert extends JFrame {
 						textField_1.setText(main);
 					
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -271,7 +247,6 @@ public class TestInsert extends JFrame {
 				try {
 					prepare.setString(3, textField_2.getText());
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -280,7 +255,6 @@ public class TestInsert extends JFrame {
 		try {
 			formatter = new MaskFormatter("##'/##'/####");
 		} catch (ParseException e2) {
-			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
 		
@@ -294,9 +268,9 @@ public class TestInsert extends JFrame {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				try {
+					
 					prepare.setString(4, String.valueOf(textField_3.getText()));
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}
@@ -350,7 +324,6 @@ public class TestInsert extends JFrame {
 						
 
 				} catch (SQLException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}

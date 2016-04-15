@@ -566,7 +566,6 @@
 //						outOfStockTable.print(JTable.PrintMode.FIT_WIDTH, null, footer);
 //					}
 //				} catch (PrinterException e1) {
-//					// TODO Auto-generated catch block
 //					e1.printStackTrace();
 //				}
 //			}
@@ -866,7 +865,6 @@
 //						outOfStockTable.print(JTable.PrintMode.FIT_WIDTH, null, footer);
 //					}
 //				} catch (PrinterException e1) {
-//					// TODO Auto-generated catch block
 //					e1.printStackTrace();
 //				}
 //			}
@@ -1791,7 +1789,6 @@ public class managerFrame extends JPanel {
 						outOfStockTable.print(JTable.PrintMode.FIT_WIDTH, null, footer);
 					}
 				} catch (PrinterException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 			}

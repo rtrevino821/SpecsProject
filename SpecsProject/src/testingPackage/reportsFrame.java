@@ -241,6 +241,7 @@ public class reportsFrame{
 //	    JComboBox categoryAsset = new JComboBox();
 	    JButton btnLoad1 = new JButton("Run");
 	    btnLoad1.setFont(font);
+	    
 //	    
 //	    JComboBox deactivatedQuery = new JComboBox();
 //	    JComboBox categoryDeactivated = new JComboBox();
@@ -517,5 +518,4 @@ public class reportsFrame{
 	    yearExpired.setEnabled(!ByYearEnabled);
 	    	
 	}
-
 }
