@@ -41,6 +41,8 @@ import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -298,22 +300,22 @@ public class InsertPanel {
 			e2.printStackTrace();
 		}
 		field7 = new JFormattedTextField(formatter);
-		field7.setFocusLostBehavior(JFormattedTextField.PERSIST);
 		field8a  = new JFormattedTextField(formatter);
-		field8a.setFocusLostBehavior(JFormattedTextField.PERSIST);
 		field8a.setEnabled(false);
 		field8b  = new JFormattedTextField(formatter);
-		field8b.setFocusLostBehavior(JFormattedTextField.PERSIST);
 		field8b.setEnabled(false);
 		field8c  = new JFormattedTextField(formatter);
-		field8c.setFocusLostBehavior(JFormattedTextField.PERSIST);
 		field8c.setEnabled(false);
 		field12 = new JFormattedTextField(formatter);
-		field12.setFocusLostBehavior(JFormattedTextField.PERSIST);
 		field13 = new JFormattedTextField(formatter);
-		field13.setFocusLostBehavior(JFormattedTextField.PERSIST);
 		field14 = new JFormattedTextField(formatter);
-		field14.setFocusLostBehavior(JFormattedTextField.PERSIST);
+		field8a.setFocusLostBehavior(JFormattedTextField.COMMIT);
+		field8b.setFocusLostBehavior(JFormattedTextField.COMMIT);
+		field8c.setFocusLostBehavior(JFormattedTextField.COMMIT);
+		field12.setFocusLostBehavior(JFormattedTextField.COMMIT);
+		field7.setFocusLostBehavior(JFormattedTextField.COMMIT);
+		field13.setFocusLostBehavior(JFormattedTextField.COMMIT);
+		field14.setFocusLostBehavior(JFormattedTextField.COMMIT);
 
 		field15.setEnabled(false);
 
@@ -922,10 +924,10 @@ public class InsertPanel {
 					try {
 						//date1 = dateFormat.parse(field7.getText());
 
-						input=sdf1.format(sdf.parse(jText.getValue().toString()));
+						input=sdf1.format(sdf.parse(jText.getText().toString()));
 						//System.out.println("Substring: " + jText.getText().substring(0, 10));
 						prepare.setString(Integer.parseInt(jText.getName()), input);
-						System.out.println(jText.getName() + ": " + jText.getValue());
+						System.out.println(jText.getName() + ": " + jText.getText());
 						//System.out.println(input);
 
 					} catch (ParseException e1) {
@@ -960,7 +962,19 @@ public class InsertPanel {
 			@Override
 			public void focusLost(FocusEvent arg0) {
 				//When user empties field, prevent it from reverting
-				
+				System.out.println();
+//				jText.addPropertyChangeListener(new PropertyChangeListener()
+//				{
+//
+//					@Override
+//					public void propertyChange(PropertyChangeEvent evt) {
+//						if(evt.getSource().equals(field7))
+//						System.out.println("NameField: " + jText.getName() + "\n"+ evt.getOldValue().toString());
+//						System.out.println("NameField: " + jText.getName() + "\n newValue"+ evt.getNewValue().toString());
+//						
+//					}
+//					
+//				});
 				if(jText.getText().contains("  -  -    ") && jText.getName().equals("7"))
 				{
 					//PlaceHolder
@@ -976,6 +990,7 @@ public class InsertPanel {
 				{
 					DefaultFormatterFactory factory = new DefaultFormatterFactory(formatter);
 					jText.setFormatterFactory(factory);
+					jText.setValue(null);
 					try {
 						prepare.setNull(Integer.parseInt(jText.getName()), Types.NULL);
 					} catch (NumberFormatException e) {
@@ -988,13 +1003,21 @@ public class InsertPanel {
 				}
 				else if(jText.getText().contains("  -  -    "))
 				{
-					//PlaceHolder
-					//jText.setFocusLostBehavior(JFormattedTextField.PERSIST);
+					DefaultFormatterFactory factory = new DefaultFormatterFactory(formatter);
+					jText.setFormatterFactory(factory);
+					jText.setValue(null);
+					try {
+						prepare.setNull(Integer.parseInt(jText.getName()), Types.NULL);
+					} catch (NumberFormatException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 
 				}
 
-				
-				
 			}
 		});
 		//sets textfield to default behavior
@@ -1114,8 +1137,8 @@ public class InsertPanel {
 		Pattern pDay = Pattern.compile(dayPattern);
 		
 		try {
-			input=sdf1.format(sdf.parse(jText.getValue().toString()));
-			date2 = sdf.parse(jText.getValue().toString());
+			input=sdf1.format(sdf.parse(jText.getText().toString()));
+			date2 = sdf.parse(jText.getText().toString());
 
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
@@ -1161,8 +1184,8 @@ public class InsertPanel {
 		try {
 			leaseTerm =sdf1.format(sdf.parse(field8a.getText()));
 			date1 = sdf.parse(field8a.getText());
-			input=sdf1.format(sdf.parse(jText.getValue().toString()));
-			date2 = sdf.parse(jText.getValue().toString());
+			input=sdf1.format(sdf.parse(jText.getText()));
+			date2 = sdf.parse(jText.getText().toString());
 
 		} catch (ParseException e1) {
 			// TODO Auto-generated catch block
