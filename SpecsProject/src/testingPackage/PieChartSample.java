@@ -51,18 +51,18 @@ public class PieChartSample extends Application {
 		stage.setHeight(575);
 
 			ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-				new PieChart.Data("Art: ", test_ArtWork_Total_Spent()),
-				new PieChart.Data("Cabinets: ", test_Furniture_Total_Spent()),
-				new PieChart.Data("Pc's: ", test_Computers_Total_Spent()),
-				new PieChart.Data("Software: ", test_Computer_Software_Total_Spent()),
-				new PieChart.Data("Battery backups: ", test_Batter_Backup_Total_Spent()),
-				new PieChart.Data("Pc/misc", test_Computer_MISC_Total_Spent()),
-				new PieChart.Data("Printers", test_Printers_Total_Spent()),
-				new PieChart.Data("Transcription.", test_Transcription_Total_Spent()),
-				new PieChart.Data("Video/Projectors", test_Video_Projector_Total_Spent()),
-				new PieChart.Data("Fixtures", test_Furniture_Fixtures_Total_Spent()),
-				new PieChart.Data("LeaseHold", test_LeaseHold_Total_Spent()),
-				new PieChart.Data("Property.", test_Personal_Property_Total_Spent()));
+				new PieChart.Data("Art: ", test_Total_By_Category("ArtWork")),
+				new PieChart.Data("Cabinets: ", test_Total_By_Category("Furniture & Fixture Cabinets")),
+				new PieChart.Data("Pc's: ", test_Total_By_Category("Computers")),//test_Computers_Total_Spent()),
+				new PieChart.Data("Software: ", test_Total_By_Category("Computer Software")),
+				new PieChart.Data("Battery backups: ", test_Total_By_Category("Computers Battery Backups")),
+				new PieChart.Data("Pc/misc", test_Total_By_Category("Computers MISC & Server E")),
+				new PieChart.Data("Printers", test_Total_By_Category("Computers Printers")),
+				new PieChart.Data("Transcription.", test_Total_By_Category("Computers Transcription")),
+				new PieChart.Data("Video/Projectors", test_Total_By_Category("Computers Video/Proj Eq")),
+				new PieChart.Data("Fixtures", test_Total_By_Category("Furniture & Fixtures")),
+				new PieChart.Data("LeaseHold", test_Total_By_Category("Leasehold Improvements")),
+				new PieChart.Data("Property.", test_Total_By_Category("Personal Property")));
 
 		final PieChart chart = new PieChart(pieChartData);
 		chart.setTitle("Group Totals");
@@ -114,42 +114,59 @@ public class PieChartSample extends Application {
 
     public static void main(String[] args) {
         launch(args);
-        System.out.println("Cabinets:  "+test_Furniture_Total_Spent()+ "  correct value "+ "\n");
-        System.out.println("Pc's:  "+test_Computers_Total_Spent()+"  correct value"+"\n");
-        System.out.println("furniture:  " + test_Furniture_Fixtures_Total_Spent() + "  correct value"+"\n");
-        System.out.println("Art:  "+test_ArtWork_Total_Spent()+ "  correct value" + "\n");
-        System.out.println("Software:  "+test_Computer_Software_Total_Spent()+ "  correct value"+"\n");
-        System.out.println("battery:  "+test_Batter_Backup_Total_Spent()+ "  correct value"+"\n");   
-        System.out.println("Misc:  " +test_Computer_MISC_Total_Spent()+ "  correct value"+"\n");
-        System.out.println("printers:  "+ test_Printers_Total_Spent()+ "  correct value"+ "\n");
-        System.out.println("transcription:  "+ test_Transcription_Total_Spent()+ "  correct value" + "\n");
-        System.out.println("video_projectors:  " + test_Video_Projector_Total_Spent()+ "  correct value" +  "\n");
-        System.out.println("personal property:  "  + test_Personal_Property_Total_Spent()+ "  correct value" +"\n");
-        System.out.println("LeaseHold: "+test_LeaseHold_Total_Spent()+ "\n");
-        System.out.println("\n" +"TOTAL DOLLAR SPENT:  " +test_Everything_Total_Spent());
        
-       
-    //    String date ="2001-10-17";
-    //    test_Assets_Over_500(date);
-       
-       
-
-//        String date = "2001-01-01";
-//        String date2 = "2003-12-31";
-//       
-//            try {
-//                test_Date_Range_Over_500(date,date2);
-//            } catch (SQLException e) {
-//                e.printStackTrace();
-//            } catch (ParseException e) {
-//                e.printStackTrace();
-//            }
+        //String date ="2001";
+        //test_Assets_Over_500(date);
 
        
-        //Search_By_Room(0);
+       // Search_By_Room(0);
+        //Search_Retired_Assets_By_Category("Computer Software");
         Search_Retired_Assets();
+        //test_individual_Category_Total_Spent("Computers", "2013");
+        //test_Assets_Over_500_By_Year("1997");
+        //test_individual_Category_Total_Spent("Computers", "2008");
+        //All_Assets_Over_500();
+        
+        /*String date = "1997-01-01";
+        String date2 = "2002-12-31";
+        try {
+			test_Date_Range_Over_500(date,date2);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        */
+        
+        
+//      System.out.println("new method  "+test_Total_By_Category("Computers") + " good");
+//    System.out.println("Pc's++++++++++++++:  "+test_Computers_Total_Spent()+"  correct value"+"\n");
+//      System.out.println("new method  "+test_Total_By_Category("ArtWork")); 
+//    System.out.println("Art:  "+test_ArtWork_Total_Spent()+ "  correct value" + "\n");
+//      System.out.println("new method  "+test_Total_By_Category("Computer Software")); 
+//    System.out.println("Software:  "+test_Computer_Software_Total_Spent()+ "  correct value"+"\n");  
+//      System.out.println("new method  "+test_Total_By_Category("Computers Battery Backups"));
+//    System.out.println("battery:  "+test_Batter_Backup_Total_Spent()+ "  correct value"+"\n");   
+//      System.out.println("new method  "+test_Total_By_Category("Computers MISC & Server E"));
+//    System.out.println("Misc:  " +test_Computer_MISC_Total_Spent()+ "  correct value"+"\n");
+//      System.out.println("new method  "+test_Total_By_Category("Personal Property"));
+//    System.out.println("personal property:  "  + test_Personal_Property_Total_Spent()+ "  correct value" +"\n");
+//      System.out.println("new method  "+test_Total_By_Category("Computers Printers"));
+//    System.out.println("printers:  "+ test_Printers_Total_Spent()+ "  correct value"+ "\n");
+//      System.out.println("new method  "+test_Total_By_Category("Computers Transcription"));
+//    System.out.println("transcription:  "+ test_Transcription_Total_Spent()+ "  correct value" + "\n");
+//      System.out.println("new method  "+test_Total_By_Category("Computers Video/Proj Eq"));
+//    System.out.println("video_projectors:  " + test_Video_Projector_Total_Spent()+ "  correct value" +  "\n");
+//      System.out.println("new method  "+test_Total_By_Category("Furniture & Fixtures"));
+//    System.out.println("furniture:  " + test_Furniture_Fixtures_Total_Spent() + "  correct value"+"\n");
+//     System.out.println("new method  "+test_Total_By_Category("Furniture & Fixture Cabinets"));
+//    System.out.println("Cabinets:  "+test_Furniture_Total_Spent()+ "  correct value "+ "\n");
+//      System.out.println("new method  "+test_Total_By_Category("Leasehold Improvements"));
+//    System.out.println("LeaseHold: "+test_LeaseHold_Total_Spent()+ "\n");
        
-    }
+ }
        
     private void applyCustomColorSequence(ObservableList<PieChart.Data> pieChartData, String... pieColors) {
         int i = 0;
@@ -159,147 +176,111 @@ public class PieChartSample extends Application {
         }
       }
    
-   
-    public static void Search_Retired_Assets() {
+    
+    //     FINISH THIS SHIT!!!!!!!!!!!!!!!!!
+    public static void display_entire_Report() { 
+    	
+    	Connection conn2 = sqliteConnectionTEST.dbConnector();
+		java.sql.Statement stmt;
 
+		try {
+			stmt = conn2.createStatement();
+			ResultSet rs = stmt.executeQuery("Select");
+    	
+		}
+			catch (SQLException e) {
+				e.printStackTrace();
+			}
+    }
+
+    // QUERY RETURNS ALL RETIRED ASSETS           
+	public static void Search_Retired_Assets() {
+
+		Connection conn2 = sqliteConnectionTEST.dbConnector();
+		java.sql.Statement stmt;
+
+		try {
+			stmt = conn2.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT Category,Deactivated"
+					+ " From MasterTable Where MasterTable.Deactivated LIKE 'Removed'");
+
+			while (rs.next()) {
+				String category = rs.getString("Category");
+
+				String retired = rs.getString("Deactivated");
+				System.out.println("Group: " + category + "  " + retired);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+    
+	// SEARCH RETIRED ASSETS BY CATEGORY NAME         
+	public static void Search_Retired_Assets_By_Category(String group1) {
+
+		Connection conn2 = sqliteConnectionTEST.dbConnector();
+		java.sql.Statement stmt;
+
+		try {
+			stmt = conn2.createStatement();
+			ResultSet rs = stmt.executeQuery(
+					"SELECT Category, Deactivated From MasterTable Where MasterTable.Deactivated Like 'Removed'");
+
+			while (rs.next()) {
+				// does_Room_Exist = true; // sets room exists to true
+
+				String group = rs.getString("Category");
+				String retired = rs.getString("Deactivated");
+
+				if (group.contains(group1)) {
+
+					System.out.println("Category: " + group + "  " + retired);
+				}
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	public static void All_Assets_Over_500() { // String date
         Connection conn2 = sqliteConnectionTEST.dbConnector();
         java.sql.Statement stmt;
-       String retired= " ";
+
         try {
             stmt = conn2.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT \"group\",Retired"
-                    + " From MasterTable Where MasterTable.Retired Like 'Removed'");
-
-            //boolean does_Room_Exist = false;
+            ResultSet rs = stmt.executeQuery("SELECT Category,Price,Item_Name,Date_Acquired"
+                    + " From MasterTable Where MasterTable.Price>=500");
 
             while (rs.next()) {
-              //  does_Room_Exist = true;  // sets room exists to true 
-                retired = rs.getString("Retired");
-                String group = rs.getString("Group");
-                System.out.println("Group: " + group + "  " + retired);
-            }
-            //if (!does_Room_Exist)
-                //System.out.println("Error Enter Valid Room Number");
-           
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-    
-    
-    
-   
-   
-    /* SEARCH BY ROOM_NUMBER RETURNS ITEM BY ROOM NUMBERS */
-    public static void Search_By_Room(int room_Number) {
-
-        Connection conn2 = sqliteConnectionTEST.dbConnector();
-        java.sql.Statement stmt;
-       
-        try {
-            stmt = conn2.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT \"group\",Property_Description,Room_Number"
-                    + " From MasterTable Where MasterTable.Room_Number = " + room_Number + ";");
-
-            boolean does_Room_Exist = false;
-
-            while (rs.next()) {
-                does_Room_Exist = true;  // sets room exists to true 
-                room_Number = rs.getInt("Room_Number");
-                String item_Description = rs.getString("Property_Description");
-                System.out.println("Room Number: " + room_Number + "  " + item_Description);
-            }
-            if (!does_Room_Exist)
-                System.out.println("Error Enter Valid Room Number");
-           
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-   
-   
-   
-   
-   
-   
-   
-   
-   
-    /* FINDS ALL GROUP NAMES */
-    public static void test_All_Groups() {
-
-        Connection conn2 = sqliteConnectionTEST.dbConnector();
-        java.sql.Statement stmt;
-
-        try {
-            stmt = conn2.createStatement(); // \"group\",price //\"group\",price
-            ResultSet rs = stmt.executeQuery("SELECT Distinct \"group\" From MasterTable");
-
-            String group = "";
-            while (rs.next()) {
-                group = rs.getString("Group");
-
-                System.out.println("Group name: " + group);
+	
+            	String date_in = rs.getString("Date_Acquired");
+                Double price = rs.getDouble("Price");
+                String item_Description = rs.getString("Item_Name");
+                
+                System.out.println(item_Description + "  " + price + " " + date_in);
             }
         } catch (SQLException e) {
             System.out.println("sql exception caught");
             e.printStackTrace();
         }
-    }
-   
-    public static void test_Date_Range_Over_500(String date, String date2) throws SQLException, ParseException { // String date
-        Connection conn2 = sqliteConnectionTEST.dbConnector();
-        java.sql.Statement stmt;
-
-                                                            //
-        String str_rs = ("SELECT \"group\",Price,Property_Description,Date_In_Service From MasterTable"
-                + " Where MasterTable.Date_In_Service Between ? and ? ORDER BY MasterTable.Date_In_Service DESC");
-        SimpleDateFormat formatter = new SimpleDateFormat("MM/dd/yyyy");
-       
-        //java.util.Date startDate = formatter.parse(date);
-        //java.util.Date endDate = formatter.parse(date2);
-        PreparedStatement statement = conn2.prepareStatement(str_rs);
-       
-        try { 
-           
-            statement.setString(1, date);   
-            statement.setString(2, date2);   
-            ResultSet rs = statement.executeQuery();
-             
-            while (rs.next()) {
-
-                String date_in = rs.getString("Date_In_Service");
-                Double price = rs.getDouble("Price");
-                String item_Description = rs.getString("Property_Description");
-               
-                //if (date_in.contains(date)) { // if contains chosen year
-
-                    System.out.println(item_Description + "  " + price + "      " + date_in);
-                }
-            //}
-        } catch (SQLException e) {
-            System.out.println("sql exception caught");
-            e.printStackTrace();
-        }
-    }
-   
-   
-
-    /* RETURNS ITEMS PURCHASED OVER 500 FOR SELECTED YEAR */
-    public static void test_Assets_Over_500(String date) { // String date
+	}
+	
+	/* RETURNS ITEMS PURCHASED OVER 500 FOR SELECTED YEAR SEARCH BY YEAR ONLY (DONT INCLUDE DAY OR MONTH*/
+    public static void test_Assets_Over_500_By_Year(String date) { // String date
         Connection conn2 = sqliteConnectionTEST.dbConnector();
         java.sql.Statement stmt;
 
         try {
             stmt = conn2.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT \"group\",Price,Property_Description,Date_In_Service"
-                    + " From MasterTable Where MasterTable.Price>=0");
+            ResultSet rs = stmt.executeQuery("SELECT Category,Price,Item_Name,Date_Acquired"
+                    + " From MasterTable Where MasterTable.Price>=500");
 
             while (rs.next()) {
 
-                String date_in = rs.getString("Date_In_Service");
+                String date_in = rs.getString("Date_Acquired");
                 Double price = rs.getDouble("Price");
-                String item_Description = rs.getString("Property_Description");
+                String item_Description = rs.getString("Item_Name");
                
                 if (date_in.contains(date) ) { // if contains chosen year
 
@@ -311,64 +292,98 @@ public class PieChartSample extends Application {
             e.printStackTrace();
         }
     }
-   
-   
-    public static double test_LeaseHold_Total_Spent() {
+	
+    /* FIND ALL ASSETS PURCHASED OVER 500 DOLLARS SEARCH BY EXACT DATE RANGE */ 
+    public static void test_Date_Range_Over_500(String date, String date2) throws SQLException, ParseException { // String date
         Connection conn2 = sqliteConnectionTEST.dbConnector();
         java.sql.Statement stmt;
 
-        Double sum = 0.0;
-
-        try {
-            stmt = conn2.createStatement(); //\"group\",price  //\"group\",price
-            ResultSet rs = stmt.executeQuery("SELECT \"group\",Price,Asset From MasterTable"
-                    + " Where (MasterTable.\"group\" Like 'Leasehold Improvements' And MasterTable.Price>0) " );
+        String str_rs = ("SELECT Category,Price,Item_Name,Date_Acquired From MasterTable"
+                + " Where (MasterTable.Date_Acquired Between ? and ? AND MasterTable.Price>=500)ORDER BY MasterTable.Date_Acquired DESC");
+       
+        PreparedStatement statement = conn2.prepareStatement(str_rs);
+       
+        try { 
            
-           
+            statement.setString(1, date);   
+            statement.setString(2, date2);   
+            ResultSet rs = statement.executeQuery();
+             
             while (rs.next()) {
+            	String date_in = rs.getString("Date_Acquired");
                 Double price = rs.getDouble("Price");
-                //int asset =rs.getInt("Asset");
+                String item_Description = rs.getString("Item_Name");
                
-                //System.out.println("asset number: "+asset);
-                sum += price;
-            }
-            //System.out.println(sum + "\n");
+                System.out.println(item_Description + "  " + price + "      " + date_in);
+                }
+            
         } catch (SQLException e) {
             System.out.println("sql exception caught");
             e.printStackTrace();
         }
-        return round(sum);
     }
-   
-   
-    public static double test_Furniture_Fixtures_Total_Spent() {
-        Connection conn2 = sqliteConnectionTEST.dbConnector();
-        java.sql.Statement stmt;
+    
+    
+    
+    /* TOTAL DOLLAR SPENT PER CATEGORY (SEARCH BY CATEGORY NAME AND YEAR)*/
+	public static void test_individual_Category_Total_Spent(String group, String year) {
+		Connection conn2 = sqliteConnectionTEST.dbConnector();
+		java.sql.Statement stmt;
 
-        Double sum = 0.0;
+		double sum = 0;
+		try {
+			stmt = conn2.createStatement(); 
+			ResultSet rs = stmt.executeQuery("SELECT Category,Price,Date_Acquired"
+					               + " From MasterTable Where MasterTable.Price>0");
+			while (rs.next()) {
+				String group1 = rs.getString("Category");
+                String date_in = rs.getString("Date_Acquired");
 
-        try {
-            stmt = conn2.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT \"group\",Price,Asset From MasterTable"
-                    + " Where (MasterTable.\"group\" Like 'Furniture & Fixtures' And MasterTable.Price>0) " );
-           
-            // sum =0;
-            while (rs.next()) {
-                Double price = rs.getDouble("Price");
-                //int asset =rs.getInt("Asset");
-               
-                //System.out.println("asset number: "+asset);
-                sum += price;
-            }
-            //System.out.println(sum + "\n");
-        } catch (SQLException e) {
-            System.out.println("sql exception caught");
-            e.printStackTrace();
-        }
-        return round(sum);
-    }
+				if (group1.equals(group) && date_in.contains(year) ) { //
+					
+					Double price = rs.getDouble("Price");
+					sum += price;
+				}
+			}
+			System.out.println("Total Spent On " + group + " in " + year + " " +round(sum));
+		
+		} catch (SQLException e) {
+			System.out.println("sql exception caught");
+			e.printStackTrace();
+		}
+	}
+    
+   
+	/* SEARCH BY ROOM_NUMBER RETURNS ITEM BY ROOM NUMBERS */
+	public static void Search_By_Room(int room_Number) {
+
+		Connection conn2 = sqliteConnectionTEST.dbConnector();
+		java.sql.Statement stmt;
+
+		try {
+			stmt = conn2.createStatement();
+			ResultSet rs = stmt.executeQuery("SELECT Category,Item_Name,Room"
+					+ " From MasterTable Where MasterTable.Room = " + room_Number + ";");
+
+			boolean does_Room_Exist = false;
+
+			while (rs.next()) {
+				does_Room_Exist = true; // sets room exists to true
+				room_Number = rs.getInt("Room");
+				String item_Description = rs.getString("Item_Name");
+				System.out.println("Room Number: " + room_Number + "  " + item_Description);
+			}
+			if (!does_Room_Exist)
+				System.out.println("Error Enter Valid Room Number");
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
    
    
+        
+    
     /*  FINDS TOTAL AMOUNT SPENT ENTIRE INVENTORY SYSTEM*/
     public static double test_Everything_Total_Spent() {
         Connection conn2 = sqliteConnectionTEST.dbConnector();
@@ -378,281 +393,359 @@ public class PieChartSample extends Application {
 
         try {
             stmt = conn2.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT \"group\",Price,Asset From MasterTable Where MasterTable.Price>0 " );
+            ResultSet rs = stmt.executeQuery("SELECT Category,Price,Asset From MasterTable Where MasterTable.Price>0 " );
            
    
             while (rs.next()) {
                 Double price = rs.getDouble("Price");
-                //int asset =rs.getInt("Asset");
-               
-                //System.out.println("asset number: "+asset);
                 sum += price;
             }
-            //System.out.println(sum + "\n");
         } catch (SQLException e) {
             System.out.println("sql exception caught");
             e.printStackTrace();
         }
         return round(sum);
     }
+    
+    
    
-   
-
-    public static double test_Computer_MISC_Total_Spent() {
+    /*FOLLOWING QUERYS USED FOR PIE CHART TO DISPLAY INDIVIDUAL CATEGORY TOTALS*/
+    
+    public static double test_Total_By_Category(String group) {
         Connection conn2 = sqliteConnectionTEST.dbConnector();
         java.sql.Statement stmt;
 
-        Double sum = 0.0;
-
-        try {
-            stmt = conn2.createStatement(); //\"group\",price  //\"group\",price
-            ResultSet rs = stmt.executeQuery("SELECT \"group\",Price From MasterTable"
-                        + " Where (MasterTable.\"group\" Like '%Server%' And MasterTable.Price>0) " );
-           
-            // sum =0;
-            while (rs.next()) {
-                Double price = rs.getDouble("Price");
-                //System.out.println(price);
-                sum += price;
-            }
-            //System.out.println(sum + "\n");
+        double sum = 0;
+		try {
+			stmt = conn2.createStatement(); 
+			ResultSet rs = stmt.executeQuery("SELECT Category,Price"
+					               + " From MasterTable Where MasterTable.Price>0");
+			while (rs.next()) {
+				String group1 = rs.getString("Category");
+				
+				if (group1.equals(group)) { //
+					
+					Double price = rs.getDouble("Price");
+					sum += price;
+				}
+			}
+			//System.out.println("New method  " + group + " " + round(sum));
+		
         } catch (SQLException e) {
             System.out.println("sql exception caught");
             e.printStackTrace();
         }
-        return round(sum);
+       // return round(sum);
+		return round(sum);
     }
-   
-   
-   
-   
-   
-   
-    public static double test_Transcription_Total_Spent() {
-        Connection conn2 = sqliteConnectionTEST.dbConnector();
-        java.sql.Statement stmt;
-
-        Double sum = 0.0;
-
-        try {
-            stmt = conn2.createStatement(); //\"group\",price  //\"group\",price
-            ResultSet rs = stmt.executeQuery("SELECT \"group\",Price From MasterTable"
-                    + " Where (MasterTable.\"group\" Like '%Transcription%' And MasterTable.Price>0) " );
-           
-            // sum =0;
-            while (rs.next()) {
-                Double price = rs.getDouble("Price");
-                //System.out.println(price);
-                sum += price;
-            }
-            //System.out.println(sum + "\n");
-        } catch (SQLException e) {
-            System.out.println("sql exception caught");
-            e.printStackTrace();
-        }
-        return round(sum);
-    }
-   
-   
-   
-    public static double test_ArtWork_Total_Spent() {
-        Connection conn2 = sqliteConnectionTEST.dbConnector();
-        java.sql.Statement stmt;
-
-        Double sum = 0.0;
-
-        try {
-            stmt = conn2.createStatement(); //\"group\",price  //\"group\",price
-            ResultSet rs = stmt.executeQuery("SELECT \"group\",Price From MasterTable"
-                        + " Where (MasterTable.\"group\" Like '%ArtWork%' And MasterTable.Price>0) " );
-           
-            // sum =0;
-            while (rs.next()) {
-                Double price = rs.getDouble("Price");
-                //System.out.println(price);
-                sum += price;
-            }
-            //System.out.println(sum + "\n");
-        } catch (SQLException e) {
-            System.out.println("sql exception caught");
-            e.printStackTrace();
-        }
-        return round(sum);
-    }
-
-    public static double test_Batter_Backup_Total_Spent() {
-        Connection conn2 = sqliteConnectionTEST.dbConnector();
-        java.sql.Statement stmt;
-
-        Double sum = 0.0;
-
-        try {
-            stmt = conn2.createStatement(); //\"group\",price  //\"group\",price
-            ResultSet rs = stmt.executeQuery("SELECT \"group\",Price From MasterTable"
-                        + " Where (MasterTable.\"group\" Like '%Battery%' And MasterTable.Price>0) " );
-           
-            while (rs.next()) {
-                Double price = rs.getDouble("Price");
-                sum += price;
-            }
-        } catch (SQLException e) {
-            System.out.println("sql exception caught");
-            e.printStackTrace();
-        }
-        return round(sum);
-    }
-   
-   
-    public static double test_Personal_Property_Total_Spent() {
-        Connection conn2 = sqliteConnectionTEST.dbConnector();
-        java.sql.Statement stmt;
-
-        Double sum = 0.0;
-
-        try {
-            stmt = conn2.createStatement(); //\"group\",price  //\"group\",price
-            ResultSet rs = stmt.executeQuery("SELECT \"group\",Price From MasterTable"
-                        + " Where (MasterTable.\"group\" Like 'Personal Property' And MasterTable.Price>0) " );
-           
-            // sum =0;
-            while (rs.next()) {
-                Double price = rs.getDouble("Price");
-                //System.out.println(price);
-                sum += price;
-            }
-            //System.out.println(sum + "\n");
-        } catch (SQLException e) {
-            System.out.println("sql exception caught");
-            e.printStackTrace();
-        }
-        return round(sum);
-    }
-   
-   
-   
-    public static double test_Computer_Software_Total_Spent() {
-        Connection conn2 = sqliteConnectionTEST.dbConnector();
-        java.sql.Statement stmt;
-
-        Double sum = 0.0;
-
-        try {
-            stmt = conn2.createStatement(); //\"group\",price  //\"group\",price
-            ResultSet rs = stmt.executeQuery("SELECT \"group\",Price From MasterTable"
-                        + " Where (MasterTable.\"group\" Like '%Software%' And MasterTable.Price>0) " );
-           
-            // sum =0;
-            while (rs.next()) {
-                Double price = rs.getDouble("Price");
-                //System.out.println(price);
-                sum += price;
-            }
-            //System.out.println(sum + "\n");
-        } catch (SQLException e) {
-            System.out.println("sql exception caught");
-            e.printStackTrace();
-        }
-        return round(sum);
-    }
-   
-   
-    public static double test_Printers_Total_Spent() {
-        Connection conn2 = sqliteConnectionTEST.dbConnector();
-        java.sql.Statement stmt;
-
-        Double sum = 0.0;
-
-        try {
-            stmt = conn2.createStatement(); //\"group\",price  //\"group\",price
-            ResultSet rs = stmt.executeQuery("SELECT \"group\",Price From MasterTable"
-                            + " Where (MasterTable.\"group\" Like '%Printers%' And MasterTable.Price>0) " );
-           
-            // sum =0;
-            while (rs.next()) {
-                Double price = rs.getDouble("Price");
-                //System.out.println(price);
-                sum += price;
-            }
-            //System.out.println(sum + "\n");
-        } catch (SQLException e) {
-            System.out.println("sql exception caught");
-            e.printStackTrace();
-        }
-        return round(sum);
-    }
-   
-    public static double test_Computers_Total_Spent() {
-        Connection conn2 = sqliteConnectionTEST.dbConnector();
-        java.sql.Statement stmt;
-
-        Double sum = 0.0;
-
-        try {
-            stmt = conn2.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT \"group\",Price From MasterTable"
-                        + " Where (MasterTable.\"group\" Like 'Computers' And MasterTable.Price>0) " );
-           
-            while (rs.next()) {
-                Double price = rs.getDouble("Price");
-                //System.out.println(price);
-                sum += price;
-            }
-        } catch (SQLException e) {
-            System.out.println("sql exception caught");
-            e.printStackTrace();
-        }
-        return round(sum);
-    }
-       
-    public static double test_Video_Projector_Total_Spent() {
-        Connection conn2 = sqliteConnectionTEST.dbConnector();
-        java.sql.Statement stmt;
-        Double sum = 0.0;
-        try {
-            stmt = conn2.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT \"group\",Price From MasterTable "
-                        + "Where (MasterTable.\"group\" Like '%Video/Proj%' And MasterTable.Price>0) " );
-                                                                       
-            while (rs.next()) {
-                Double price = rs.getDouble("Price");
-                sum += price;
-            }
-            // System.out.println(sum + "\n");
-
-        } catch (SQLException e) {
-            System.out.println("sql exception caught");
-            e.printStackTrace();
-        }
-        return round(sum);
-    }
-   
-   
-   
-    public static double test_Furniture_Total_Spent() {
-        Connection conn2 = sqliteConnectionTEST.dbConnector();
-        java.sql.Statement stmt;
-        Double sum = 0.0;
-        try {
-            stmt = conn2.createStatement();
-            ResultSet rs = stmt.executeQuery("SELECT \"group\",Price From MasterTable "
-                       + "Where (MasterTable.\"group\" Like '%Cabinets' And MasterTable.Price>0) " );
-                                                                       
-            while (rs.next()) {
-                Double price = rs.getDouble("Price");
-                sum += price;
-            }
-
-        } catch (SQLException e) {
-            System.out.println("sql exception caught");
-            e.printStackTrace();
-        }
-        return round(sum);
-    }
-   
+    
     /* ROUNDS DECIMAL NUMBERS TWO PLACES*/
     public static double round(double value) {
         BigDecimal bd = new BigDecimal(value);
         bd = bd.setScale(2, RoundingMode.HALF_UP);
         return bd.doubleValue();
     }
+    
+//    public static double test_LeaseHold_Total_Spent() {
+//        Connection conn2 = sqliteConnectionTEST.dbConnector();
+//        java.sql.Statement stmt;
+//
+//        Double sum = 0.0;
+//
+//        try {
+//            stmt = conn2.createStatement(); //\"group\",price  //\"group\",price
+//            ResultSet rs = stmt.executeQuery("SELECT \"group\",Price,Asset From MasterTable"
+//                    + " Where (MasterTable.\"group\" Like 'Leasehold Improvements' And MasterTable.Price>0) " );
+//           
+//            while (rs.next()) {
+//                Double price = rs.getDouble("Price");
+//                sum += price;
+//            }
+//            //System.out.println(sum + "\n");
+//        } catch (SQLException e) {
+//            System.out.println("sql exception caught");
+//            e.printStackTrace();
+//        }
+//        return round(sum);
+//    }
+//   
+//   
+//    public static double test_Furniture_Fixtures_Total_Spent() {
+//        Connection conn2 = sqliteConnectionTEST.dbConnector();
+//        java.sql.Statement stmt;
+//
+//        Double sum = 0.0;
+//
+//        try {
+//            stmt = conn2.createStatement();
+//            ResultSet rs = stmt.executeQuery("SELECT \"group\",Price,Asset From MasterTable"
+//                    + " Where (MasterTable.\"group\" Like 'Furniture & Fixtures' And MasterTable.Price>0) " );
+//           
+//            // sum =0;
+//            while (rs.next()) {
+//                Double price = rs.getDouble("Price");
+//                //int asset =rs.getInt("Asset");
+//               
+//                //System.out.println("asset number: "+asset);
+//                sum += price;
+//            }
+//            //System.out.println(sum + "\n");
+//        } catch (SQLException e) {
+//            System.out.println("sql exception caught");
+//            e.printStackTrace();
+//        }
+//        return round(sum);
+//    }
+//
+//    public static double test_Computer_MISC_Total_Spent() {
+//        Connection conn2 = sqliteConnectionTEST.dbConnector();
+//        java.sql.Statement stmt;
+//
+//        Double sum = 0.0;
+//
+//        try {
+//            stmt = conn2.createStatement(); //\"group\",price  //\"group\",price
+//            ResultSet rs = stmt.executeQuery("SELECT \"group\",Price From MasterTable"
+//                        + " Where (MasterTable.\"group\" Like '%Server%' And MasterTable.Price>0) " );
+//           
+//            // sum =0;
+//            while (rs.next()) {
+//                Double price = rs.getDouble("Price");
+//                //System.out.println(price);
+//                sum += price;
+//            }
+//            //System.out.println(sum + "\n");
+//        } catch (SQLException e) {
+//            System.out.println("sql exception caught");
+//            e.printStackTrace();
+//        }
+//        return round(sum);
+//    }
+//   
+//   
+//   
+//   
+//   
+//   
+//    public static double test_Transcription_Total_Spent() {
+//        Connection conn2 = sqliteConnectionTEST.dbConnector();
+//        java.sql.Statement stmt;
+//
+//        Double sum = 0.0;
+//
+//        try {
+//            stmt = conn2.createStatement(); //\"group\",price  //\"group\",price
+//            ResultSet rs = stmt.executeQuery("SELECT \"group\",Price From MasterTable"
+//                    + " Where (MasterTable.\"group\" Like '%Transcription%' And MasterTable.Price>0) " );
+//           
+//            // sum =0;
+//            while (rs.next()) {
+//                Double price = rs.getDouble("Price");
+//                //System.out.println(price);
+//                sum += price;
+//            }
+//            //System.out.println(sum + "\n");
+//        } catch (SQLException e) {
+//            System.out.println("sql exception caught");
+//            e.printStackTrace();
+//        }
+//        return round(sum);
+//    }
+//   
+//   
+//   
+//    public static double test_ArtWork_Total_Spent() {
+//        Connection conn2 = sqliteConnectionTEST.dbConnector();
+//        java.sql.Statement stmt;
+//
+//        Double sum = 0.0;
+//
+//        try {
+//            stmt = conn2.createStatement(); //\"group\",price  //\"group\",price
+//            ResultSet rs = stmt.executeQuery("SELECT \"group\",Price From MasterTable"
+//                        + " Where (MasterTable.\"group\" Like '%ArtWork%' And MasterTable.Price>0) " );
+//           
+//            // sum =0;
+//            while (rs.next()) {
+//                Double price = rs.getDouble("Price");
+//                //System.out.println(price);
+//                sum += price;
+//            }
+//            //System.out.println(sum + "\n");
+//        } catch (SQLException e) {
+//            System.out.println("sql exception caught");
+//            e.printStackTrace();
+//        }
+//        return round(sum);
+//    }
+//
+//    public static double test_Batter_Backup_Total_Spent() {
+//        Connection conn2 = sqliteConnectionTEST.dbConnector();
+//        java.sql.Statement stmt;
+//
+//        Double sum = 0.0;
+//
+//        try {
+//            stmt = conn2.createStatement(); //\"group\",price  //\"group\",price
+//            ResultSet rs = stmt.executeQuery("SELECT \"group\",Price From MasterTable"
+//                        + " Where (MasterTable.\"group\" Like '%Battery%' And MasterTable.Price>0) " );
+//           
+//            while (rs.next()) {
+//                Double price = rs.getDouble("Price");
+//                sum += price;
+//            }
+//        } catch (SQLException e) {
+//            System.out.println("sql exception caught");
+//            e.printStackTrace();
+//        }
+//        return round(sum);
+//    }
+//   
+//   
+//    public static double test_Personal_Property_Total_Spent() {
+//        Connection conn2 = sqliteConnectionTEST.dbConnector();
+//        java.sql.Statement stmt;
+//
+//        Double sum = 0.0;
+//
+//        try {
+//            stmt = conn2.createStatement(); //\"group\",price  //\"group\",price
+//            ResultSet rs = stmt.executeQuery("SELECT \"group\",Price From MasterTable"
+//                        + " Where (MasterTable.\"group\" Like 'Personal Property' And MasterTable.Price>0) " );
+//           
+//            // sum =0;
+//            while (rs.next()) {
+//                Double price = rs.getDouble("Price");
+//                //System.out.println(price);
+//                sum += price;
+//            }
+//            //System.out.println(sum + "\n");
+//        } catch (SQLException e) {
+//            System.out.println("sql exception caught");
+//            e.printStackTrace();
+//        }
+//        return round(sum);
+//    }
+//   
+//   
+//   
+//    public static double test_Computer_Software_Total_Spent() {
+//        Connection conn2 = sqliteConnectionTEST.dbConnector();
+//        java.sql.Statement stmt;
+//
+//        Double sum = 0.0;
+//
+//        try {
+//            stmt = conn2.createStatement(); //\"group\",price  //\"group\",price
+//            ResultSet rs = stmt.executeQuery("SELECT \"group\",Price From MasterTable"
+//                        + " Where (MasterTable.\"group\" Like '%Software%' And MasterTable.Price>0) " );
+//           
+//            // sum =0;
+//            while (rs.next()) {
+//                Double price = rs.getDouble("Price");
+//                //System.out.println(price);
+//                sum += price;
+//            }
+//            //System.out.println(sum + "\n");
+//        } catch (SQLException e) {
+//            System.out.println("sql exception caught");
+//            e.printStackTrace();
+//        }
+//        return round(sum);
+//    }
+//   
+//   
+//    public static double test_Printers_Total_Spent() {
+//        Connection conn2 = sqliteConnectionTEST.dbConnector();
+//        java.sql.Statement stmt;
+//
+//        Double sum = 0.0;
+//
+//        try {
+//            stmt = conn2.createStatement(); //\"group\",price  //\"group\",price
+//            ResultSet rs = stmt.executeQuery("SELECT \"group\",Price From MasterTable"
+//                            + " Where (MasterTable.\"group\" Like '%Printers%' And MasterTable.Price>0) " );
+//           
+//            // sum =0;
+//            while (rs.next()) {
+//                Double price = rs.getDouble("Price");
+//                //System.out.println(price);
+//                sum += price;
+//            }
+//            //System.out.println(sum + "\n");
+//        } catch (SQLException e) {
+//            System.out.println("sql exception caught");
+//            e.printStackTrace();
+//        }
+//        return round(sum);
+//    }
+//   
+//    public static double test_Computers_Total_Spent() {
+//        Connection conn2 = sqliteConnectionTEST.dbConnector();
+//        java.sql.Statement stmt;
+//
+//        Double sum = 0.0;
+//
+//        try {
+//            stmt = conn2.createStatement();
+//            ResultSet rs = stmt.executeQuery("SELECT \"group\",Price From MasterTable"
+//                        + " Where (MasterTable.\"group\" Like 'Computers' And MasterTable.Price>0) " );
+//           
+//            while (rs.next()) {
+//                Double price = rs.getDouble("Price");
+//                //System.out.println(price);
+//                sum += price;
+//            }
+//        } catch (SQLException e) {
+//            System.out.println("sql exception caught");
+//            e.printStackTrace();
+//        }
+//        return round(sum);
+//    }
+//       
+//    public static double test_Video_Projector_Total_Spent() {
+//        Connection conn2 = sqliteConnectionTEST.dbConnector();
+//        java.sql.Statement stmt;
+//        Double sum = 0.0;
+//        try {
+//            stmt = conn2.createStatement();
+//            ResultSet rs = stmt.executeQuery("SELECT \"group\",Price From MasterTable "
+//                        + "Where (MasterTable.\"group\" Like '%Video/Proj%' And MasterTable.Price>0) " );
+//                                                                       
+//            while (rs.next()) {
+//                Double price = rs.getDouble("Price");
+//                sum += price;
+//            }
+//            // System.out.println(sum + "\n");
+//
+//        } catch (SQLException e) {
+//            System.out.println("sql exception caught");
+//            e.printStackTrace();
+//        }
+//        return round(sum);
+//    }
+//   
+//   
+//   
+//    public static double test_Furniture_Total_Spent() {
+//        Connection conn2 = sqliteConnectionTEST.dbConnector();
+//        java.sql.Statement stmt;
+//        Double sum = 0.0;
+//        try {
+//            stmt = conn2.createStatement();
+//            ResultSet rs = stmt.executeQuery("SELECT \"group\",Price From MasterTable "
+//                       + "Where (MasterTable.\"group\" Like '%Cabinets' And MasterTable.Price>0) " );
+//                                                                       
+//            while (rs.next()) {
+//                Double price = rs.getDouble("Price");
+//                sum += price;
+//            }
+//
+//        } catch (SQLException e) {
+//            System.out.println("sql exception caught");
+//            e.printStackTrace();
+//        }
+//        return round(sum);
+//    }
+   
 }
