@@ -1,49 +1,16 @@
 package testingPackage;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.EventQueue;
-import javax.swing.JFrame;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.JScrollPane;
-import javax.swing.DefaultCellEditor;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-import java.awt.Font;
-import java.awt.GridLayout;
-import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.SpringLayout;
+import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.swing.JCheckBox;
-import javax.swing.JFormattedTextField;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+import java.awt.*;
+import java.awt.event.*;
+import java.sql.*;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-
-import org.apache.poi.util.SystemOutLogger;
 
 
 
@@ -153,20 +120,34 @@ public class InsertPanel {
 		frmInsertAsset.getContentPane().add(scrollPane_1);
 		
 		JButton btnInsert = new JButton("Insert");
-		springLayout.putConstraint(SpringLayout.WEST, btnInsert, 59, SpringLayout.WEST, frmInsertAsset.getContentPane());
+		btnInsert.setLocation(15, 662);
+		springLayout.putConstraint(SpringLayout.WEST, btnInsert, 15, SpringLayout.WEST, frmInsertAsset.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, btnInsert, -28, SpringLayout.SOUTH, frmInsertAsset.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, btnInsert, 239, SpringLayout.WEST, frmInsertAsset.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, btnInsert, 202, SpringLayout.WEST, frmInsertAsset.getContentPane());
 		btnInsert.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 22));
 		frmInsertAsset.getContentPane().add(btnInsert);
 		
+		JButton btnUpdate = new JButton("Update");
+		springLayout.putConstraint(SpringLayout.NORTH, btnUpdate, 0, SpringLayout.NORTH, btnInsert);
+		springLayout.putConstraint(SpringLayout.WEST, btnUpdate, 38, SpringLayout.EAST, btnInsert);
+		springLayout.putConstraint(SpringLayout.SOUTH, btnUpdate, -28, SpringLayout.SOUTH, frmInsertAsset.getContentPane());
+		btnUpdate.setLocation(275, 662);
+    	btnUpdate.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 22));
+    	frmInsertAsset.getContentPane().add(btnUpdate);
+    	
+    	
+		
 		JButton btnNewButton_1 = new JButton("Clear Fields");
-		springLayout.putConstraint(SpringLayout.WEST, btnNewButton_1, 413, SpringLayout.WEST, frmInsertAsset.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, btnUpdate, -37, SpringLayout.WEST, btnNewButton_1);
+		springLayout.putConstraint(SpringLayout.NORTH, btnNewButton_1, 0, SpringLayout.NORTH, btnInsert);
+		springLayout.putConstraint(SpringLayout.WEST, btnNewButton_1, 457, SpringLayout.WEST, frmInsertAsset.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, btnNewButton_1, -28, SpringLayout.SOUTH, frmInsertAsset.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, btnNewButton_1, 593, SpringLayout.WEST, frmInsertAsset.getContentPane());
+		springLayout.putConstraint(SpringLayout.EAST, btnNewButton_1, -32, SpringLayout.WEST, scrollPane_1);
+		btnNewButton_1.setLocation(413, 653);
 		btnNewButton_1.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 22));
 		frmInsertAsset.getContentPane().add(btnNewButton_1);
 	
-		//bullshitcomment
+		
 	
 	    addCategoryColumns();
 
@@ -279,7 +260,6 @@ public class InsertPanel {
     	g1_Jpanel.setBorder(new EmptyBorder(20, 20, 20, 20));
     	g1_Jpanel.setBackground(new Color(244, 244, 244));
     	JScrollPane scrollPane = new JScrollPane();
-    	springLayout.putConstraint(SpringLayout.NORTH, btnNewButton_1, 23, SpringLayout.SOUTH, scrollPane);
     	springLayout.putConstraint(SpringLayout.NORTH, btnInsert, 23, SpringLayout.SOUTH, scrollPane);
     	springLayout.putConstraint(SpringLayout.SOUTH, scrollPane, -98, SpringLayout.SOUTH, frmInsertAsset.getContentPane());
     	springLayout.putConstraint(SpringLayout.NORTH, scrollPane, 24, SpringLayout.NORTH, frmInsertAsset.getContentPane());
@@ -288,6 +268,8 @@ public class InsertPanel {
     	scrollPane.setLocation(15, 80);
     	//scrollPane.setSize(561, 610);
     	scrollPane.getVerticalScrollBar().setUnitIncrement(16);
+    	
+    	
     	scrollPane.setViewportView(g1_Jpanel);
     	frmInsertAsset.getContentPane().add(scrollPane);
     	
@@ -340,6 +322,104 @@ public class InsertPanel {
 		}
     	
     	getInsert();
+    	
+    	
+    	btnUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				prepare = null;
+				try {
+					//int row = testTable.getSelectedRow();
+					
+					//if(testTable.getModel().getValueAt(row, 0) != null)
+						 //String value1 = field1.getText();
+					
+					String value1 = field1.getText();
+					String value2 = field2.getText();
+					String value3 = field3.getSelectedItem().toString();
+					String value4 = field4.getText();
+					String value5 = field5.getText();
+					String value6 = field6.getText();
+					String value7 = field7.getText();
+					String value8 = field8.getSelectedItem().toString();
+
+					String sql = "Update MasterTable set Item_Name='" + value1 + "' , Item_Description ='" + value2
+							+ "' , Category ='" + value3 + "' ,ID_Tag ='" + value4 + "' ,Room ='" + value5
+							+ "' ,Floor ='" + value6 + "' ,Date_Acquired ='" + value7 + "',Ownership ='" + value8
+							+ "' where ID_Tag ='" + value4 + "'";
+					System.out.println(sql);
+					prepare = conn.prepareStatement(sql);
+					prepare.execute();
+					JOptionPane.showMessageDialog(null, "Updated");
+				} catch (SQLException e) {
+					JOptionPane.showMessageDialog(null, e);
+				}
+				UpDateTable();
+			}
+		});
+    	
+    	
+    	
+    	testTable.addMouseListener(new MouseAdapter() {
+//
+//			// Program that when the mouse clicks a spot of the table autofills
+//			// the textboxes
+			@Override
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+				try {
+					int row = testTable.getSelectedRow();
+					
+					//Gets text from row and fills jtext if cell is not empty
+					if(testTable.getModel().getValueAt(row, 0) != null)
+						field1.setText(testTable.getModel().getValueAt(row, 0).toString());
+					if(testTable.getModel().getValueAt(row, 1) != null)
+						field2.setText(testTable.getModel().getValueAt(row, 1).toString());
+					if(testTable.getModel().getValueAt(row, 2) != null)
+						field3.setSelectedItem(testTable.getModel().getValueAt(row, 2).toString());
+					if(testTable.getModel().getValueAt(row, 3) != null)
+						field4.setText(testTable.getModel().getValueAt(row, 3).toString());
+					if(testTable.getModel().getValueAt(row, 4) != null)
+						field5.setText(testTable.getModel().getValueAt(row, 4).toString());
+					if(testTable.getModel().getValueAt(row, 5) != null)
+						field6.setText(testTable.getModel().getValueAt(row, 5).toString());
+					if(testTable.getModel().getValueAt(row, 6) != null)
+						field7.setText(testTable.getModel().getValueAt(row, 6).toString());
+					if(testTable.getModel().getValueAt(row, 7) != null)
+						field8.setSelectedItem(testTable.getModel().getValueAt(row, 7).toString());
+					if(testTable.getModel().getValueAt(row, 8) != null)
+						field8a.setText(testTable.getModel().getValueAt(row, 8).toString());
+					if(testTable.getModel().getValueAt(row, 9) != null)
+						field8b.setText(testTable.getModel().getValueAt(row, 9).toString());
+					if(testTable.getModel().getValueAt(row, 10) != null)
+						field8c.setText(testTable.getModel().getValueAt(row, 10).toString());
+					if(testTable.getModel().getValueAt(row, 11) != null)
+						field9.setText(testTable.getModel().getValueAt(row, 11).toString());
+					if(testTable.getModel().getValueAt(row, 12) != null)
+						field10.setText(testTable.getModel().getValueAt(row, 12).toString());
+					if(testTable.getModel().getValueAt(row, 13) != null)
+						field10a.setText(testTable.getModel().getValueAt(row, 13).toString());
+					if(testTable.getModel().getValueAt(row, 14) != null)
+						field11.setText(testTable.getModel().getValueAt(row, 14).toString());
+					if(testTable.getModel().getValueAt(row, 15) != null)
+						field12.setText(testTable.getModel().getValueAt(row, 15).toString());
+					if(testTable.getModel().getValueAt(row, 16) != null)
+						field13.setText(testTable.getModel().getValueAt(row, 16).toString());
+					if(testTable.getModel().getValueAt(row, 17) != null)
+						field14.setText(testTable.getModel().getValueAt(row, 17).toString());
+					if(testTable.getModel().getValueAt(row, 18) != null)
+						field14a.setSelected((testTable.getModel().getValueAt(row, 18).toString() == "YES"));
+					if(testTable.getModel().getValueAt(row, 19) != null)
+						field15.setText(testTable.getModel().getValueAt(row, 19).toString());
+					if(testTable.getModel().getValueAt(row, 20) != null)
+						field16.setText(testTable.getModel().getValueAt(row, 20).toString());
+					if(testTable.getModel().getValueAt(row, 21) != null)
+						field17.setText(testTable.getModel().getValueAt(row, 21).toString());
+					if(testTable.getModel().getValueAt(row, 22) != null)
+						field18.setText(testTable.getModel().getValueAt(row, 22).toString());
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, e);
+				}
+			}
+		});
 	}
 	
 	public void setFrame()
