@@ -24,7 +24,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
-import org.apache.poi.util.SystemOutLogger;
+//import org.apache.poi.util.SystemOutLogger;
 
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
@@ -241,6 +241,7 @@ public class reportsFrame{
 //	    JComboBox categoryAsset = new JComboBox();
 	    JButton btnLoad1 = new JButton("Run");
 	    btnLoad1.setFont(font);
+	    
 	    
 //	    
 //	    JComboBox deactivatedQuery = new JComboBox();
