@@ -368,6 +368,10 @@ public class InsertPanel {
 				try {
 					int row = testTable.getSelectedRow();
 					
+<<<<<<< HEAD
+=======
+					//Gets text from row and fills jtext if cell is not empty
+>>>>>>> refs/remotes/origin/master
 					if(testTable.getModel().getValueAt(row, 0) != null)
 						field1.setText(testTable.getModel().getValueAt(row, 0).toString());
 					if(testTable.getModel().getValueAt(row, 1) != null)
