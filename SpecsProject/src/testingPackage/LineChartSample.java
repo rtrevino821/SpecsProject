@@ -14,45 +14,49 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
+import javafx.scene.Node;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.chart.CategoryAxis;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
+import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Series;
+import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 
 public class LineChartSample extends Application{
-	
-	
-
-	@Override public void start(Stage stage) {
+    @Override public void start(Stage stage) {
         stage.setTitle("Cost Per Year");
-        
-        
+       
         TreeMap<String,Double> map = test_Everything_Total_Spent();
-        
-        
+       
+       
         //defining the axes
 //        final NumberAxis xAxis = new NumberAxis();
         final NumberAxis yAxis = new NumberAxis();
         final CategoryAxis xAxis = new CategoryAxis();
-        //
+       
         xAxis.setLabel("Year");
         yAxis.setLabel("Total Spent");
-        
+       
         //creating the chart
-        final LineChart<String,Number> lineChart = 
+        final LineChart<String,Number> lineChart =
                 new LineChart<String,Number>(xAxis,yAxis);
-                
-        lineChart.setTitle("Cost Per Year");
+       
+        final Label caption = new Label("");
+
+       
+        lineChart.setTitle("Total Spending Per Year");
         //defining a series
         XYChart.Series series = new XYChart.Series();
         series.setName("Total Spent");
         //populating the series with data
         for(Entry<String,Double> e : map.entrySet()){
-//        	System.out.println("year: "+e.getKey()+", spent: "+e.getValue());
-        	series.getData().add(new XYChart.Data(e.getKey(), e.getValue()));
+//            System.out.println("year: "+e.getKey()+", spent: "+e.getValue());
+            series.getData().add(new XYChart.Data(e.getKey(), e.getValue()));
         }
 //        series.getData().add(new XYChart.Data(1, 23));
 //        series.getData().add(new XYChart.Data(2, 14));
@@ -66,48 +70,48 @@ public class LineChartSample extends Application{
 //        series.getData().add(new XYChart.Data(10, 17));
 //        series.getData().add(new XYChart.Data(11, 29));
 //        series.getData().add(new XYChart.Data(12, 25));
-        
+       
         Scene scene  = new Scene(lineChart,800,600);
         lineChart.getData().add(series);
-       
+     
         stage.setScene(scene);
         stage.show();
     }
-	
-	public static TreeMap<String,Double> test_Everything_Total_Spent() {
-		Connection conn2 = sqliteConnectionTEST.dbConnector();
-		java.sql.Statement stmt;
+   
+    public static TreeMap<String,Double> test_Everything_Total_Spent() {
+        Connection conn2 = sqliteConnectionTEST.dbConnector();
+        java.sql.Statement stmt;
 
-		TreeMap<String,Double> yearlyTotalSpent = new TreeMap<String,Double>();
-		
-		try {
-			stmt = conn2.createStatement(); //\"group\",price  //\"group\",price       //(MasterTable.\"group\" Like 'Furniture & Fixtures' And
-			ResultSet rs = stmt.executeQuery("SELECT \"group\",Price,Asset, substr(Date_In_Service, 7, 4) AS y From MasterTable Where MasterTable.Price>0 ORDER BY y ASC" );// WHERE price >= 500
-			
-			// sum =0;
-			while (rs.next()) {
-				Double price = rs.getDouble("Price");
-				String year = rs.getString("y");
-				System.out.println(year);
-				if ( yearlyTotalSpent.containsKey(year))
-				{
-					double oldValue = yearlyTotalSpent.get(year);
-					yearlyTotalSpent.replace(year, oldValue, round(oldValue+price));
-				} else {
-					yearlyTotalSpent.put(year, price);
-				}
-			}
-			for (Entry<String,Double> e : yearlyTotalSpent.entrySet()){
-				System.out.println("year: "+e.getKey()+", spent: "+e.getValue());
-			}
-		} catch (SQLException e) {
-			System.out.println("sql exception caught");
-			e.printStackTrace();
-		}
-		return yearlyTotalSpent;
-	}
-	
-	public static double round(double value) {
+        TreeMap<String,Double> yearlyTotalSpent = new TreeMap<String,Double>();
+       
+        try {
+            stmt = conn2.createStatement(); //\"group\",price  //\"group\",price       //(MasterTable.\"group\" Like 'Furniture & Fixtures' And
+            ResultSet rs = stmt.executeQuery("SELECT Category,Price, substr(Date_Acquired, 0, 5) AS y From MasterTable Where MasterTable.Price>0 ORDER BY y ASC" );// WHERE price >= 500
+           
+            // sum =0;
+            while (rs.next()) {
+                Double price = rs.getDouble("Price");
+                String year = rs.getString("y");
+                System.out.println(year);
+                if ( yearlyTotalSpent.containsKey(year))
+                {
+                    double oldValue = yearlyTotalSpent.get(year);
+                    yearlyTotalSpent.replace(year, oldValue, round(oldValue+price));
+                } else {
+                    yearlyTotalSpent.put(year, price);
+                }
+            }
+            for (Entry<String,Double> e : yearlyTotalSpent.entrySet()){
+                System.out.println("year: "+e.getKey()+", spent: "+e.getValue());
+            }
+        } catch (SQLException e) {
+            System.out.println("sql exception caught");
+            e.printStackTrace();
+        }
+        return yearlyTotalSpent;
+    }
+   
+    public static double round(double value) {
         BigDecimal bd = new BigDecimal(value);
         bd = bd.setScale(2, RoundingMode.HALF_UP);
         return bd.doubleValue();
@@ -117,7 +121,7 @@ public class LineChartSample extends Application{
         launch(args);
 //        Map<String,Integer> map = test_Everything_Total_Spent();
 //        for(Entry<String,Integer> e : map.entrySet()){
-//        	System.out.println("year: "+e.getKey()+", Total Spent: "+e.getValue());
+//            System.out.println("year: "+e.getKey()+", Total Spent: "+e.getValue());
 //        }
     }
 }
