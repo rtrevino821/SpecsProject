@@ -1,6 +1,6 @@
 package testingPackage;
 
-<<<<<<< HEAD
+
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.EventQueue;
@@ -44,7 +44,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-=======
+
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
@@ -52,7 +52,7 @@ import javax.swing.text.MaskFormatter;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
->>>>>>> refs/remotes/origin/master
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -425,10 +425,10 @@ public class InsertPanel {
     	//Inserting
 		
     	getInsert();
-<<<<<<< HEAD
+
     	insertingFields(btnInsert);
     	
-=======
+
     	
     	
     	btnUpdate.addActionListener(new ActionListener() {
@@ -527,7 +527,6 @@ public class InsertPanel {
 				}
 			}
 		});
->>>>>>> refs/remotes/origin/master
 	}
 	
 	private void insertingFields(JButton btnInsert) {
