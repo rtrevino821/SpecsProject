@@ -209,6 +209,7 @@ public class TestMain {
 
 
 		};
+		testTable.setColumnSelectionAllowed(true);
 		testTable.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 22));
 		
 		 ((DefaultCellEditor) testTable.getDefaultEditor(Object.class))
