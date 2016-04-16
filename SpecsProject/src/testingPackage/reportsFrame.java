@@ -241,19 +241,118 @@ public class reportsFrame{
 //	    JComboBox categoryAsset = new JComboBox();
 	    JButton btnLoad1 = new JButton("Run");
 	    btnLoad1.setFont(font);
+<<<<<<< HEAD
 	    
 	    
+=======
+	    btnLoad1.addMouseListener(new MouseAdapter(){
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try {
+					if (assetQuery.getSelectedItem().equals("Assets over $500")) {
+						
+						UpDateTable_Assets_Over_500();
+						
+					}
+					else if(assetQuery.getSelectedItem().equals("Assets over $500 & Year acquired")) {
+						
+						String year3 =year.getText();						
+						System.out.println(year3);
+						UpDateTable_Assets_Over_500_By_Year(year3);
+ 
+					}
+					else if (assetQuery.getSelectedItem().equals("Assets over $500 within year range")) {
+						
+						String year1 = yearStart.getText();
+						String year2 = yearEnd.getText();
+						//System.out.println(year1 + "  " + year2);
+						update_Table_Assets_Over_500_Year_Range(year1,year2);
+						
+					}
+					else if (assetQuery.getSelectedItem().equals("Assets by Room #")) {
+						
+						int room_Number = Integer.parseInt(roomNo.getText());
+						
+						//System.out.println(room_Number);
+						Update_Table_Search_By_Room(room_Number);
+					}
+					else if (assetQuery.getSelectedItem().equals("Assets over $500 from category")) {
+						
+						String category_500 = (String) categoryAsset.getSelectedItem();
+						//System.out.println(category_500);
+						UpDateTable_Assets_Over_500_By_Category(category_500);		
+					}
+					
+					else if (assetQuery.getSelectedItem().equals("Assets over $500 from category & year acquired")) {
+						
+						String user_Category = (String) categoryAsset.getSelectedItem();
+						String year_Category = year.getText();
+						System.out.println(user_Category +"  " + year_Category);
+						UpDateTable_Assets_Over_500_By_Category_And_Year(year_Category, user_Category);
+					}
+					
+					
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			
+			}
+		});
+>>>>>>> origin/master
 //	    
 //	    JComboBox deactivatedQuery = new JComboBox();
 //	    JComboBox categoryDeactivated = new JComboBox();
 	    JButton btnLoad2 = new JButton("Run");
 	    btnLoad2.setFont(font);
-//	    
+	    btnLoad2.setFont(font);
+	    btnLoad2.addMouseListener(new MouseAdapter(){
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try {
+					
+				if (deactivatedQuery.getSelectedItem().equals("Deactivated assets")) {
+					
+					UpDateTable_Retired_Assets();
+				}
+				
+				else if (deactivatedQuery.getSelectedItem().equals("Deactivated assets from category")) {
+					
+					String deactivated_Category = (String) categoryDeactivated.getSelectedItem();
+					UpDateTable_Retired_Assets_By_Category(deactivated_Category);	
+				}
+				 
+	    
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		
+		}
+	});
+	    
+//	    JComboBox categoryQuery = new JComboBox();
+//	    JComboBox category = new JComboBox();
+	    
+	    
+	    //	    
 //	    JComboBox categoryQuery = new JComboBox();
 //	    JComboBox category = new JComboBox();
 	    JButton btnLoad3 = new JButton("Run");
 	    btnLoad3.setFont(font);
-	    
+	    btnLoad3.addMouseListener(new MouseAdapter(){
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try {
+					
+				if (categoryQuery.getSelectedItem().equals("Assets from category")){
+					
+					
+				}
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		
+		}
+	});
 //	    JComboBox expiredQuery = new JComboBox();
 //	    JTextField yearExpired = new JTextField();
 	    JButton btnLoad4 = new JButton("Run");
@@ -413,6 +512,213 @@ public class reportsFrame{
 		}
 	}
 	
+	/*WORKING PROPERLY ALL ASSETS OVER 500 WITHIN USER CHOSEN RANGE OF DATES*/
+	public static void update_Table_Assets_Over_500_Year_Range(String date, String date2) { 
+																							
+		Connection conn2 = sqliteConnectionTEST.dbConnector();
+		java.sql.Statement stmt;
+
+		try {
+
+			stmt = conn2.createStatement();
+			DefaultTableModel dm = new DefaultTableModel();
+
+			String showTestTable = "SELECT * From MasterTable" + " WHERE (Date_Acquired >= '" + date + "%'"
+					+ " AND Date_Acquired <='" + date2 + "%' AND MasterTable.Price>=500)" + ";";
+
+			PreparedStatement statement = conn2.prepareStatement(showTestTable);
+			ResultSet rs = statement.executeQuery();
+
+			addRowsAndColumns(rs, dm);
+			testTable.setModel(dm);
+
+			refreshScreen();
+			conn2.close();
+
+		} catch (SQLException e) {
+			System.out.println("sql exception caught");
+			e.printStackTrace();
+		}
+	}
+	
+	/* WORKING PROPERLY ALL ASSETS OVER 500*/
+	public static void UpDateTable_Assets_Over_500() {
+
+		Connection conn2 = sqliteConnectionTEST.dbConnector();
+		java.sql.Statement stmt;
+
+		try {
+			stmt = conn2.createStatement();
+
+			DefaultTableModel dm = new DefaultTableModel();
+			String testTable_String = ("SELECT *" + " From MasterTable Where MasterTable.Price>=500");
+
+			PreparedStatement showTestTable = conn2.prepareStatement(testTable_String);
+			ResultSet rsTest = showTestTable.executeQuery();
+			addRowsAndColumns(rsTest, dm);
+
+			testTable.setModel(dm);
+
+			refreshScreen();
+			conn2.close();
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e);
+		}
+	}
+		
+	
+	/* WORKING PROPERLY ALL ASSETS OVER 500 FOR SINGLE YEAR CHOSEN BY USER*/
+	public static void UpDateTable_Assets_Over_500_By_Year(String year2) {  
+
+		Connection conn2 = sqliteConnectionTEST.dbConnector();
+		java.sql.Statement stmt;
+
+		try {
+			stmt = conn2.createStatement();
+			DefaultTableModel dm = new DefaultTableModel();
+			String testTable_String = ("SELECT *" + " From MasterTable Where MasterTable.Price>=500 AND"
+									+ " MasterTable.Date_Acquired LIKE '" + year2 + "%';'");
+			
+			PreparedStatement showTestTable = conn2.prepareStatement(testTable_String);
+			ResultSet rsTest = showTestTable.executeQuery();
+
+					addRowsAndColumns(rsTest, dm);
+					testTable.setModel(dm);
+					refreshScreen();
+					conn2.close();
+		
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e);
+		}
+	}
+	
+	/* RETURNS ITEM BY USER CHOSEN ROOM NUMBER */
+	public static void Update_Table_Search_By_Room(int room_Number) {
+
+		Connection conn2 = sqliteConnectionTEST.dbConnector();
+		java.sql.Statement stmt;
+
+		try {
+			stmt = conn2.createStatement();
+			DefaultTableModel dm = new DefaultTableModel();
+			String testTable_String = ("SELECT *" + " From MasterTable Where MasterTable.Room = " + room_Number + ";");
+
+			PreparedStatement showTestTable = conn2.prepareStatement(testTable_String);
+			ResultSet rsTest = showTestTable.executeQuery();
+
+			addRowsAndColumns(rsTest, dm);
+			testTable.setModel(dm);
+			refreshScreen();
+			conn2.close();
+
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e);
+		}
+	}
+	
+	/* RETURNS ASSETS OVER 500 BY YEAR AND CATEGORY */
+	public static void UpDateTable_Assets_Over_500_By_Category(String category) {  
+
+		Connection conn2 = sqliteConnectionTEST.dbConnector();
+		java.sql.Statement stmt;
+
+		try {
+			stmt = conn2.createStatement();
+			DefaultTableModel dm = new DefaultTableModel();
+			String testTable_String = ("SELECT *" + " From MasterTable Where MasterTable.Price>=500 AND"
+									+ " MasterTable.Category LIKE '" + category + "%';'");
+			
+			PreparedStatement showTestTable = conn2.prepareStatement(testTable_String);
+			ResultSet rsTest = showTestTable.executeQuery();
+
+					addRowsAndColumns(rsTest, dm);
+					testTable.setModel(dm);
+					refreshScreen();
+					conn2.close();
+		
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e);
+		}
+	}
+	
+	/* RETURNS ASSETS OVER 500 BY YEAR AND CATEGORY */
+	public static void UpDateTable_Assets_Over_500_By_Category_And_Year(String year, String category) {  
+
+		Connection conn2 = sqliteConnectionTEST.dbConnector();
+		java.sql.Statement stmt;
+
+		try {
+			stmt = conn2.createStatement();
+			DefaultTableModel dm = new DefaultTableModel();
+			String testTable_String = ("SELECT *" + " From MasterTable Where MasterTable.Price>=500 AND"
+									+ " MasterTable.Category LIKE '" + category + "%' "
+											+ "AND Date_Acquired LIKE '" + year + "%';'");
+			
+			PreparedStatement showTestTable = conn2.prepareStatement(testTable_String);
+			ResultSet rsTest = showTestTable.executeQuery();
+
+					addRowsAndColumns(rsTest, dm);
+					testTable.setModel(dm);
+					refreshScreen();
+					conn2.close();
+		
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e);
+		}
+	}
+	
+	//Where MasterTable.Deactivated LIKE 'Removed'"
+	public static void UpDateTable_Retired_Assets() {  
+
+		Connection conn2 = sqliteConnectionTEST.dbConnector();
+		java.sql.Statement stmt;
+
+		try {
+			stmt = conn2.createStatement();
+			DefaultTableModel dm = new DefaultTableModel();
+			String testTable_String = ("SELECT *" + " From MasterTable Where MasterTable.Deactivated LIKE 'Removed'");
+			
+			PreparedStatement showTestTable = conn2.prepareStatement(testTable_String);
+			ResultSet rsTest = showTestTable.executeQuery();
+
+					addRowsAndColumns(rsTest, dm);
+					testTable.setModel(dm);
+					refreshScreen();
+					conn2.close();
+		
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e);
+		}
+	}
+	
+	public static void UpDateTable_Retired_Assets_By_Category(String category) {  
+
+		Connection conn2 = sqliteConnectionTEST.dbConnector();
+		java.sql.Statement stmt;
+
+		try {
+			stmt = conn2.createStatement();
+			DefaultTableModel dm = new DefaultTableModel();
+			String testTable_String = ("SELECT *" + " From MasterTable Where MasterTable.Deactivated LIKE 'Removed'"
+					+ " AND MasterTable.Category LIKE '" + category + "%';'");
+			
+			PreparedStatement showTestTable = conn2.prepareStatement(testTable_String);
+			ResultSet rsTest = showTestTable.executeQuery();
+
+					addRowsAndColumns(rsTest, dm);
+					testTable.setModel(dm);
+					refreshScreen();
+					conn2.close();
+		
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e);
+		}
+	}
+	
+	
+
+	
+	
 	public static void addRowsAndColumns(ResultSet rs, DefaultTableModel dm) throws SQLException
 	{
         ResultSetMetaData rsmd=rs.getMetaData();
@@ -460,11 +766,11 @@ public class reportsFrame{
         
         try {
             stmt = conn2.createStatement(); // \"group\",price //\"group\",price
-            ResultSet rs = stmt.executeQuery("SELECT Distinct \"group\" From MasterTable");
+            ResultSet rs = stmt.executeQuery("SELECT Distinct Category From MasterTable");
 
             String group = "";
             while (rs.next()) {
-                group = rs.getString("Group");
+                group = rs.getString("Category");
                 categoryAsset.addItem(group);
         	    categoryDeactivated.addItem(group);
         	    category.addItem(group);
