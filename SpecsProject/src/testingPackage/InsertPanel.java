@@ -91,6 +91,7 @@ public class InsertPanel {
 	private JTextField field5 = new JTextField();
 	private JTextField field6 = new JTextField();	
 	private JFormattedTextField field7;
+
 	JComboBox field8 = new JComboBox();
 	JFormattedTextField field8a = new JFormattedTextField();
 	JFormattedTextField field8b = new JFormattedTextField();

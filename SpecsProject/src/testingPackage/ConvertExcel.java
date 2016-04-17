@@ -190,7 +190,7 @@ public class ConvertExcel {
             Cell [] cellArray = new Cell[colCounts];
             System.out.println("Total Number of Cols: " + colCounts);
             for (int j = 0; j <= columnLength; j++) {
-            	if(j==23)
+            	if(j==24)
             	{
             		prepare.executeUpdate();
             	}
@@ -229,8 +229,8 @@ public class ConvertExcel {
 				+ "Floor, Date_Acquired, Ownership, Lease_Term,Lease_Expiration,"//5-10
 				+ "Rent_Due_Date,Supplier,Manufacturer,Model_Number,Serial_Number,"//10-15
 				+ "Warranty_Expiration_Date,Replacement_Date,Deactivation_Date,Deactivated,Deactivation_Method,"//15-20
-				+ "Price, Condition,Quality)"//20-23
-				+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?"
+				+ "Price, Condition,Quality,Expiration_Date)"//20-23
+				+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?"
 				+ ",?,?,?,?,?)";  //removed asset over 500 //removed picture
 
 		try {
@@ -295,7 +295,7 @@ public class ConvertExcel {
 		}
 		//Dates
 		else if(j==6||j==8||j==9||j==10|
-				j==15||j==16||j==17)
+				j==15||j==16||j==17||j==23)
 		{
 			if(cellArray[j] == null || cellArray[j].getCellType() == Cell.CELL_TYPE_BLANK)
 			{
@@ -354,7 +354,8 @@ public class ConvertExcel {
 				return prepare;
 	     	}
 	     	else{
-	         	cellTempString = cellArray[j].getStringCellValue();
+	         	System.out.println(j);
+	     		cellTempString = cellArray[j].getStringCellValue();
 	     		try {
 					prepare.setString(j+1, cellTempString);
 				} catch (SQLException e) {
