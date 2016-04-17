@@ -223,7 +223,7 @@ public class reportsFrame{
 	    
 	  //query options for expired assets
 	    String [] expiredQueries = {
-	    		"Expired assets",
+	    		"Expired assets to date",
 	    		"Expired assets by year",
 	    		"Warranty expiration by year",
 	    		"Lease expiration by year"
@@ -253,7 +253,7 @@ public class reportsFrame{
 					else if(assetQuery.getSelectedItem().equals("Assets over $500 & Year acquired")) {
 						
 						String year3 =year.getText();						
-						System.out.println(year3);
+						//System.out.println(year3);
 						UpDateTable_Assets_Over_500_By_Year(year3);
  
 					}
@@ -283,7 +283,7 @@ public class reportsFrame{
 						
 						String user_Category = (String) categoryAsset.getSelectedItem();
 						String year_Category = year.getText();
-						System.out.println(user_Category +"  " + year_Category);
+						//System.out.println(user_Category +"  " + year_Category);
 						UpDateTable_Assets_Over_500_By_Category_And_Year(year_Category, user_Category);
 					}
 					
@@ -313,6 +313,7 @@ public class reportsFrame{
 				else if (deactivatedQuery.getSelectedItem().equals("Deactivated assets from category")) {
 					
 					String deactivated_Category = (String) categoryDeactivated.getSelectedItem();
+					System.out.println(deactivated_Category);
 					UpDateTable_Retired_Assets_By_Category(deactivated_Category);	
 				}
 				 
@@ -340,6 +341,10 @@ public class reportsFrame{
 					
 				if (categoryQuery.getSelectedItem().equals("Assets from category")){
 					
+					String all_Category = (String) category.getSelectedItem();
+					System.out.println(all_Category);
+					UpDateTable_All_Assets_By_Category(all_Category);
+					
 					
 				}
 			} catch (Exception e2) {
@@ -352,6 +357,34 @@ public class reportsFrame{
 //	    JTextField yearExpired = new JTextField();
 	    JButton btnLoad4 = new JButton("Run");
 	    btnLoad4.setFont(font);
+	    btnLoad4.addMouseListener(new MouseAdapter(){
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				try {
+					
+				if (expiredQuery.getSelectedItem().equals("Expired assets")) {
+					
+					String all_Expired = yearExpired.getText();
+					UpDateTable_Expired_Assets(all_Expired);
+					
+				}
+				
+				else if (expiredQuery.getSelectedItem().equals("Expired assets by year")){
+					
+					String year_Expired = yearExpired.getText();
+					System.out.println(year_Expired);
+					UpDateTable_Expired_Assets(year_Expired);
+				}
+					
+					
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
+		
+		}
+	});
+				
+	   // JUST A COMMENT 
 	    
 	    //These empty Jlabels are spacers between query groups
 	    empty = new JLabel("");
@@ -587,7 +620,8 @@ public class reportsFrame{
 		}
 	}
 	
-	/* RETURNS ITEM BY USER CHOSEN ROOM NUMBER */
+	
+	/* RETURNS ASSEYS BASED OFF SPECIFIC ROOM NUMBER */
 	public static void Update_Table_Search_By_Room(int room_Number) {
 
 		Connection conn2 = sqliteConnectionTEST.dbConnector();
@@ -636,6 +670,58 @@ public class reportsFrame{
 		}
 	}
 	
+	
+	public static void UpDateTable_All_Assets_By_Category(String category) {  
+
+		Connection conn2 = sqliteConnectionTEST.dbConnector();
+		java.sql.Statement stmt;
+
+		try {
+			stmt = conn2.createStatement();
+			DefaultTableModel dm = new DefaultTableModel();
+			String testTable_String = ("SELECT *" + " From MasterTable Where MasterTable.Category = '" + category + "';'");
+			
+			PreparedStatement showTestTable = conn2.prepareStatement(testTable_String);
+			ResultSet rsTest = showTestTable.executeQuery();
+
+					addRowsAndColumns(rsTest, dm);
+					testTable.setModel(dm);
+					refreshScreen();
+					conn2.close();
+		
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e);
+		}
+	}
+	
+	
+/*	public static void UpDateTable_Deactivated_Assets(String category) {  
+
+		Connection conn2 = sqliteConnectionTEST.dbConnector();
+		java.sql.Statement stmt;
+
+		try {
+			stmt = conn2.createStatement();
+			DefaultTableModel dm = new DefaultTableModel();
+			String testTable_String = ("SELECT *" + " From MasterTable Where MasterTable.Category = '" + category + "';'");
+			
+			PreparedStatement showTestTable = conn2.prepareStatement(testTable_String);
+			ResultSet rsTest = showTestTable.executeQuery();
+
+					addRowsAndColumns(rsTest, dm);
+					testTable.setModel(dm);
+					refreshScreen();
+					conn2.close();
+		
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e);
+		}
+	}
+*/	
+	
+	
+	
+	
 	/* RETURNS ASSETS OVER 500 BY YEAR AND CATEGORY */
 	public static void UpDateTable_Assets_Over_500_By_Category_And_Year(String year, String category) {  
 
@@ -662,8 +748,9 @@ public class reportsFrame{
 		}
 	}
 	
+	
 	//Where MasterTable.Deactivated LIKE 'Removed'"
-	public static void UpDateTable_Retired_Assets() {  
+	public static void UpDateTable_Retired_Assets() {
 
 		Connection conn2 = sqliteConnectionTEST.dbConnector();
 		java.sql.Statement stmt;
@@ -672,20 +759,68 @@ public class reportsFrame{
 			stmt = conn2.createStatement();
 			DefaultTableModel dm = new DefaultTableModel();
 			String testTable_String = ("SELECT *" + " From MasterTable Where MasterTable.Deactivated LIKE 'Removed'");
-			
+
 			PreparedStatement showTestTable = conn2.prepareStatement(testTable_String);
 			ResultSet rsTest = showTestTable.executeQuery();
 
-					addRowsAndColumns(rsTest, dm);
-					testTable.setModel(dm);
-					refreshScreen();
-					conn2.close();
-		
+			addRowsAndColumns(rsTest, dm);
+			testTable.setModel(dm);
+			refreshScreen();
+			conn2.close();
+
 		} catch (Exception e) {
 			JOptionPane.showMessageDialog(null, e);
 		}
 	}
 	
+	/* RETURN ALL EXPIRED ASSETS*/
+	public static void UpDateTable_Expired_Assets(String year) {
+
+		Connection conn2 = sqliteConnectionTEST.dbConnector();
+		java.sql.Statement stmt;
+
+		try {
+			stmt = conn2.createStatement();
+			DefaultTableModel dm = new DefaultTableModel();
+			String testTable_String = ("SELECT *" + " From MasterTable Where MasterTable.Expiration_Date LIKE '" +year + "%';'");
+
+			PreparedStatement showTestTable = conn2.prepareStatement(testTable_String);
+			ResultSet rsTest = showTestTable.executeQuery();
+
+			addRowsAndColumns(rsTest, dm);
+			testTable.setModel(dm);
+			refreshScreen();
+			conn2.close();
+
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e);
+		}
+	}
+	
+	public static void UpDateTable_Expired_Assets_To_Date(String year) {
+
+		Connection conn2 = sqliteConnectionTEST.dbConnector();
+		java.sql.Statement stmt;
+
+		try {
+			stmt = conn2.createStatement();
+			DefaultTableModel dm = new DefaultTableModel();
+			String testTable_String = ("SELECT *" + " From MasterTable Where MasterTable.Expiration_Date <= '" +year + "%';'");
+
+			PreparedStatement showTestTable = conn2.prepareStatement(testTable_String);
+			ResultSet rsTest = showTestTable.executeQuery();
+
+			addRowsAndColumns(rsTest, dm);
+			testTable.setModel(dm);
+			refreshScreen();
+			conn2.close();
+
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e);
+		}
+	}
+	
+	/* Return EVERY ASSETS IN A CATEGORY*/
 	public static void UpDateTable_Retired_Assets_By_Category(String category) {  
 
 		Connection conn2 = sqliteConnectionTEST.dbConnector();
@@ -695,7 +830,7 @@ public class reportsFrame{
 			stmt = conn2.createStatement();
 			DefaultTableModel dm = new DefaultTableModel();
 			String testTable_String = ("SELECT *" + " From MasterTable Where MasterTable.Deactivated LIKE 'Removed'"
-					+ " AND MasterTable.Category LIKE '" + category + "%';'");
+					+ " AND MasterTable.Category = '" + category + "';'");
 			
 			PreparedStatement showTestTable = conn2.prepareStatement(testTable_String);
 			ResultSet rsTest = showTestTable.executeQuery();
@@ -760,7 +895,7 @@ public class reportsFrame{
         java.sql.Statement stmt;
         
         try {
-            stmt = conn2.createStatement(); // \"group\",price //\"group\",price
+            stmt = conn2.createStatement(); 
             ResultSet rs = stmt.executeQuery("SELECT Distinct Category From MasterTable");
 
             String group = "";
@@ -816,8 +951,10 @@ public class reportsFrame{
 	
 	protected void expiredUpdateState() {
 	    
-	    boolean ByYearEnabled = expiredQuery.getSelectedItem().equals("Expired assets");
+	    boolean ByYearEnabled = expiredQuery.getSelectedItem().equals("Expired assets to date");
 	    yearExpired.setEnabled(!ByYearEnabled);
+	    
+	    //if (ByYearEnabled || )
 	    	
 	}
 }

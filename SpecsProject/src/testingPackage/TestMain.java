@@ -67,7 +67,7 @@ public class TestMain {
 	}
 
 	/**
-	 * Initialize the contents of the frame.
+	 * Initializev2 the contents of the frame.
 	 */
 
 	private void initialize() throws SQLException {

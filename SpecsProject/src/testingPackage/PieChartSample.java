@@ -53,7 +53,7 @@ public class PieChartSample extends Application {
 			ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
 				new PieChart.Data("Art: ", test_Total_By_Category("ArtWork")),
 				new PieChart.Data("Cabinets: ", test_Total_By_Category("Furniture & Fixture Cabinets")),
-				new PieChart.Data("Pc's: ", test_Total_By_Category("Computers")),//test_Computers_Total_Spent()),
+				new PieChart.Data("Pc's: ", test_Total_By_Category("Computers")),
 				new PieChart.Data("Software: ", test_Total_By_Category("Computer Software")),
 				new PieChart.Data("Battery backups: ", test_Total_By_Category("Computers Battery Backups")),
 				new PieChart.Data("Pc/misc", test_Total_By_Category("Computers MISC & Server E")),
@@ -115,9 +115,6 @@ public class PieChartSample extends Application {
     public static void main(String[] args) {
         launch(args);
        
-        //String date ="2001";
-        //test_Assets_Over_500(date);
-
        
        // Search_By_Room(0);
         //Search_Retired_Assets_By_Category("Computer Software");
