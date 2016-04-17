@@ -50,6 +50,7 @@ import javax.swing.SpringLayout;
 import javax.swing.border.EmptyBorder;
 import java.awt.LayoutManager;
 import javax.swing.BoxLayout;
+import javax.swing.SwingConstants;
 
 public class reportsFrame{
 
@@ -129,6 +130,7 @@ public class reportsFrame{
 		reportFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		reportFrame.setLocationRelativeTo(null);
 		reportFrame.getContentPane().setLayout(null);
+		reportFrame.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		SpringLayout springLayout = new SpringLayout();
 		reportFrame.getContentPane().setLayout(springLayout);
 		
@@ -143,22 +145,6 @@ public class reportsFrame{
 		springLayout.putConstraint(SpringLayout.SOUTH, scrollPane_1, -98, SpringLayout.SOUTH, reportFrame.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, scrollPane_1, -21, SpringLayout.EAST, reportFrame.getContentPane());
 		reportFrame.getContentPane().add(scrollPane_1);
-		
-		JButton btnInsert = new JButton("Print");
-		springLayout.putConstraint(SpringLayout.WEST, btnInsert, 816, SpringLayout.WEST, reportFrame.getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, btnInsert, -28, SpringLayout.SOUTH, reportFrame.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, btnInsert, -486, SpringLayout.EAST, reportFrame.getContentPane());
-		btnInsert.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 22));
-		reportFrame.getContentPane().add(btnInsert);
-		
-		JButton btnNewButton_1 = new JButton("Export to Excel");
-		springLayout.putConstraint(SpringLayout.NORTH, btnInsert, 0, SpringLayout.NORTH, btnNewButton_1);
-		springLayout.putConstraint(SpringLayout.NORTH, btnNewButton_1, 23, SpringLayout.SOUTH, scrollPane_1);
-		springLayout.putConstraint(SpringLayout.WEST, btnNewButton_1, 1170, SpringLayout.WEST, reportFrame.getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, btnNewButton_1, -28, SpringLayout.SOUTH, reportFrame.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, btnNewButton_1, -132, SpringLayout.EAST, reportFrame.getContentPane());
-		btnNewButton_1.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 22));
-		reportFrame.getContentPane().add(btnNewButton_1);
 		
 
 		//bullshitcomment
@@ -509,6 +495,34 @@ public class reportsFrame{
 		//testTable.setAutoCreateColumnsFromModel(true);
 		testTable.setAutoCreateRowSorter(true);
     	testTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+    	
+    	JPanel buttonPanel = new JPanel();
+    	buttonPanel.setBackground(new Color(244, 244, 244));
+    	buttonPanel.setBorder(new EmptyBorder(10, 20, 10, 20));
+    	springLayout.putConstraint(SpringLayout.WEST, buttonPanel, 10, SpringLayout.EAST, scrollPane);
+    	springLayout.putConstraint(SpringLayout.SOUTH, buttonPanel, -10, SpringLayout.SOUTH, reportFrame.getContentPane());
+    	springLayout.putConstraint(SpringLayout.EAST, buttonPanel, -20, SpringLayout.EAST, reportFrame.getContentPane());
+    	buttonPanel.setSize(10, 50);
+    	buttonPanel.setLocation(719, 645);
+    	springLayout.putConstraint(SpringLayout.NORTH, buttonPanel, 11, SpringLayout.SOUTH, scrollPane_1);
+    	reportFrame.getContentPane().add(buttonPanel);
+    	buttonPanel.setLayout(new GridLayout(0, 2, 20, 0));
+    	
+    	JButton btnInsert = new JButton("Print");
+    	buttonPanel.add(btnInsert);
+    	springLayout.putConstraint(SpringLayout.WEST, btnInsert, 750, SpringLayout.WEST, reportFrame.getContentPane());
+    	springLayout.putConstraint(SpringLayout.NORTH, btnInsert, 23, SpringLayout.SOUTH, scrollPane_1);
+    	springLayout.putConstraint(SpringLayout.SOUTH, btnInsert, -28, SpringLayout.SOUTH, reportFrame.getContentPane());
+    	btnInsert.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 22));
+    	
+    	JButton btnNewButton_1 = new JButton("Export to Excel");
+    	buttonPanel.add(btnNewButton_1);
+    	springLayout.putConstraint(SpringLayout.WEST, btnNewButton_1, (int)((scrollPane_1.getWidth() / 2) + 15), SpringLayout.WEST, scrollPane_1);
+    	springLayout.putConstraint(SpringLayout.EAST, btnNewButton_1, -50, SpringLayout.EAST, reportFrame.getContentPane());
+    	springLayout.putConstraint(SpringLayout.NORTH, btnNewButton_1, 23, SpringLayout.SOUTH, scrollPane_1);
+    	springLayout.putConstraint(SpringLayout.SOUTH, btnNewButton_1, -28, SpringLayout.SOUTH, reportFrame.getContentPane());
+    	btnNewButton_1.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 22));
+    	springLayout.putConstraint(SpringLayout.EAST, btnInsert, -80, SpringLayout.WEST, btnNewButton_1);
     	
     	//testTable.getColumnModel().getColumn(1).setMinWidth(30);
     	//testTable.getColumnModel().getColumn(1).setMaxWidth(80);

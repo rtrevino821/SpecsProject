@@ -40,7 +40,7 @@ public class InsertPanel {
 	//test_All_Groups();
 	JTextField field4 = new JTextField();
 	JTextField field5 = new JTextField();
-	JTextField field6 = new JTextField();	
+	JTextField field6 = new JTextField();
 	JFormattedTextField field7;
 	JComboBox field8 = new JComboBox();
 	JFormattedTextField field8a = new JFormattedTextField();
