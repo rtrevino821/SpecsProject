@@ -38,6 +38,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
+
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import java.awt.event.KeyAdapter;
@@ -68,7 +69,7 @@ public class InsertPanel {
 	private static JTable testTable;
 	
 	//init Frame and springLayout
-	private JFrame frmInsertAsset = new JFrame();
+	public JFrame frmInsertAsset = new JFrame();
 	private SpringLayout springLayout = new SpringLayout();
 	private JPanel g1_Jpanel;
 
@@ -113,7 +114,7 @@ public class InsertPanel {
 	JTextField field21 = new JTextField();
 	JTextField field22 = new JTextField();
 	JTextField field23 = new JTextField();
-	
+	 private static InsertPanel instance;
 
 
 
@@ -142,6 +143,33 @@ public class InsertPanel {
 	 * @throws InstantiationException 
 	 * @throws ClassNotFoundException 
 	 */
+	
+//	public static InsertPanel getInstance() 
+//	{
+//		if (instance == null)
+//		{
+//			try {
+//				instance = new InsertPanel();
+//			} catch (ClassNotFoundException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			} catch (InstantiationException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			} catch (IllegalAccessException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			} catch (SQLException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			} catch (UnsupportedLookAndFeelException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
+//		return instance;
+//
+//	}
 	public InsertPanel() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 		Connection conn = sqliteConnectionTEST.dbConnector();
@@ -430,7 +458,16 @@ public class InsertPanel {
     	insertingFields(btnInsert);
     	
 
-    	
+    	frmInsertAsset.addWindowListener(new WindowAdapter()
+           {
+               @Override
+               public void windowClosing(WindowEvent e)
+               {
+                   System.out.println("Closed");
+                   MainScreen.frame.setVisible(true);
+                   e.getWindow().dispose();
+               }
+           });
     	
     	btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -644,14 +681,14 @@ public class InsertPanel {
 					{
 						return Integer.class;
 					}
-					else if(c==6||c==8||c==9||c==10|
+					if(c==6||c==8||c==9||c==10|
 							c==15||c==16||c==17)
 					{
 						return String.class;
 					}
 					else if(c==20)
 					{
-						return Integer.class;
+						return Double.class;
 					}
 					else
 						return String.class;
@@ -698,6 +735,10 @@ public class InsertPanel {
             	 {
                      row[i]=Integer.parseInt(rs.getString(4));
 
+            	 }
+            	 if(i==20)
+            	 {
+                     row[i]=Double.parseDouble(rs.getString(21));
             	 }
             	 else
                     row[i]=rs.getString(i+1);
@@ -808,8 +849,15 @@ public class InsertPanel {
 			
 			}
 		});
-		
-		
+
+		//5 Id Tag
+		field5.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent e) {
+				//System.out.println(Integer.parseInt(field4.getName().substring(0, 1)));
+				getIntegerInput(field5, e);
+
+			}
+		});		
 		
 		//14a Deactivated JCheckBox 
 		field14a.addItemListener(new ItemListener() {
