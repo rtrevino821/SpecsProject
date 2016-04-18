@@ -1,17 +1,18 @@
 package appPackage;
 
+<<<<<<< HEAD
 import java.awt.Font;
 import java.sql.*;
 import javax.swing.*;
 
+=======
+>>>>>>> refs/remotes/origin/master
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.text.Text;
-
-import testingPackage.LineChartSample;
+import javafx.scene.chart.*;
 import testingPackage.InsertPanel;
+<<<<<<< HEAD
 import testingPackage.reportsFrame;
 
 
@@ -36,6 +37,22 @@ import javafx.scene.chart.*;
 public class MainScreen extends JFrame{
 //---------------------------
 	private static JFrame frame;
+=======
+import testingPackage.LineChartSample;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.net.URISyntaxException;
+import java.sql.Connection;
+import java.util.Map;
+import java.util.TreeMap;
+
+public class MainScreen extends JApplet{
+
+//	private static JFrame frame;
+>>>>>>> refs/remotes/origin/master
 
 	//****** ADDED
 	//private static InsertPanel insert;
@@ -45,38 +62,51 @@ public class MainScreen extends JFrame{
 	
 	Connection connection = null;
 
+	private static InsertPanel insert;
+	private static JFXPanel chartFxPanel;
+	private Chart chart;
+	private static int btnPanelWidth;
+	private static int btnPanelHeight;
+	private static int FX_PANEL_WIDTH = 1000;
+	private static int FX_PANEL_HEIGHT = 500;
+	private static int headerPanelWidth;
+	private static int headerPanelHeight;
+
+
 	/**
 	 * Create the Main Application.
-	 * 
+	 *
 	 */
-	
-	public static void main(String[] args) {
 
-		SwingUtilities.invokeLater(new Runnable() {
-			@Override
-			public void run() {
-				try {
-					MainScreen mainScreen = new MainScreen();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+	public static void main(String[] args) {
+		SwingUtilities.invokeLater(() -> {
+            try {
+                MainScreen mainScreen = new MainScreen();
+			} catch (Exception e) {e.printStackTrace();}
+        });
 	}
-	
-	
+
+
 	public MainScreen() throws URISyntaxException {
 		super();
 		connection = sqliteConnection.dbConnector();
-		initialize();
-		// UpdateTable();
+		init();
+//		 UpdateTable();
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private static void initialize() throws URISyntaxException {
-		frame = new JFrame();
+	@Override
+	public void init() {
+
+		// create javafx panel for charts
+		//-----------------------------------------------------------------------------------//
+		chartFxPanel = new JFXPanel();
+		chartFxPanel.setPreferredSize(new Dimension(FX_PANEL_WIDTH, FX_PANEL_HEIGHT));
+		//-----------------------------------------------------------------------------------//
+
+		JFrame frame = new JFrame();
 		frame.setIconImage(Toolkit.getDefaultToolkit().getImage(MainScreen.class.getResource("/Resources/appIconImage.png")));
 		frame.setResizable(false);
 		SpringLayout springLayout = new SpringLayout();
@@ -95,6 +125,7 @@ public class MainScreen extends JFrame{
 		frame.setSize(1440, 865);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setLocationRelativeTo(null);
+<<<<<<< HEAD
 		
 		
 		
@@ -103,18 +134,28 @@ public class MainScreen extends JFrame{
 		
 		
 		
+=======
+
+
+
+
+//		Platform.runLater(() -> initFX(fxPanel));
+
+
+
+>>>>>>> refs/remotes/origin/master
 		JLabel Logo_MainScreen = new JLabel("");
 		springLayout.putConstraint(SpringLayout.NORTH, Logo_MainScreen, 16, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, Logo_MainScreen, 15, SpringLayout.WEST, frame.getContentPane());
 		Logo_MainScreen.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/Logo_Alt_2.jpg")));
 		frame.getContentPane().add(Logo_MainScreen);
-		
+
 		JLabel dividerIconLabel = new JLabel("");
 		springLayout.putConstraint(SpringLayout.NORTH, dividerIconLabel, 127, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, dividerIconLabel, 274, SpringLayout.WEST, frame.getContentPane());
 		dividerIconLabel.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/Divider.png")));
 		frame.getContentPane().add(dividerIconLabel);
-		
+
 		JLabel reportIconLabel = new JLabel("");
 		springLayout.putConstraint(SpringLayout.NORTH, reportIconLabel, 127, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, reportIconLabel, 54, SpringLayout.WEST, frame.getContentPane());
@@ -144,9 +185,9 @@ public class MainScreen extends JFrame{
 				}
 			}
 		});
-		
-	
-		
+
+
+
 		JLabel graphIconLabel = new JLabel("");
 		springLayout.putConstraint(SpringLayout.NORTH, graphIconLabel, 297, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, graphIconLabel, 54, SpringLayout.WEST, frame.getContentPane());
@@ -168,17 +209,27 @@ public class MainScreen extends JFrame{
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
+<<<<<<< HEAD
 					//new LineChartSample();
 					//new reportsFrame();
 					new ExcelFrame();
+=======
+					// create JavaFX scene
+					Platform.runLater(() -> createScene());
+					JFrame fxFrame = setFrame();
+					fxFrame.add(chartFxPanel);
+					fxFrame.setVisible(true);
+//					frame.add(chartFxPanel);
+
+>>>>>>> refs/remotes/origin/master
 					//report.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
 			}
 		});
-		
-		
+
+
 		JLabel excelLabel = new JLabel("");
 		springLayout.putConstraint(SpringLayout.NORTH, excelLabel, 467, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, excelLabel, 54, SpringLayout.WEST, frame.getContentPane());
@@ -211,7 +262,7 @@ public class MainScreen extends JFrame{
 				}
 			}
 		});
-		
+
 		JLabel helpIconLabel = new JLabel("");
 		springLayout.putConstraint(SpringLayout.NORTH, helpIconLabel, 637, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, helpIconLabel, 54, SpringLayout.WEST, frame.getContentPane());
@@ -225,16 +276,16 @@ public class MainScreen extends JFrame{
 			public void mouseEntered(MouseEvent e) {
 				//helpIconLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
 				helpIconLabel.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/helpIcon_Hover.png")));
-				
+
 			}
-			
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				helpIconLabel.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/helpIcon.png")));
 			}
 		});
 
-		
+
 		JLabel lblCompanyAssetsAt = new JLabel("Company Assets At A Glance");
 		springLayout.putConstraint(SpringLayout.NORTH, lblCompanyAssetsAt, 134, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, lblCompanyAssetsAt, 454, SpringLayout.WEST, frame.getContentPane());
@@ -243,8 +294,12 @@ public class MainScreen extends JFrame{
 		lblCompanyAssetsAt.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 34));
 		lblCompanyAssetsAt.setForeground(new Color(98, 98, 98));
 		frame.getContentPane().add(lblCompanyAssetsAt);
+<<<<<<< HEAD
 		
 <<<<<<< HEAD
+=======
+
+>>>>>>> refs/remotes/origin/master
 		JLabel lblHelloSteve = new JLabel("Hello Steve!");
 		springLayout.putConstraint(SpringLayout.NORTH, lblHelloSteve, 25, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, lblHelloSteve, 961, SpringLayout.WEST, frame.getContentPane());
@@ -266,14 +321,14 @@ public class MainScreen extends JFrame{
 //		lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/Resources/pieChart.jpg")));
 //		lblNewLabel.setBounds(648, 272, 471, 411);
 //		frame.getContentPane().add(lblNewLabel);
-		
+
 		JLabel lblNewLabel = new JLabel("");
 		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel, 272, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, lblNewLabel, 648, SpringLayout.WEST, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel, 683, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel, 1119, SpringLayout.WEST, frame.getContentPane());
 		frame.getContentPane().add(lblNewLabel);
-		
+
 		JLabel lblATeamSoftware = new JLabel("A Team Software Suite 2016");
 		springLayout.putConstraint(SpringLayout.NORTH, lblATeamSoftware, 773, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, lblATeamSoftware, 1086, SpringLayout.WEST, frame.getContentPane());
@@ -291,6 +346,7 @@ public class MainScreen extends JFrame{
 		// Application Icon Image
 //		ImageIcon icon = new ImageIcon(getClass().getResource("/Resources/appIconImage.png"));
 //		frame.setIconImage(icon.getImage());
+<<<<<<< HEAD
 		
 	//TODO replace static graph image with dynamic graph from testingPackage
 	
@@ -318,28 +374,56 @@ public class MainScreen extends JFrame{
 		
 		
 		
+=======
+
+		//TODO replace static graph image with dynamic graph from testingPackage
+
+>>>>>>> refs/remotes/origin/master
 	}
 
-	private static void initFX(JFXPanel fxPanel) {
-		 // This method is invoked on the JavaFX thread
-        Scene scene = createScene();
-        fxPanel.setScene(scene);
+
+	public JFrame setFrame()
+	{
+		JFrame fxFrame = new JFrame();
+		fxFrame.setVisible(true);
+		fxFrame.getContentPane().setBackground(new Color(244, 244, 244));
+		fxFrame.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 12));
+		fxFrame.setTitle("Insert Asset");
+		fxFrame.setBounds(100, 100, 1504, 793);
+		fxFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		fxFrame.setLocationRelativeTo(null);
+		fxFrame.getContentPane().setLayout(null);
+		fxFrame.getContentPane().setLayout(new SpringLayout());
+		fxFrame.setSize(new Dimension(FX_PANEL_WIDTH, FX_PANEL_HEIGHT));
+
+		ImageIcon icon = new ImageIcon(getClass().getResource("/Resources/appIconImage.png"));
+		fxFrame.setIconImage(icon.getImage());
+		return fxFrame;
 	}
-	
-	private static Scene createScene() {
-		Group  root  =  new  Group();
-        Scene  scene  =  new  Scene(root, javafx.scene.paint.Color.ALICEBLUE);
-        Text  text  =  new  Text();
-        
-        text.setX(40);
-        text.setY(100);
-        text.setFont(new javafx.scene.text.Font(25));
-        text.setText("Welcome JavaFX!");
 
-        root.getChildren().add(text);
 
-        return (scene);
+	private void createScene() {
+		chart = createBarChart();
+		chartFxPanel.setScene(new Scene(chart));
 	}
 
+	private BarChart createBarChart() {
+		XYChart.Series series = new XYChart.Series();
+		TreeMap<String,Double> map = testingPackage.LineChartSample.test_Everything_Total_Spent();
+		for(Map.Entry<String,Double> e : map.entrySet()){
+			System.out.println("year: "+e.getKey()+", spent: "+e.getValue());
+			series.getData().add(new XYChart.Data(e.getKey(), e.getValue()));
+		}
+		CategoryAxis xAxis = new CategoryAxis();
+		xAxis.setLabel("Year");
+
+		NumberAxis yAxis = new NumberAxis();
+		yAxis.setLabel("Units Sold");
+
+		final BarChart chart = new BarChart(xAxis, yAxis);
+		chart.getData().add(series);
+
+		return chart;
+	}
 
 }
