@@ -1,6 +1,7 @@
 package testingPackage;
 //comment comment
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.util.SystemOutLogger;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -243,7 +244,7 @@ public class ConvertExcel {
 				+ "Floor, Date_Acquired, Ownership, Lease_Term,Lease_Expiration,"//5-10
 				+ "Rent_Due_Date,Supplier,Manufacturer,Model_Number,Serial_Number,"//10-15
 				+ "Warranty_Expiration_Date,Replacement_Date,Deactivation_Date,Deactivated,Deactivation_Method,"//15-20
-				+ "Price, Condition,Quality,Expiration_Date)"//20-23
+				+ "Expiration_Date, Price, Condition,Quality)"//20-23
 				+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?"
 				+ ",?,?,?,?,?)";  //removed asset over 500 //removed picture
 
@@ -309,8 +310,8 @@ public class ConvertExcel {
 			return prepare;
 		}
 		//Dates
-		else if(j==6||j==8||j==9||j==10|
-				j==15||j==16||j==17||j==23)
+		else if(j==6||j==8||j==9||j==10
+				 ||j==20 || j==15||j==16||j==17)
 		{
 			if(cellArray[j] == null || cellArray[j].getCellType() == Cell.CELL_TYPE_BLANK)
 			{
@@ -323,7 +324,7 @@ public class ConvertExcel {
 				}
 				return prepare;
 			}
-
+			System.out.println("NumJ : " + j);
 		 	typeDate =  cellArray[j].getDateCellValue();
 		 	dateFormattedString = cellTempDate.format(typeDate);
 		 	try {
@@ -336,7 +337,7 @@ public class ConvertExcel {
 
 		}
 		//Double
-		else if(j==20)
+		else if(j==21)
 		{
 			if(cellArray[j].getCellType() == Cell.CELL_TYPE_BLANK)
 			{
@@ -516,11 +517,13 @@ public class ConvertExcel {
 				if(!cell.getStringCellValue().equals(c[count]) || cell == null )
 				{
 //					System.out.println("NOT Matched: " + cell.getStringCellValue());
-					conn.close();
+					//conn.close();
+					writer.println("Column " +(c[count]) + " at  Excel column: " + (char)(count+'A'));
 					flag = false;
 				}
 			}
 		}
+		
 
 		conn.close();
 		writer.close();
