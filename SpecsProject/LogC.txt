@@ -1,4 +1,0 @@
-Column Expiration_Date at  Excel column: U
-Column Price at  Excel column: V
-Column Condition at  Excel column: W
-Column Quality at  Excel column: X

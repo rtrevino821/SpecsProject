@@ -116,9 +116,29 @@ public class ConvertExcel {
 	        	if(table.getColumnName(cols).equals(colName[cols]) )
 	        	{
 	            	String columnString = colName[cols];
+	            	System.out.println("Col: " + columnString);
 	            	if(isColumnIntType(columnString))
 	            	{//writes cell as doubles to remove error checking from excel
+	            		
+
+						FileWriter fw = null;
+
+						try {
+							fw = new FileWriter("LogReportFrameNullPointer.txt");
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						} // needed so printwriter will not overwrite
+						PrintWriter writer = new PrintWriter(fw);
+						//System.out.println("ID Tag: " + model.getValueAt(rows, cols).toString());
+						writer.println( model.getValueAt(rows, 3).toString());
+						writer.close();
+						
 	            		XSSFCell cell = (XSSFCell) row.createCell(cols);//create a cell at the row,col location
+	            		
+	            		
+	            		//System.out.println((model.getValueAt(rows, cols).toString()));
+	            		
+	            		
 	            		double x = Double.parseDouble((String) (model.getValueAt(rows, cols)));//get he  value from table
 			            cell.setCellValue(x);
 			           //row.createCell(cols).setCellValue(model.getValueAt(rows, cols).toString()); //Write value
@@ -191,7 +211,7 @@ public class ConvertExcel {
             row = sheet.getRow(i);//change colcounts to row
             int colCounts = columnLength;//assign colCounts to the length of max num of cols
             Cell [] cellArray = new Cell[colCounts];
-            System.out.println("Total Number of Cols: " + colCounts);
+           // System.out.println("Total Number of Cols: " + colCounts);
             for (int j = 0; j <= columnLength; j++) {
             	if(j==24)
             	{
@@ -324,7 +344,7 @@ public class ConvertExcel {
 				}
 				return prepare;
 			}
-			System.out.println("NumJ : " + j);
+			//System.out.println("NumJ : " + j);
 		 	typeDate =  cellArray[j].getDateCellValue();
 		 	dateFormattedString = cellTempDate.format(typeDate);
 		 	try {
@@ -385,7 +405,7 @@ public class ConvertExcel {
 	    			return prepare;
 
 	     		}
-	         	System.out.println(j);
+	         	//System.out.println(j);
 	     		cellTempString = cellArray[j].getStringCellValue();
 	     		try {
 					prepare.setString(j+1, cellTempString);
@@ -421,7 +441,7 @@ public class ConvertExcel {
 
 	public static boolean isColumnIntType(String colName)
 	{
-		if(colName.equals("ID")||(colName.equals("Price")))
+		if(colName.equals("ID_Tag")||(colName.equals("Price")))
 				{
 					return true;
 				}
