@@ -15,10 +15,7 @@ import javax.swing.JComboBox;
 import java.awt.Font;
 import java.awt.GridLayout;
 import javax.swing.table.DefaultTableModel;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -38,10 +35,7 @@ import javax.swing.JCheckBox;
 import javax.swing.JFormattedTextField;
 import javax.swing.text.DefaultFormatterFactory;
 import javax.swing.text.MaskFormatter;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
+
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 
@@ -49,6 +43,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
+import java.applet.Applet;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
@@ -62,13 +57,13 @@ import java.util.regex.Pattern;
 
 
 
-public class InsertPanel {
+public class InsertPanel extends Applet {
 
 	//private JComboBox <String> field3;
 	private static JTable testTable;
 	
 	//init Frame and springLayout
-	private JFrame frmInsertAsset = new JFrame();
+	public JFrame frmInsertAsset = new JFrame();
 	private SpringLayout springLayout = new SpringLayout();
 	private JPanel g1_Jpanel;
 
@@ -80,6 +75,18 @@ public class InsertPanel {
 	//For Lease and Rented
 	private boolean leasedFlag;
 	private boolean rentedFlag;
+	//Input Flags
+	private boolean itemNameFlag;
+	private boolean categoryFlag;
+	private boolean categoryFocusFlag;
+
+	private boolean id_tagFlag;
+	private boolean date_acuquiredFlag;
+	private boolean priceFlag;
+	private String 	newCategoryString;
+
+	
+
 
 	// instantiating textfields for each jlabel
 	private JTextField field1 = new JTextField();
@@ -91,8 +98,9 @@ public class InsertPanel {
 	private JTextField field5 = new JTextField();
 	private JTextField field6 = new JTextField();	
 	private JFormattedTextField field7;
-	JComboBox field8 = new JComboBox();
-	JFormattedTextField field8a = new JFormattedTextField();
+
+	private JComboBox field8 = new JComboBox();
+	private JFormattedTextField field8a = new JFormattedTextField();
 	JFormattedTextField field8b = new JFormattedTextField();
 	JFormattedTextField field8c = new JFormattedTextField();
 	JTextField field9 = new JTextField();
@@ -104,6 +112,7 @@ public class InsertPanel {
 	JFormattedTextField field14 = new JFormattedTextField();
 	JCheckBox field14a = new JCheckBox();
 	JTextField field15 = new JTextField();
+	JFormattedTextField field15a = new JFormattedTextField();
 	JTextField field16 = new JTextField();
 	JTextField field17 = new JTextField();
 	JTextField field18 = new JTextField();
@@ -112,8 +121,8 @@ public class InsertPanel {
 	JTextField field21 = new JTextField();
 	JTextField field22 = new JTextField();
 	JTextField field23 = new JTextField();
-	
-
+	 private static InsertPanel instance;
+	 
 
 
 	/**
@@ -141,7 +150,35 @@ public class InsertPanel {
 	 * @throws InstantiationException 
 	 * @throws ClassNotFoundException 
 	 */
+	
+//	public static InsertPanel getInstance() 
+//	{
+//		if (instance == null)
+//		{
+//			try {
+//				instance = new InsertPanel();
+//			} catch (ClassNotFoundException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			} catch (InstantiationException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			} catch (IllegalAccessException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			} catch (SQLException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			} catch (UnsupportedLookAndFeelException e) {
+//				// TODO Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
+//		return instance;
+//
+//	}
 	public InsertPanel() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+		super();
 		UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 		Connection conn = sqliteConnectionTEST.dbConnector();
 		initialize();
@@ -212,8 +249,10 @@ public class InsertPanel {
 					field3.setSelectedItem("");
 				}
 				else{
-					System.out.println(field3.getSelectedItem());
+					//System.out.println(field3.getSelectedItem());
 					try {
+						newCategoryString = field3.getSelectedItem().toString();
+						System.out.println(newCategoryString);
 						prepare.setString(3, field3.getSelectedItem().toString());
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
@@ -232,11 +271,42 @@ public class InsertPanel {
 					{
 	                    field3.getEditor().setItem("");
 	                    field3.setEditable(true);
+	                    //checks if the new category is empty
+	                    field3.addActionListener(new ActionListener(){
+
+	                    	@Override
+	                    	public void actionPerformed(ActionEvent arg0) {
+	                    		if(field3.getEditor().getItem().toString().equals(""))
+	                    		{
+	                    			categoryFlag = false;
+	                    			System.out.println("Blank");
+	                    			categoryFocusFlag =true;
+	                    		}
+	                    		else 
+	                    		{
+	                    			System.out.println("OK");
+	                    			categoryFlag = true;
+	                    			categoryFocusFlag =true;
+
+	                    		}
+	                    	}
+	                    });
 					}
+	            	
+
 					else
 					{
-	                    System.out.println(field3.getEditor().getItem().toString());
+//						if(field3.getEditor().getItem().toString().equals(""))
+//								{
+//									System.out.println("Blank");
+//								}
+							
+	                    //System.out.println(field3.getEditor().getItem().toString());
+						
 	                    try {
+							categoryFlag = true;
+							newCategoryString = field3.getSelectedItem().toString();
+							System.out.println(newCategoryString);
 							prepare.setString(3, field3.getEditor().getItem().toString());
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
@@ -245,11 +315,17 @@ public class InsertPanel {
 					}
 					
 				}
-				else//if not make all boxes uneditbale
+				else{//if not make all boxes uneditbale
+					
 					field3.setEditable(false);
+					categoryFocusFlag = false;
+					
+				}
 			}
 		});
-	    
+		
+		
+		
 	    field8.addItemListener(new ItemListener() {
             public void itemStateChanged(ItemEvent e) {
             	if(e.getItem().equals("Owned"))
@@ -364,9 +440,11 @@ public class InsertPanel {
 	    	"Deactivation Date:    ", field14,
 	    	"Deactivated:    ",field14a,
 	    	"Deactivation Method:    ", field15,
+	    	"Expiration Date:    ", field15a,
 	    	"Price:    ", field16,
 	    	"Quality:    ", field17,
 	    	"Condition:    ", field18
+	    	
 	    };
 		//panel.setBounds(100, 100, 1439, 928);
     	setFont();
@@ -424,45 +502,24 @@ public class InsertPanel {
     	
     	//Inserting
 		
-    	getInsert();
+    	getFields();
 
     	insertingFields(btnInsert);
-    	
+    	updateFields(btnUpdate);
 
+//
+//    	frmInsertAsset.addWindowListener(new WindowAdapter()
+//           {
+//               @Override
+//               public void windowClosing(WindowEvent e)
+//               {
+//                   System.out.println("Closed");
+//                   MainScreen.frame.setVisible(true);
+//                   e.getWindow().dispose();
+//               }
+//           });
     	
     	
-    	btnUpdate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				prepare = null;
-				try {
-					//int row = testTable.getSelectedRow();
-					
-					//if(testTable.getModel().getValueAt(row, 0) != null)
-						 //String value1 = field1.getText();
-					
-					String value1 = field1.getText();
-					String value2 = field2.getText();
-					String value3 = field3.getSelectedItem().toString();
-					String value4 = field4.getText();
-					String value5 = field5.getText();
-					String value6 = field6.getText();
-					String value7 = field7.getText();
-					String value8 = field8.getSelectedItem().toString();
-
-					String sql = "Update MasterTable set Item_Name='" + value1 + "' , Item_Description ='" + value2
-							+ "' , Category ='" + value3 + "' ,ID_Tag ='" + value4 + "' ,Room ='" + value5
-							+ "' ,Floor ='" + value6 + "' ,Date_Acquired ='" + value7 + "',Ownership ='" + value8
-							+ "' where ID_Tag ='" + value4 + "'";
-					System.out.println(sql);
-					prepare = conn.prepareStatement(sql);
-					prepare.execute();
-					JOptionPane.showMessageDialog(null, "Updated");
-				} catch (SQLException e) {
-					JOptionPane.showMessageDialog(null, e);
-				}
-				UpDateTable();
-			}
-		});
     	
     	
     	
@@ -473,9 +530,10 @@ public class InsertPanel {
 			@Override
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
 				try {
-					int row = testTable.getSelectedRow();
-					
+					int row = testTable.getSelectedRow();					
+
 					//Gets text from row and fills jtext if cell is not empty
+
 					if(testTable.getModel().getValueAt(row, 0) != null)
 						field1.setText(testTable.getModel().getValueAt(row, 0).toString());
 					if(testTable.getModel().getValueAt(row, 1) != null)
@@ -529,22 +587,133 @@ public class InsertPanel {
 		});
 	}
 	
+	private void updateFields(JButton btnUpdate) {
+		btnUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				prepare = null;
+				Connection conn = sqliteConnectionTEST.dbConnector();
+				try {
+					//int row = testTable.getSelectedRow();
+					
+					//if(testTable.getModel().getValueAt(row, 0) != null)
+						 //String value1 = field1.getText();
+					
+					String value1 = field1.getText();
+					String value2 = field2.getText();
+					String value3 = field3.getSelectedItem().toString();
+					String value4 = field4.getText();
+					String value5 = field5.getText();
+					String value6 = field6.getText();
+					String value7 = field7.getText();
+					String value8 = field8.getSelectedItem().toString();
+					String value8a = field8a.getText();
+					String value8b = field8b.getText();
+					String value8c = field8c.getText();
+					String value9 = field9.getText();
+					String value10 = field10.getText();
+					String value10a = field10a.getText();
+					String value11 = field11.getText();
+					String value12 = field12.getText();
+					String value13 = field13.getText();
+					String value14 = field14.getText();
+					String value14a = field14a.getText();
+					String value15 = field15.getText();
+					String value16 = field16.getText();
+					String value17 = field17.getText();
+					String value18 = field18.getText();
+					
+
+					String sql = "Update MasterTable set Item_Name='" + value1 + "' , Item_Description ='" + value2
+							+ "' , Category ='" + value3 + "' ,ID_Tag ='" + value4 + "' ,Room ='" + value5
+							+ "' , Floor ='" + value6 + "' ,Date_Acquired ='" + value7 + "',Ownership ='" + value8
+//							+"'  , Lease_Term ='" + value8a + "'  , Lease_Expiration ='" + value8b + "'  , Rent_Due_Date='" + value8c 
+//							+"'  , Supplier ='" + value9 + "'  , Manufacturer ='" + value10 + "'  , Model_Number='" + value10a 
+
+							+ "' where ID_Tag ='" + value4 + "'";
+					System.out.println(sql);
+					prepare = conn.prepareStatement(sql);
+					prepare.execute();
+					JOptionPane.showMessageDialog(null, "Updated");
+				} catch (SQLException e) {
+					JOptionPane.showMessageDialog(null, e);
+				}
+				UpDateTable();
+			}
+		});
+		
+	}
+
 	private void insertingFields(JButton btnInsert) {
 		btnInsert.addActionListener(new ActionListener(){
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				//Check ItemName, Category, ID_Tag, Date_Acquired, and Price are not empty
+				
+				if(field1.getText().equals(""))
+				{
+					JOptionPane.showMessageDialog(null, "Item_Name field is empty.");
+				
+				if(field4.getText().contains(""))
+				{
+					JOptionPane.showMessageDialog(null, "ID_Tag field is empty.");
+
+				}
+				if(field7.getText().contains("  -  -    "))
+				{
+					JOptionPane.showMessageDialog(null, "Date_Acquired field is empty.");
+				}
+				
+				if(priceFlag == false)
+				{
+					JOptionPane.showMessageDialog(null, "Price field is empty.");
+
+				}
+				}
+				//Category validations
+				if(field3.getSelectedIndex() == -1 && newCategoryString == null )
+				{
+					JOptionPane.showMessageDialog(null, "Cateogry field is empty.");
+					return;
+
+				}		
+				if(newCategoryString == null)
+				{
+					JOptionPane.showMessageDialog(null, "Category field is empty.");
+					return;
+
+				}
+				else if(newCategoryString.contains("") && field3.getSelectedIndex() == 0)
+				{
+					JOptionPane.showMessageDialog(null, "Category field is empty.");
+					return;
+
+				}
+	
+				else{
+					if(newCategoryString != null )
+					{
+						if(newCategoryString.contains("") && field3.getSelectedIndex() == 0)
+								{
+							JOptionPane.showMessageDialog(null, "Category is empty.");
+							return;
+								}
+					}
 				try {
+					//System.out.println("Cateogry :" + newCategoryString + " lenght: " + newCategoryString.length());
 					prepare.executeUpdate();
+					JOptionPane.showMessageDialog(null, "Successfully Inserted Asset: " 
+					+ field4.getText() +"." );
 					UpDateTable();
+					addCategoryColumns();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+			
+
 			}
-    		
-    	});		
+    	}});		
 	}
 
 	public void setFrame()
@@ -642,15 +811,15 @@ public class InsertPanel {
 					{
 						return Integer.class;
 					}
-					else if(c==6||c==8||c==9||c==10|
+					if(c==6||c==8||c==9||c==10|
 							c==15||c==16||c==17)
 					{
 						return String.class;
 					}
-					else if(c==20)
-					{
-						return Integer.class;
-					}
+//					else if(c==20)
+//					{
+//						return Double.class;
+//					}
 					else
 						return String.class;
 			
@@ -697,6 +866,10 @@ public class InsertPanel {
                      row[i]=Integer.parseInt(rs.getString(4));
 
             	 }
+//            	 if(i==20)
+//            	 {
+//                     row[i]=Double.parseDouble(rs.getString(21));
+//            	 }
             	 else
                     row[i]=rs.getString(i+1);
                 }
@@ -710,7 +883,7 @@ public class InsertPanel {
 		testTable.validate();//
 		
 		testTable.getColumnModel().getColumn(0).setPreferredWidth(280);
-		testTable.getColumnModel().getColumn(1).setPreferredWidth(80);
+		testTable.getColumnModel().getColumn(1).setPreferredWidth(180);
 		testTable.getColumnModel().getColumn(2).setPreferredWidth(320);
 		testTable.getColumnModel().getColumn(3).setPreferredWidth(180);
 		testTable.getColumnModel().getColumn(4).setPreferredWidth(100);
@@ -794,7 +967,7 @@ public class InsertPanel {
 	}
 	
 
-	public void getInsert()
+	public void getFields()
 	{
 		stringTextBox();
 		dateTextBox();
@@ -806,8 +979,15 @@ public class InsertPanel {
 			
 			}
 		});
-		
-		
+
+		//5 Id Tag
+		field5.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent e) {
+				//System.out.println(Integer.parseInt(field4.getName().substring(0, 1)));
+				getIntegerInput(field5, e);
+
+			}
+		});		
 		
 		//14a Deactivated JCheckBox 
 		field14a.addItemListener(new ItemListener() {
@@ -895,6 +1075,13 @@ public class InsertPanel {
 				getDateInput(field14, e);
 			}
 		});
+		
+		dateFocusListener(field15a);
+		field14.addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent e) {
+				getDateInput(field15a, e);
+			}
+		});
 
 	}
 	
@@ -903,6 +1090,8 @@ public class InsertPanel {
 		field1.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
 				getStringInput(field1, e);
+				System.out.println("New: " +newCategoryString);
+
 				stringFocusLost(field1);
 			}
 		});
@@ -1221,9 +1410,10 @@ public class InsertPanel {
 				if(temp.matches(regex))
 				{
 					numSwap = temp;
-					int round = (Integer.parseInt(jText.getText()));
+					double round = (Double.parseDouble(jText.getText()));
+					priceFlag = true;
 					try {
-						prepare.setInt(Integer.parseInt(jText.getName()), round);
+						prepare.setDouble(Integer.parseInt(jText.getName()), round);
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -1234,14 +1424,20 @@ public class InsertPanel {
 				{//deletes the element in textbox
 					jText.setText("");
 					numSwap="";
+					priceFlag = false;
+
 				}
 				else if(temp.length() == 0)
 				{//empties textbox
 					jText.setText("");
 					numSwap="";
+					priceFlag = false;
+
 				}
 				else{
 					jText.setText(numSwap);
+					priceFlag = false;
+
 				}
 
 			}
@@ -1352,14 +1548,14 @@ public class InsertPanel {
 		Connection conn = sqliteConnectionTEST.dbConnector();
 		prepare = null;
 		
-     	String query = "insert into MasterTable (Item_Name,Item_Description,Category,ID_Tag,Room,"//1-5
-     			+ "Floor, Date_Acquired, Ownership, Lease_Term,Lease_Expiration,"//5-10
-     			+ "Rent_Due_Date,Supplier,Manufacturer,Model_Number,Serial_Number,"//10-15
-     			+ "Warranty_Expiration_Date,Replacement_Date,Deactivation_Date,Deactivated,Deactivation_Method,"//15-20
-     			+ "Price, Condition,Quality)"//20-23
-				+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?"
+		String query = "insert into MasterTable (Item_Name,Item_Description,Category,ID_Tag,Room,"//1-5
+				+ "Floor, Date_Acquired, Ownership, Lease_Term,Lease_Expiration,"//5-10
+				+ "Rent_Due_Date,Supplier,Manufacturer,Model_Number,Serial_Number,"//10-15
+				+ "Warranty_Expiration_Date,Replacement_Date,Deactivation_Date,Deactivated,Deactivation_Method,"//15-20
+				+ "Expiration_Date, Price, Condition,Quality)"//20-23
+				+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?"
 				+ ",?,?,?,?,?)";  //removed asset over 500 //removed picture
-			
+
      	try {
 			prepare = conn.prepareStatement(query);
 		} catch (SQLException e1) {

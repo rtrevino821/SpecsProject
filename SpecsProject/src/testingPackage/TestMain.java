@@ -67,7 +67,7 @@ public class TestMain {
 	}
 
 	/**
-	 * Initialize the contents of the frame.
+	 * Initializev2 the contents of the frame.
 	 */
 
 	private void initialize() throws SQLException {
@@ -194,8 +194,14 @@ public class TestMain {
 				//System.out.println(getValueAt(0, c).getClass().toString());
 				if(c == 1)
 				{
-					return Integer.class;
+					return Double.class;
 				}
+				else if(c==4)
+				{
+					return Double.class;
+
+				}
+				else
 				   return getValueAt(0, c).getClass();
 				}
 		};
@@ -281,14 +287,15 @@ public class TestMain {
              for(int i=0;i<cols;i++){
             	 if(i== 1)
             	 {
-                     row[i]=Integer.parseInt(rs.getString(2));
-                     System.out.println(row[i].getClass().toString());
+                     row[i]=rs.getDouble(2);
+                    // System.out.println(row[i].getClass().toString());
             	 }
-//            	 if(i ==4)
-//            	 {
-//                     row[i]=Double.parseDouble(rs.getString(5));
-//
-//            	 }
+            	 if(i ==4)
+            	 {
+            		 //System.out.println(Double.parseDouble(rs.getString(5)));
+                     row[i]=rs.getDouble(5);
+
+            	 }
             	 else
                     row[i]=rs.getString(i+1);
                 }
