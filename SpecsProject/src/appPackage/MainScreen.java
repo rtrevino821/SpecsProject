@@ -361,15 +361,7 @@ import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.util.Map;
 import java.util.TreeMap;
-<<<<<<< HEAD
 
-=======
-<<<<<<< HEAD
->>>>>>> origin/master
-=======
->>>>>>> refs/remotes/origin/master
->>>>>>> refs/remotes/origin/rudy_Branch
->>>>>>> refs/remotes/origin/master
 
 public class MainScreen extends JApplet{
 
@@ -431,20 +423,17 @@ public class MainScreen extends JApplet{
         //-----------------------------------------------------------------------------------//
 
         JFrame frame = new JFrame();
+        //frame.setResizable(false);
+        //frame.isResizable();
         frame.setIconImage(Toolkit.getDefaultToolkit().getImage(MainScreen.class.getResource("/Resources/appIconImage.png")));
-        frame.setResizable(false);
-        SpringLayout springLayout = new SpringLayout();
-        frame.getContentPane().setLayout(springLayout);
+        frame.getContentPane().setLayout(null);
         final JFXPanel fxPanel = new JFXPanel();
-        springLayout.putConstraint(SpringLayout.NORTH, fxPanel, 0, SpringLayout.NORTH, frame.getContentPane());
-        springLayout.putConstraint(SpringLayout.WEST, fxPanel, 0, SpringLayout.WEST, frame.getContentPane());
-        springLayout.putConstraint(SpringLayout.SOUTH, fxPanel, 0, SpringLayout.NORTH, frame.getContentPane());
-        springLayout.putConstraint(SpringLayout.EAST, fxPanel, 0, SpringLayout.WEST, frame.getContentPane());
+        fxPanel.setBounds(0, 0, 0, 0);
         fxPanel.setPreferredSize(new Dimension(300,300));
         frame.getContentPane().add(fxPanel);
         frame.setVisible(true);
         frame.getContentPane().setBackground(new Color(244, 244, 244));
-        frame.setBackground(Color.WHITE);
+        //frame.setBackground(Color.WHITE);
         frame.setTitle("GFP Asset Report System");
         frame.setSize(1440, 865);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -458,44 +447,47 @@ public class MainScreen extends JApplet{
 
 
         JLabel Logo_MainScreen = new JLabel("");
-        springLayout.putConstraint(SpringLayout.NORTH, Logo_MainScreen, 16, SpringLayout.NORTH, frame.getContentPane());
-        springLayout.putConstraint(SpringLayout.WEST, Logo_MainScreen, 15, SpringLayout.WEST, frame.getContentPane());
+        Logo_MainScreen.setBounds(15, 16, 300, 65);
         Logo_MainScreen.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/Logo_Alt_2.jpg")));
         frame.getContentPane().add(Logo_MainScreen);
 
-        JLabel dividerIconLabel = new JLabel("");
-        springLayout.putConstraint(SpringLayout.NORTH, dividerIconLabel, 127, SpringLayout.NORTH, frame.getContentPane());
-        springLayout.putConstraint(SpringLayout.WEST, dividerIconLabel, 274, SpringLayout.WEST, frame.getContentPane());
-        dividerIconLabel.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/Divider.png")));
-        frame.getContentPane().add(dividerIconLabel);
-
-        JLabel reportIconLabel = new JLabel("");
-        springLayout.putConstraint(SpringLayout.NORTH, reportIconLabel, 127, SpringLayout.NORTH, frame.getContentPane());
-        springLayout.putConstraint(SpringLayout.WEST, reportIconLabel, 54, SpringLayout.WEST, frame.getContentPane());
-        springLayout.putConstraint(SpringLayout.SOUTH, reportIconLabel, 297, SpringLayout.NORTH, frame.getContentPane());
-        springLayout.putConstraint(SpringLayout.EAST, reportIconLabel, 228, SpringLayout.WEST, frame.getContentPane());
-        reportIconLabel.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/reportIcon.png")));
-        reportIconLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        frame.getContentPane().add(reportIconLabel);
-        reportIconLabel.addMouseListener(new MouseAdapter() {
+        JLabel lblATeamSoftware = new JLabel("A Team Software Suite 2016");
+        lblATeamSoftware.setBounds(1086, 773, 317, 20);
+        lblATeamSoftware.setHorizontalAlignment(SwingConstants.RIGHT);
+        lblATeamSoftware.setForeground(new Color(98, 98, 98));
+        lblATeamSoftware.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 20));
+        frame.getContentPane().add(lblATeamSoftware);
+        
+        JLabel reportsIcon = new JLabel("");
+        reportsIcon.setHorizontalAlignment(SwingConstants.CENTER);
+        reportsIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/reportIcon.jpg")));
+        reportsIcon.setBounds(59, 123, 394, 301);
+        frame.getContentPane().add(reportsIcon);
+        reportsIcon.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseEntered(MouseEvent arg0) {
-                reportIconLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                reportIconLabel.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/reportIcon_Hover.png")));
+            public void mouseEntered(MouseEvent e) {
+                //helpIconLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            	reportsIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/reportIcon_Hover.jpg")));
+
             }
+
             @Override
             public void mouseExited(MouseEvent e) {
-                reportIconLabel.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/reportIcon.png")));
+            	reportsIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/reportIcon.jpg")));
             }
+            
             @Override
             public void mouseClicked(MouseEvent arg0) {
                 try {
+
                     new reportsFrame();
+              
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         });
+<<<<<<< HEAD
 <<<<<<< HEAD
 	}
 
@@ -771,26 +763,57 @@ public class MainScreen extends JApplet{
 	}
 =======
 
+=======
+>>>>>>> refs/remotes/origin/rudy_Branch
         
-
-        JLabel graphIconLabel = new JLabel("");
-        springLayout.putConstraint(SpringLayout.NORTH, graphIconLabel, 297, SpringLayout.NORTH, frame.getContentPane());
-        springLayout.putConstraint(SpringLayout.WEST, graphIconLabel, 54, SpringLayout.WEST, frame.getContentPane());
-        springLayout.putConstraint(SpringLayout.SOUTH, graphIconLabel, 467, SpringLayout.NORTH, frame.getContentPane());
-        springLayout.putConstraint(SpringLayout.EAST, graphIconLabel, 228, SpringLayout.WEST, frame.getContentPane());
-        graphIconLabel.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/graphIcon.png")));
-        graphIconLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        frame.getContentPane().add(graphIconLabel);
-        graphIconLabel.addMouseListener(new MouseAdapter() {
+        JLabel insertIcon = new JLabel("");
+        insertIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/editReportIcon.jpg")));
+        insertIcon.setHorizontalAlignment(SwingConstants.CENTER);
+        insertIcon.setBounds(512, 123, 394, 301);
+        frame.getContentPane().add(insertIcon);
+        insertIcon.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseEntered(MouseEvent arg0) {
-                graphIconLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                graphIconLabel.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/graphIcon_Hover.png")));
+            public void mouseEntered(MouseEvent e) {
+                //helpIconLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            	insertIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/editReportIcon_Hover.jpg")));
+
             }
+
             @Override
             public void mouseExited(MouseEvent e) {
-                graphIconLabel.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/graphIcon.png")));
+            	insertIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/editReportIcon.jpg")));
             }
+            
+            @Override
+            public void mouseClicked(MouseEvent arg0) {
+                try {
+
+                    InsertPanel frame = new InsertPanel();
+                    frame.setVisible(true);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        
+        JLabel infoGraphIcon = new JLabel("");
+        infoGraphIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/infoGraphic.jpg")));
+        infoGraphIcon.setHorizontalAlignment(SwingConstants.CENTER);
+        infoGraphIcon.setBounds(965, 123, 394, 301);
+        frame.getContentPane().add(infoGraphIcon);
+        infoGraphIcon.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                //helpIconLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            	infoGraphIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/infoGraphic_Hover.jpg")));
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            	infoGraphIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/infoGraphic.jpg")));
+            }
+            
             @Override
             public void mouseClicked(MouseEvent arg0) {
                 try {
@@ -807,26 +830,26 @@ public class MainScreen extends JApplet{
                 }
             }
         });
-
-
-        JLabel excelLabel = new JLabel("");
-        springLayout.putConstraint(SpringLayout.NORTH, excelLabel, 467, SpringLayout.NORTH, frame.getContentPane());
-        springLayout.putConstraint(SpringLayout.WEST, excelLabel, 54, SpringLayout.WEST, frame.getContentPane());
-        springLayout.putConstraint(SpringLayout.SOUTH, excelLabel, 637, SpringLayout.NORTH, frame.getContentPane());
-        springLayout.putConstraint(SpringLayout.EAST, excelLabel, 228, SpringLayout.WEST, frame.getContentPane());
-        excelLabel.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/excelIcon.png")));
-        excelLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        frame.getContentPane().add(excelLabel);
-        excelLabel.addMouseListener(new MouseAdapter() {
+        
+        
+        JLabel excelFuncIcon = new JLabel("");
+        excelFuncIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/excelIcon.jpg")));
+        excelFuncIcon.setHorizontalAlignment(SwingConstants.CENTER);
+        excelFuncIcon.setBounds(59, 432, 394, 301);
+        frame.getContentPane().add(excelFuncIcon);
+        excelFuncIcon.addMouseListener(new MouseAdapter() {
             @Override
-            public void mouseEntered(MouseEvent arg0) {
-                excelLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                excelLabel.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/excelIcon_Hover.png")));
+            public void mouseEntered(MouseEvent e) {
+                //helpIconLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+            	excelFuncIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/excelIcon_Hover.jpg")));
+
             }
+
             @Override
             public void mouseExited(MouseEvent e) {
-                excelLabel.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/excelIcon.png")));
+            	excelFuncIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/excelIcon.jpg")));
             }
+            
             @Override
             public void mouseClicked(MouseEvent arg0) {
                 try {
@@ -838,97 +861,28 @@ public class MainScreen extends JApplet{
                 }
             }
         });
-
-        JLabel helpIconLabel = new JLabel("");
-        springLayout.putConstraint(SpringLayout.NORTH, helpIconLabel, 637, SpringLayout.NORTH, frame.getContentPane());
-        springLayout.putConstraint(SpringLayout.WEST, helpIconLabel, 54, SpringLayout.WEST, frame.getContentPane());
-        springLayout.putConstraint(SpringLayout.SOUTH, helpIconLabel, 807, SpringLayout.NORTH, frame.getContentPane());
-        springLayout.putConstraint(SpringLayout.EAST, helpIconLabel, 228, SpringLayout.WEST, frame.getContentPane());
-        helpIconLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        helpIconLabel.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/helpIcon.png")));
-        frame.getContentPane().add(helpIconLabel);
-        helpIconLabel.addMouseListener(new MouseAdapter() {
+        
+        JLabel interWebIcon = new JLabel("");
+        interWebIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/interWeb.jpg")));
+        interWebIcon.setHorizontalAlignment(SwingConstants.CENTER);
+        interWebIcon.setBounds(512, 432, 394, 301);
+        frame.getContentPane().add(interWebIcon);
+        interWebIcon.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseEntered(MouseEvent e) {
                 //helpIconLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                helpIconLabel.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/helpIcon_Hover.png")));
+            	interWebIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/interWeb_Hover.jpg")));
 
             }
 
             @Override
             public void mouseExited(MouseEvent e) {
-                helpIconLabel.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/helpIcon.png")));
+            	interWebIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/interWeb.jpg")));
             }
-        });
-
-
-        JLabel lblCompanyAssetsAt = new JLabel("Company Assets At A Glance");
-        springLayout.putConstraint(SpringLayout.NORTH, lblCompanyAssetsAt, 134, SpringLayout.NORTH, frame.getContentPane());
-        springLayout.putConstraint(SpringLayout.WEST, lblCompanyAssetsAt, 454, SpringLayout.WEST, frame.getContentPane());
-        springLayout.putConstraint(SpringLayout.SOUTH, lblCompanyAssetsAt, 190, SpringLayout.NORTH, frame.getContentPane());
-        springLayout.putConstraint(SpringLayout.EAST, lblCompanyAssetsAt, 925, SpringLayout.WEST, frame.getContentPane());
-        lblCompanyAssetsAt.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 34));
-        lblCompanyAssetsAt.setForeground(new Color(98, 98, 98));
-        frame.getContentPane().add(lblCompanyAssetsAt);
-
-/*        JLabel lblHelloSteve = new JLabel("Hello Steve!");
-        springLayout.putConstraint(SpringLayout.NORTH, lblHelloSteve, 25, SpringLayout.NORTH, frame.getContentPane());
-        springLayout.putConstraint(SpringLayout.WEST, lblHelloSteve, 961, SpringLayout.WEST, frame.getContentPane());
-        springLayout.putConstraint(SpringLayout.SOUTH, lblHelloSteve, 81, SpringLayout.NORTH, frame.getContentPane());
-        springLayout.putConstraint(SpringLayout.EAST, lblHelloSteve, 1361, SpringLayout.WEST, frame.getContentPane());
-        lblHelloSteve.setHorizontalAlignment(SwingConstants.RIGHT);
-        lblHelloSteve.setForeground(new Color(98, 98, 98));
-        lblHelloSteve.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 36));
-        frame.getContentPane().add(lblHelloSteve);
-*/
-
-        /** OLD PIE CHART TO BE REPLACED **/
-//        JLabel lblNewLabel = new JLabel("");
-//        lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/Resources/pieChart.jpg")));
-//        lblNewLabel.setBounds(648, 272, 471, 411);
-//        frame.getContentPane().add(lblNewLabel);
-
-        JLabel lblNewLabel = new JLabel("");
-        springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel, 272, SpringLayout.NORTH, frame.getContentPane());
-        springLayout.putConstraint(SpringLayout.WEST, lblNewLabel, 648, SpringLayout.WEST, frame.getContentPane());
-        springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel, 683, SpringLayout.NORTH, frame.getContentPane());
-        springLayout.putConstraint(SpringLayout.EAST, lblNewLabel, 1119, SpringLayout.WEST, frame.getContentPane());
-        frame.getContentPane().add(lblNewLabel);
-
-        JLabel lblATeamSoftware = new JLabel("A Team Software Suite 2016");
-        springLayout.putConstraint(SpringLayout.NORTH, lblATeamSoftware, 773, SpringLayout.NORTH, frame.getContentPane());
-        springLayout.putConstraint(SpringLayout.WEST, lblATeamSoftware, 1086, SpringLayout.WEST, frame.getContentPane());
-        springLayout.putConstraint(SpringLayout.SOUTH, lblATeamSoftware, 793, SpringLayout.NORTH, frame.getContentPane());
-        springLayout.putConstraint(SpringLayout.EAST, lblATeamSoftware, 1403, SpringLayout.WEST, frame.getContentPane());
-        lblATeamSoftware.setHorizontalAlignment(SwingConstants.RIGHT);
-        lblATeamSoftware.setForeground(new Color(98, 98, 98));
-        lblATeamSoftware.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 20));
-        frame.getContentPane().add(lblATeamSoftware);
-        frame.setVisible(true);
-
-        // JTable Cell Spacing Height
-        int gap = 20;
-
-        // Application Icon Image
-//        ImageIcon icon = new ImageIcon(getClass().getResource("/Resources/appIconImage.png"));
-//        frame.setIconImage(icon.getImage());
-
-        //TODO replace static graph image with dynamic graph from testingPackage
-
-        
-        ImageIcon websiteButtonBG = new ImageIcon("src/Grant.jpg");  //Grant-Fridkin-Pearson-PA.jpg
-        JButton websiteButton = new JButton(websiteButtonBG);
-        springLayout.putConstraint(SpringLayout.WEST, websiteButton, 1250, SpringLayout.WEST, frame.getContentPane());
-        websiteButton.setOpaque(true);
-        websiteButton.setBorderPainted(false);
-        websiteButton.setBounds(500, 9, 500, 76);
-        //websiteButton.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        websiteButton.setToolTipText("http://www.gfpac.com/");  //http://www.gfpac.com/  //http://www.gfpac.com/
-        //this.add(websiteButtton,BorderLayout.SOUTH);
-        websiteButton.addActionListener(new ActionListener() {
-                
-            public void actionPerformed(ActionEvent e) {
-                try {
+            
+            @Override
+            public void mouseClicked(MouseEvent arg0) {
+            	try {
                     String command1 = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe http://www.gfpac.com/";
                     Process link1 = Runtime.getRuntime().exec(command1);
                 } catch (Exception ex) {
@@ -936,8 +890,27 @@ public class MainScreen extends JApplet{
                 }
             }
         });
-        frame.getContentPane().add(websiteButton);
         
+        JLabel helpIcon = new JLabel("");
+        helpIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/helpIcon.jpg")));
+        helpIcon.setHorizontalAlignment(SwingConstants.CENTER);
+        helpIcon.setBounds(965, 432, 394, 301);
+        frame.getContentPane().add(helpIcon);
+        frame.setVisible(true);
+        helpIcon.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                //helpIconLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                helpIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/helpIcon_Hover.jpg")));
+
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                helpIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/helpIcon.jpg")));
+            }
+        });
+      
         
     }
         
@@ -990,6 +963,7 @@ public class MainScreen extends JApplet{
 
         return chart;
     }
+<<<<<<< HEAD
 >>>>>>> 05504b20e73758c45b9d55965baaee2660a305a2
 
 //	private PieChart createPieChart() {
@@ -1005,4 +979,6 @@ public class MainScreen extends JApplet{
 
 
 
+=======
+>>>>>>> refs/remotes/origin/rudy_Branch
 }
