@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.chart.*;
 import testingPackage.InsertPanel;
 import testingPackage.LineChartSample;
+import testingPackage.PieChartSample;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,15 +23,12 @@ public class MainScreen extends JApplet{
 
 	Connection connection = null;
 
-	private static InsertPanel insert;
 	private static JFXPanel chartFxPanel;
 	private Chart chart;
-	private static int btnPanelWidth;
-	private static int btnPanelHeight;
-	private static int FX_PANEL_WIDTH = 1000;
-	private static int FX_PANEL_HEIGHT = 500;
-	private static int headerPanelWidth;
-	private static int headerPanelHeight;
+	private static int BAR_PANEL_WIDTH = 1000;
+	private static int BAR_PANEL_HEIGHT = 600;
+	private static int PIE_PANEL_HEIGHT = 600;
+	private static int PIE_PANEL_WIDTH = 1000;
 
 
 	/**
@@ -63,7 +61,7 @@ public class MainScreen extends JApplet{
 		// create javafx panel for charts
 		//-----------------------------------------------------------------------------------//
 		chartFxPanel = new JFXPanel();
-		chartFxPanel.setPreferredSize(new Dimension(FX_PANEL_WIDTH, FX_PANEL_HEIGHT));
+		chartFxPanel.setPreferredSize(new Dimension(BAR_PANEL_WIDTH, BAR_PANEL_HEIGHT));
 		//-----------------------------------------------------------------------------------//
 
 		JFrame frame = new JFrame();
@@ -156,12 +154,19 @@ public class MainScreen extends JApplet{
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
-					// create JavaFX scene
+//					// create JavaFX scene
 					Platform.runLater(() -> createScene());
 					JFrame fxFrame = setFrame();
 					fxFrame.add(chartFxPanel);
 					fxFrame.setVisible(true);
-//					frame.add(chartFxPanel);
+
+					// BarChart ^^^^ ---- vvvv PieChart
+
+//					// create JavaFX scene
+//					Platform.runLater(() -> createPieScene());
+//					JFrame fxFrame = setFrame();
+//					fxFrame.add(chartFxPanel);
+//					fxFrame.setVisible(true);
 
 					//report.setVisible(true);
 				} catch (Exception e) {
@@ -234,22 +239,6 @@ public class MainScreen extends JApplet{
 		lblCompanyAssetsAt.setForeground(new Color(98, 98, 98));
 		frame.getContentPane().add(lblCompanyAssetsAt);
 
-		JLabel lblHelloSteve = new JLabel("Hello Steve!");
-		springLayout.putConstraint(SpringLayout.NORTH, lblHelloSteve, 25, SpringLayout.NORTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.WEST, lblHelloSteve, 961, SpringLayout.WEST, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.SOUTH, lblHelloSteve, 81, SpringLayout.NORTH, frame.getContentPane());
-		springLayout.putConstraint(SpringLayout.EAST, lblHelloSteve, 1361, SpringLayout.WEST, frame.getContentPane());
-		lblHelloSteve.setHorizontalAlignment(SwingConstants.RIGHT);
-		lblHelloSteve.setForeground(new Color(98, 98, 98));
-		lblHelloSteve.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 36));
-		frame.getContentPane().add(lblHelloSteve);
-
-
-		/** OLD PIE CHART TO BE REPLACED **/
-//		JLabel lblNewLabel = new JLabel("");
-//		lblNewLabel.setIcon(new ImageIcon(getClass().getResource("/Resources/pieChart.jpg")));
-//		lblNewLabel.setBounds(648, 272, 471, 411);
-//		frame.getContentPane().add(lblNewLabel);
 
 		JLabel lblNewLabel = new JLabel("");
 		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel, 272, SpringLayout.NORTH, frame.getContentPane());
@@ -293,7 +282,9 @@ public class MainScreen extends JApplet{
 		fxFrame.setLocationRelativeTo(null);
 		fxFrame.getContentPane().setLayout(null);
 		fxFrame.getContentPane().setLayout(new SpringLayout());
-		fxFrame.setSize(new Dimension(FX_PANEL_WIDTH, FX_PANEL_HEIGHT));
+		fxFrame.setSize(new Dimension(PIE_PANEL_WIDTH, PIE_PANEL_HEIGHT));
+
+//		fxFrame.setSize(new Dimension(BAR_PANEL_WIDTH, BAR_PANEL_HEIGHT));
 
 		ImageIcon icon = new ImageIcon(getClass().getResource("/Resources/appIconImage.png"));
 		fxFrame.setIconImage(icon.getImage());
@@ -309,10 +300,9 @@ public class MainScreen extends JApplet{
 	private BarChart createBarChart() {
 		XYChart.Series series = new XYChart.Series();
 		TreeMap<String,Double> map = testingPackage.LineChartSample.test_Everything_Total_Spent();
-		for(Map.Entry<String,Double> e : map.entrySet()){
-			System.out.println("year: "+e.getKey()+", spent: "+e.getValue());
+		for(Map.Entry<String,Double> e : map.entrySet())
 			series.getData().add(new XYChart.Data(e.getKey(), e.getValue()));
-		}
+
 		CategoryAxis xAxis = new CategoryAxis();
 		xAxis.setLabel("Year");
 
@@ -324,5 +314,18 @@ public class MainScreen extends JApplet{
 
 		return chart;
 	}
+
+//	private PieChart createPieChart() {
+//		TreeMap<String,Double> map = testingPackage.LineChartSample.test_Everything_Total_Spent();
+//	}
+
+	private void createPieScene() {
+		PieChartSample pc = new PieChartSample();
+		chart = new PieChart(pc.getPieChartData());
+
+		chartFxPanel.setScene(new Scene(chart));
+	}
+
+
 
 }
