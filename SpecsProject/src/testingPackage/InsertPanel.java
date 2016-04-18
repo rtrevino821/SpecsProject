@@ -223,6 +223,11 @@ public class InsertPanel extends Applet {
     	
 		
 		JButton btnNewButton_1 = new JButton("Clear Fields");
+		btnNewButton_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				clearFIeld();
+			}
+		});
 		springLayout.putConstraint(SpringLayout.EAST, btnUpdate, -37, SpringLayout.WEST, btnNewButton_1);
 		springLayout.putConstraint(SpringLayout.NORTH, btnNewButton_1, 0, SpringLayout.NORTH, btnInsert);
 		springLayout.putConstraint(SpringLayout.WEST, btnNewButton_1, 457, SpringLayout.WEST, frmInsertAsset.getContentPane());
@@ -256,6 +261,7 @@ public class InsertPanel extends Applet {
 						prepare.setString(3, field3.getSelectedItem().toString());
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
+						
 						e1.printStackTrace();
 					}
 				}
@@ -407,6 +413,8 @@ public class InsertPanel extends Applet {
 		field12 = new JFormattedTextField(formatter);
 		field13 = new JFormattedTextField(formatter);
 		field14 = new JFormattedTextField(formatter);
+		field15a = new JFormattedTextField(formatter);
+
 		field8a.setFocusLostBehavior(JFormattedTextField.COMMIT);
 		field8b.setFocusLostBehavior(JFormattedTextField.COMMIT);
 		field8c.setFocusLostBehavior(JFormattedTextField.COMMIT);
@@ -414,6 +422,8 @@ public class InsertPanel extends Applet {
 		field7.setFocusLostBehavior(JFormattedTextField.COMMIT);
 		field13.setFocusLostBehavior(JFormattedTextField.COMMIT);
 		field14.setFocusLostBehavior(JFormattedTextField.COMMIT);
+		field15a.setFocusLostBehavior(JFormattedTextField.COMMIT);
+
 
 		field15.setEnabled(false);
 
@@ -531,57 +541,160 @@ public class InsertPanel extends Applet {
 			public void mouseClicked(java.awt.event.MouseEvent evt) {
 				try {
 					int row = testTable.getSelectedRow();					
+					DefaultFormatterFactory factory = new DefaultFormatterFactory(formatter);
 
 					//Gets text from row and fills jtext if cell is not empty
 
-					if(testTable.getModel().getValueAt(row, 0) != null)
-						field1.setText(testTable.getModel().getValueAt(row, 0).toString());
-					if(testTable.getModel().getValueAt(row, 1) != null)
-						field2.setText(testTable.getModel().getValueAt(row, 1).toString());
-					if(testTable.getModel().getValueAt(row, 2) != null)
-						field3.setSelectedItem(testTable.getModel().getValueAt(row, 2).toString());
-					if(testTable.getModel().getValueAt(row, 3) != null)
-						field4.setText(testTable.getModel().getValueAt(row, 3).toString());
-					if(testTable.getModel().getValueAt(row, 4) != null)
-						field5.setText(testTable.getModel().getValueAt(row, 4).toString());
-					if(testTable.getModel().getValueAt(row, 5) != null)
-						field6.setText(testTable.getModel().getValueAt(row, 5).toString());
-					if(testTable.getModel().getValueAt(row, 6) != null)
-						field7.setText(testTable.getModel().getValueAt(row, 6).toString());
-					if(testTable.getModel().getValueAt(row, 7) != null)
-						field8.setSelectedItem(testTable.getModel().getValueAt(row, 7).toString());
-					if(testTable.getModel().getValueAt(row, 8) != null)
-						field8a.setText(testTable.getModel().getValueAt(row, 8).toString());
-					if(testTable.getModel().getValueAt(row, 9) != null)
-						field8b.setText(testTable.getModel().getValueAt(row, 9).toString());
-					if(testTable.getModel().getValueAt(row, 10) != null)
-						field8c.setText(testTable.getModel().getValueAt(row, 10).toString());
-					if(testTable.getModel().getValueAt(row, 11) != null)
-						field9.setText(testTable.getModel().getValueAt(row, 11).toString());
-					if(testTable.getModel().getValueAt(row, 12) != null)
-						field10.setText(testTable.getModel().getValueAt(row, 12).toString());
-					if(testTable.getModel().getValueAt(row, 13) != null)
-						field10a.setText(testTable.getModel().getValueAt(row, 13).toString());
-					if(testTable.getModel().getValueAt(row, 14) != null)
-						field11.setText(testTable.getModel().getValueAt(row, 14).toString());
-					if(testTable.getModel().getValueAt(row, 15) != null)
-						field12.setText(testTable.getModel().getValueAt(row, 15).toString());
-					if(testTable.getModel().getValueAt(row, 16) != null)
-						field13.setText(testTable.getModel().getValueAt(row, 16).toString());
-					if(testTable.getModel().getValueAt(row, 17) != null)
-						field14.setText(testTable.getModel().getValueAt(row, 17).toString());
-					if(testTable.getModel().getValueAt(row, 18) != null)
-						field14a.setSelected((testTable.getModel().getValueAt(row, 18).toString() == "YES"));
-					if(testTable.getModel().getValueAt(row, 19) != null)
-						field15.setText(testTable.getModel().getValueAt(row, 19).toString());
-					if(testTable.getModel().getValueAt(row, 20) != null)
-						field16.setText(testTable.getModel().getValueAt(row, 20).toString());
-					if(testTable.getModel().getValueAt(row, 21) != null)
-						field17.setText(testTable.getModel().getValueAt(row, 21).toString());
-					if(testTable.getModel().getValueAt(row, 22) != null)
-						field18.setText(testTable.getModel().getValueAt(row, 22).toString());
+					if(testTable.getValueAt(row, 0) != null)
+					{
+						field1.setText(testTable.getValueAt(row, 0).toString());
+					}
+					else
+						field1.setText("");
+					if(testTable.getValueAt(row, 1) != null)
+					{
+						field2.setText(testTable.getValueAt(row, 1).toString());
+					}
+					else
+						field2.setText("");
+					if(testTable.getValueAt(row, 2) != null)
+					{
+						field3.setSelectedItem(testTable.getValueAt(row, 2).toString());
+					}
+					else
+						field3.setSelectedIndex(0);
+					if(testTable.getValueAt(row, 3) != null)
+					{
+						field4.setText(testTable.getValueAt(row, 3).toString());
+					}
+					else
+						field4.setText("");
+					if(testTable.getValueAt(row, 4) != null)
+					{
+						field5.setText(testTable.getValueAt(row, 4).toString());
+					}
+					else
+						field5.setText("");
+					if(testTable.getValueAt(row, 5) != null)
+					{
+						field6.setText(testTable.getValueAt(row, 5).toString());
+					}
+					else
+						field6.setText("");
+					if(testTable.getValueAt(row, 6) != null)
+					{
+						field7.setText(testTable.getValueAt(row, 6).toString());
+
+					}
+					else
+						field7.setFormatterFactory(factory);
+					if(testTable.getValueAt(row, 7) != null)
+					{
+						field8.setSelectedItem(testTable.getValueAt(row, 7).toString());
+
+					}
+					else
+						field8.setSelectedIndex(0);
+					if(testTable.getValueAt(row, 8) != null)
+					{
+						field8a.setText(testTable.getValueAt(row, 8).toString());
+					}
+					else
+						field8a.setFormatterFactory(factory);
+					
+					if(testTable.getValueAt(row, 9) != null)
+					{
+						field8b.setText(testTable.getValueAt(row, 9).toString());
+					}
+					else
+						field8b.setFormatterFactory(factory);
+					if(testTable.getValueAt(row, 10) != null)
+					{
+						field8c.setText(testTable.getValueAt(row, 10).toString());
+					}
+					else
+						field8c.setFormatterFactory(factory);
+					if(testTable.getValueAt(row, 11) != null)
+					{
+						field9.setText(testTable.getValueAt(row, 11).toString());
+					}
+					else
+						field9.setText("");
+					if(testTable.getValueAt(row, 12) != null)
+					{
+						field10.setText(testTable.getValueAt(row, 12).toString());
+					}
+					else
+						field10.setText("");
+					
+					if(testTable.getValueAt(row, 13) != null)
+					{
+						field10a.setText(testTable.getValueAt(row, 13).toString());
+					}
+					else
+						field10a.setText("");
+					if(testTable.getValueAt(row, 14) != null)
+					{
+						field11.setText(testTable.getValueAt(row, 14).toString());
+					}
+					else
+						field11.setText("");
+					if(testTable.getValueAt(row, 15) != null)
+					{
+						field12.setText(testTable.getValueAt(row, 15).toString());
+					}
+					else
+						field12.setFormatterFactory(factory);
+					if(testTable.getValueAt(row, 16) != null)
+					{
+						field13.setText(testTable.getValueAt(row, 16).toString());
+					}
+					else
+						field13.setFormatterFactory(factory);
+					if(testTable.getValueAt(row, 17) != null)
+					{
+						field14.setText(testTable.getValueAt(row, 17).toString());
+					}
+					else
+						field14.setFormatterFactory(factory);
+					if(testTable.getValueAt(row, 18) != null)
+					{
+						field14a.setSelected((testTable.getValueAt(row, 18).toString() == "YES"));
+					}
+					if(testTable.getValueAt(row, 19) != null)
+					{
+						field15.setText(testTable.getValueAt(row, 19).toString());
+					}
+					else
+						field15.setText("");
+					if(testTable.getValueAt(row, 20) != null)
+					{
+						field15a.setText(testTable.getValueAt(row, 20).toString());
+					}
+					else
+						field15a.setText("");
+					if(testTable.getValueAt(row, 21) != null)
+					{
+						field16.setText(testTable.getValueAt(row, 21).toString());
+					}
+					else
+						field16.setText("");
+					if(testTable.getValueAt(row, 22) != null)
+					{
+						field17.setText(testTable.getValueAt(row, 22).toString());
+					}
+					else
+						field17.setText("");
+					if(testTable.getValueAt(row, 23) != null)
+					{
+						field18.setText(testTable.getValueAt(row, 23).toString());
+					}
+					else
+						field18.setText("");
+					
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, e);
+					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, e + "\nCaught");
 				}
 			}
 		});
@@ -618,16 +731,20 @@ public class InsertPanel extends Applet {
 					String value14 = field14.getText();
 					String value14a = field14a.getText();
 					String value15 = field15.getText();
+					String value15a = field15.getText();
 					String value16 = field16.getText();
 					String value17 = field17.getText();
 					String value18 = field18.getText();
-					
+					//Deactivation_Date ='" + value14 
 
 					String sql = "Update MasterTable set Item_Name='" + value1 + "' , Item_Description ='" + value2
 							+ "' , Category ='" + value3 + "' ,ID_Tag ='" + value4 + "' ,Room ='" + value5
 							+ "' , Floor ='" + value6 + "' ,Date_Acquired ='" + value7 + "',Ownership ='" + value8
-//							+"'  , Lease_Term ='" + value8a + "'  , Lease_Expiration ='" + value8b + "'  , Rent_Due_Date='" + value8c 
-//							+"'  , Supplier ='" + value9 + "'  , Manufacturer ='" + value10 + "'  , Model_Number='" + value10a 
+							+"'  , Lease_Term ='" + value8a + "'  , Lease_Expiration ='" + value8b + "'  , Rent_Due_Date='" + value8c 
+							+"'  , Supplier ='" + value9 + "'  , Manufacturer ='" + value10 + "'  , Model_Number='" + value10a
+							+"'  , Serial_Number ='" + value11 + "'  , Warranty_Expiration_Date ='" + value12 + "'  , Replacement_Date='" + value13
+							+"'  , Deactivation_Date ='" + value14 + "'  , Deactivation_Method ='" + value15 + "'  , Expiration_Date='" + value15a
+							+"'  , Price ='" + value16 + "'  , Quality ='" + value17 + "'  , Condition='" + value18
 
 							+ "' where ID_Tag ='" + value4 + "'";
 					System.out.println(sql);
@@ -755,6 +872,8 @@ public class InsertPanel extends Applet {
 	    field14.setFont(font);
 	    field14a.setFont(font);
 	    field15.setFont(font);
+	    field15a.setFont(font);
+
 	    field16.setFont(font);
 	    field17.setFont(font);
 	    field18.setFont(font);
@@ -764,6 +883,49 @@ public class InsertPanel extends Applet {
 	    field22.setFont(font);
 	    field23.setFont(font);
 	}
+	
+	public void clearFIeld()
+	{
+		
+		DefaultFormatterFactory factory = new DefaultFormatterFactory(formatter);
+		field1.setText("");
+		field2.setText("");
+		field3.setSelectedIndex(0);
+		field4.setText("");
+		field5.setText("");
+		field6.setText("");
+		field7.setFormatterFactory(factory);
+		field8.setSelectedIndex(0);
+		field8a.setFormatterFactory(factory);
+		field8b.setFormatterFactory(factory);
+		field8c.setFormatterFactory(factory);
+		field9.setText("");
+		field10.setText("");
+		field10a.setText("");
+		field11.setText("");
+		field12.setFormatterFactory(factory);
+		field13.setFormatterFactory(factory);
+		field14.setFormatterFactory(factory);
+		field14a.setSelected(false);
+		field15.setText("");
+		field15a.setFormatterFactory(factory);
+		field16.setText("");
+		field17.setText("");
+		field18.setText("");
+
+
+		
+
+		
+
+
+
+
+
+
+
+	}
+	
 	public void setTextFieldName()
 	{
 		field1.setName("1");
@@ -786,9 +948,10 @@ public class InsertPanel extends Applet {
 		field14.setName("18");
 		field14a.setName("19");
 		field15.setName("20");
-		field16.setName("21");
-		field17.setName("22");
-		field18.setName("23");
+		field15a.setName("21");
+		field16.setName("22");
+		field17.setName("23");
+		field18.setName("24");
 		field19.setName("field19");
 		field20.setName("field20");
 		field21.setName("field21");

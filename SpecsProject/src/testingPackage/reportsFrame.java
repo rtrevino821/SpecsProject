@@ -34,6 +34,9 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.print.PrinterException;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -43,6 +46,7 @@ import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Scanner;
 
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
@@ -805,6 +809,10 @@ public class reportsFrame{
                         footer1 = new MessageFormat("All Assets By Category");
                         testTable.print(JTable.PrintMode.FIT_WIDTH, header, footer1);
                     }
+                    else  {
+                        footer1 = new MessageFormat("All Assets");
+                        testTable.print(JTable.PrintMode.FIT_WIDTH, header, footer1);
+                    }
                    
                 } catch (PrinterException e1) {
 
@@ -812,9 +820,38 @@ public class reportsFrame{
                 }
               }
             });
+        
+        
        
        
         JButton btnNewButton_1 = new JButton("Export to Excel");
+        btnNewButton_1.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent arg0) {
+        		try {
+					ConvertExcel.writeExcel(testTable);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        		catch(NullPointerException e1)
+        		{
+        			if(e1.toString().contains("java.lang.NullPointerException"))
+					{
+						Scanner input = null;
+						String line;
+						try {
+							input = new Scanner(new File("LogReportFrameNullPointer.txt"));
+						} catch (FileNotFoundException e2) {
+							e2.printStackTrace();
+						}
+						line = input.nextLine();
+						JOptionPane.showMessageDialog(null, "Check ID_Tag: " + line  +"'s rows for errors");
+
+					}
+        		}
+        		
+        	}
+        });
         buttonPanel.add(btnNewButton_1);
         springLayout.putConstraint(SpringLayout.WEST, btnNewButton_1, (int)((scrollPane_1.getWidth() / 2) + 15), SpringLayout.WEST, scrollPane_1);
         springLayout.putConstraint(SpringLayout.EAST, btnNewButton_1, -50, SpringLayout.EAST, reportFrame.getContentPane());

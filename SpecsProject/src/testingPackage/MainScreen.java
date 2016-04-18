@@ -332,18 +332,17 @@
 //
 //}
 
-package appPackage;
+package testingPackage;
 
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
-import testingPackage.ExcelFrame;
-import testingPackage.InsertPanel;
-import testingPackage.LineChartSample;
-import testingPackage.reportsFrame;
 
 import javax.swing.*;
+
+import appPackage.sqliteConnection;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
