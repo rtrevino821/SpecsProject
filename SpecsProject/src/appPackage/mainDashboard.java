@@ -23,6 +23,7 @@ import java.awt.event.ActionEvent;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Desktop;
+import java.awt.EventQueue;
 
 public class mainDashboard {
 
@@ -47,6 +48,22 @@ public class mainDashboard {
 	private Object[] row;
 	private double total;
 	private DecimalFormat df;
+	
+	public static void main(String[] args) {
+
+		EventQueue.invokeLater(new Runnable() {
+			// run() is used to initialize the program
+			public void run() {
+				try {
+
+					mainDashboard frame = new mainDashboard();
+					//frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
 
 	/**
 	 * Create the Main Application.
@@ -129,11 +146,11 @@ public class mainDashboard {
 		statusPanel.setOpaque(false);
 		statusPanel.setLayout(new BoxLayout(statusPanel, BoxLayout.X_AXIS));
 
-		JLabel statusLabel = new JLabel("Current User: " + loginGUI.returnUsername());
-		statusLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
-		statusLabel.setForeground(Color.WHITE);
-		statusLabel.setHorizontalAlignment(SwingConstants.LEFT);
-		statusPanel.add(statusLabel);
+//		JLabel statusLabel = new JLabel("Current User: " + loginGUI.returnUsername());
+//		statusLabel.setFont(new Font("Tahoma", Font.BOLD, 20));
+//		statusLabel.setForeground(Color.WHITE);
+//		statusLabel.setHorizontalAlignment(SwingConstants.LEFT);
+//		statusPanel.add(statusLabel);
 
 		////////////////////////// CHECKOUT TAB ///////////////////////////////
 
