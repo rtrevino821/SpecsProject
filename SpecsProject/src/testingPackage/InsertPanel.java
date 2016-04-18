@@ -453,54 +453,23 @@ public class InsertPanel {
     	
     	//Inserting
 		
-    	getInsert();
+    	getFields();
 
     	insertingFields(btnInsert);
+    	updateFields(btnUpdate);
+//
+//    	frmInsertAsset.addWindowListener(new WindowAdapter()
+//           {
+//               @Override
+//               public void windowClosing(WindowEvent e)
+//               {
+//                   System.out.println("Closed");
+//                   MainScreen.frame.setVisible(true);
+//                   e.getWindow().dispose();
+//               }
+//           });
     	
-
-    	frmInsertAsset.addWindowListener(new WindowAdapter()
-           {
-               @Override
-               public void windowClosing(WindowEvent e)
-               {
-                   System.out.println("Closed");
-                   MainScreen.frame.setVisible(true);
-                   e.getWindow().dispose();
-               }
-           });
     	
-    	btnUpdate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				prepare = null;
-				try {
-					//int row = testTable.getSelectedRow();
-					
-					//if(testTable.getModel().getValueAt(row, 0) != null)
-						 //String value1 = field1.getText();
-					
-					String value1 = field1.getText();
-					String value2 = field2.getText();
-					String value3 = field3.getSelectedItem().toString();
-					String value4 = field4.getText();
-					String value5 = field5.getText();
-					String value6 = field6.getText();
-					String value7 = field7.getText();
-					String value8 = field8.getSelectedItem().toString();
-
-					String sql = "Update MasterTable set Item_Name='" + value1 + "' , Item_Description ='" + value2
-							+ "' , Category ='" + value3 + "' ,ID_Tag ='" + value4 + "' ,Room ='" + value5
-							+ "' ,Floor ='" + value6 + "' ,Date_Acquired ='" + value7 + "',Ownership ='" + value8
-							+ "' where ID_Tag ='" + value4 + "'";
-					System.out.println(sql);
-					prepare = conn.prepareStatement(sql);
-					prepare.execute();
-					JOptionPane.showMessageDialog(null, "Updated");
-				} catch (SQLException e) {
-					JOptionPane.showMessageDialog(null, e);
-				}
-				UpDateTable();
-			}
-		});
     	
     	
     	
@@ -568,6 +537,62 @@ public class InsertPanel {
 		});
 	}
 	
+	private void updateFields(JButton btnUpdate) {
+		btnUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				prepare = null;
+				Connection conn = sqliteConnectionTEST.dbConnector();
+				try {
+					//int row = testTable.getSelectedRow();
+					
+					//if(testTable.getModel().getValueAt(row, 0) != null)
+						 //String value1 = field1.getText();
+					
+					String value1 = field1.getText();
+					String value2 = field2.getText();
+					String value3 = field3.getSelectedItem().toString();
+					String value4 = field4.getText();
+					String value5 = field5.getText();
+					String value6 = field6.getText();
+					String value7 = field7.getText();
+					String value8 = field8.getSelectedItem().toString();
+					String value8a = field8a.getText();
+					String value8b = field8b.getText();
+					String value8c = field8c.getText();
+					String value9 = field9.getText();
+					String value10 = field10.getText();
+					String value10a = field10a.getText();
+					String value11 = field11.getText();
+					String value12 = field12.getText();
+					String value13 = field13.getText();
+					String value14 = field14.getText();
+					String value14a = field14a.getText();
+					String value15 = field15.getText();
+					String value16 = field16.getText();
+					String value17 = field17.getText();
+					String value18 = field18.getText();
+					
+
+					String sql = "Update MasterTable set Item_Name='" + value1 + "' , Item_Description ='" + value2
+							+ "' , Category ='" + value3 + "' ,ID_Tag ='" + value4 + "' ,Room ='" + value5
+							+ "' , Floor ='" + value6 + "' ,Date_Acquired ='" + value7 + "',Ownership ='" + value8
+//							+"'  , Lease_Term ='" + value8a + "'  , Lease_Expiration ='" + value8b + "'  , Rent_Due_Date='" + value8c 
+//							+"'  , Supplier ='" + value9 + "'  , Manufacturer ='" + value10 + "'  , Model_Number='" + value10a 
+
+							+ "' where ID_Tag ='" + value4 + "'";
+					System.out.println(sql);
+					prepare = conn.prepareStatement(sql);
+					prepare.execute();
+					JOptionPane.showMessageDialog(null, "Updated");
+				} catch (SQLException e) {
+					JOptionPane.showMessageDialog(null, e);
+				}
+				UpDateTable();
+			}
+		});
+		
+	}
+
 	private void insertingFields(JButton btnInsert) {
 		btnInsert.addActionListener(new ActionListener(){
 
@@ -575,7 +600,9 @@ public class InsertPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					prepare.executeUpdate();
+					JOptionPane.showMessageDialog(null, "Successfully Inserted.");
 					UpDateTable();
+					addCategoryColumns();
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -686,10 +713,10 @@ public class InsertPanel {
 					{
 						return String.class;
 					}
-					else if(c==20)
-					{
-						return Double.class;
-					}
+//					else if(c==20)
+//					{
+//						return Double.class;
+//					}
 					else
 						return String.class;
 			
@@ -736,10 +763,10 @@ public class InsertPanel {
                      row[i]=Integer.parseInt(rs.getString(4));
 
             	 }
-            	 if(i==20)
-            	 {
-                     row[i]=Double.parseDouble(rs.getString(21));
-            	 }
+//            	 if(i==20)
+//            	 {
+//                     row[i]=Double.parseDouble(rs.getString(21));
+//            	 }
             	 else
                     row[i]=rs.getString(i+1);
                 }
@@ -837,7 +864,7 @@ public class InsertPanel {
 	}
 	
 
-	public void getInsert()
+	public void getFields()
 	{
 		stringTextBox();
 		dateTextBox();

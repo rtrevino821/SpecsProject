@@ -192,7 +192,14 @@ public class ConvertExcel {
             for (int j = 0; j <= columnLength; j++) {
             	if(j==24)
             	{
-            		prepare.executeUpdate();
+            		try{
+            			prepare.executeUpdate();
+            		}
+            		catch(SQLException e)
+            		{
+            			e.printStackTrace();
+            			System.out.println("CAUGHT");
+            		}
             	}
 
             	else if (row.getCell(j) == null)
@@ -224,7 +231,12 @@ public class ConvertExcel {
 	{
 		Connection conn = sqliteConnectionTEST.dbConnector();
 		PreparedStatement prepare = null;
-
+		try {
+			conn.setAutoCommit(false);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		String query = "insert into MasterTable (Item_Name,Item_Description,Category,ID_Tag,Room,"//1-5
 				+ "Floor, Date_Acquired, Ownership, Lease_Term,Lease_Expiration,"//5-10
 				+ "Rent_Due_Date,Supplier,Manufacturer,Model_Number,Serial_Number,"//10-15
@@ -257,7 +269,7 @@ public class ConvertExcel {
 		//System.out.println("J is :" + j);
 		//Ints col 3,5
 
-		if(j==3)
+		if(j==3 || j==4)
 		{
 			if(cellArray[j].getCellType() == Cell.CELL_TYPE_BLANK)
 			{
@@ -354,6 +366,18 @@ public class ConvertExcel {
 				return prepare;
 	     	}
 	     	else{
+	     		if(cellArray[j].getCellType() == Cell.CELL_TYPE_NUMERIC)
+	     		{
+	    			cellTempDbl  = cellArray[j].getNumericCellValue();
+	    			try {
+	    				prepare.setDouble(j+1, cellTempDbl);
+	    			} catch (SQLException e) {
+	    				e.printStackTrace();
+	    			}
+	    			//System.out.println(cellTempDbl);
+	    			return prepare;
+
+	     		}
 	         	System.out.println(j);
 	     		cellTempString = cellArray[j].getStringCellValue();
 	     		try {
@@ -432,6 +456,7 @@ public class ConvertExcel {
         int cols=rsmd.getColumnCount();
         String c[]=new String[cols];
         for(int i=0;i<cols;i++){
+        	System.out.println("Count: " + i + " Name: " +rsmd.getColumnName(i+1).toString() );
             c[i]=rsmd.getColumnName(i+1);
         }
 
@@ -458,23 +483,48 @@ public class ConvertExcel {
 		Iterator<Row> rowIterator = sheet.iterator();
 		Row row = sheet.getRow(0);
 		int rowsCount = sheet.getLastRowNum();
-
+		Cell cell; 
 		String [] colHeader =  new String[rowsCount];
-		for(int count = 0; count < row.getLastCellNum(); count++)
+		FileWriter fw = null;
+		Boolean flag = true;
+		try {
+			fw = new FileWriter("LogC.txt");
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		} // needed so printwriter will not overwrite
+		PrintWriter writer = new PrintWriter(fw);
+		for(int count = 0; count < c.length; count++)
 		{//get column headers from excel
-			Cell cell = row.getCell(count);
-			if(!cell.getStringCellValue().equals(c[count]))
+			if(row.getCell(count) == null)
 			{
-				conn.close();
-				return false;
-
+//				int i = 1;
+//				System.out.println((char)(i+'A'-1));
+				writer.println("Column " +(c[count]) + " at  Excel column: " + (char)(count+'A'));
+				flag = false;
+		
 			}
-//			else
-//				System.out.println(cell.getStringCellValue());
+			else{
+				cell = row.getCell(count);
+//				System.out.println("Loop NAME: " + c[count]);
+
+				if(!cell.getStringCellValue().equals(c[count]) || cell == null )
+				{
+//					System.out.println("NOT Matched: " + cell.getStringCellValue());
+					conn.close();
+					flag = false;
+				}
+			}
 		}
 
 		conn.close();
-		return true;
+		writer.close();
+		try {
+			fw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return flag;
 
 	}
 
@@ -585,7 +635,7 @@ public class ConvertExcel {
 	public static void importExcel(File fs) throws SQLException
 	{//uncomment
 		PreparedStatement prepare = initPrepare();
-
+		int size = 24; //num of  columns
 		FileInputStream file = null;
 		try {
 			file = new FileInputStream(fs);
@@ -611,34 +661,55 @@ public class ConvertExcel {
 		int rowsCount = sheet.getLastRowNum();
 
 		String [] colHeader =  new String[rowsCount];
+		System.out.println("Rows Count: " + rowsCount);
 		int columnLength = 0;
-		for(int count = 0; count < row.getLastCellNum(); count++)
+		for(int count = 0; count < rowsCount; count++)
 		{//get column headers from excel
-			Cell cell = row.getCell(count);
-			columnLength = count+1;
-			colHeader[count] = cell.getStringCellValue();
-			//System.out.println(colHeader[count]);
+			if(count <= 23)
+			{
+				Cell cell = row.getCell(count);
+				columnLength = count+1;
+				//System.out.println( cell.getStringCellValue());
+				//System.out.println( count);
+
+				colHeader[count] = cell.getStringCellValue();
+				//System.out.println(colHeader[count]);
+			}
+			
 		}
 
 		//System.out.println("Total Number of Rows: " + (rowsCount + 1));
 		for (int i = 3; i <= rowsCount-1; i++) {//start at 1 to skip column
 			row = sheet.getRow(i);//change colcounts to row
 			int colCounts = columnLength;//assign colCounts to the length of max num of cols
-			Cell [] cellArray = new Cell[colCounts];
-			//System.out.println("Total Number of Cols: " + colCounts);
-			for (int j = 0; j <= columnLength; j++) {
-				if(j==23)
+			//System.out.println("COLUMN COUNT: "+ colCounts);
+			Cell [] cellArray = new Cell[size];
+			int blankSpace = 0; //counts
+			for (int j = 0; j <= size; j++) {
+				//cellArray.System.out.println(j);
+				System.out.println("Blank: " + blankSpace);
+				if(blankSpace == 24)
+				{//means that 
+					System.out.println("Break");
+					break;
+				}
+				
+				if(j==24)//num of columns in database
 				{
 					prepare.executeUpdate();
+					prepare.getConnection().commit();
+					//System.out.println("Successflly Inserted");
+
 				}
 
 				else if (row.getCell(j) == null)
 				{//if cel is blank, create a blank cell
 					//break;
 					//System.out.println("NULL at " + i + " , " + j );
+					//System.out.println("GOKU:DBZ: " + j);
 					cellArray[j] = row.getCell(j, Row.CREATE_NULL_AS_BLANK);
 					prepare = getParepareValues(cellArray,j,prepare);
-
+					blankSpace ++;
 				}
 				else{
 					cellArray[j] = row.getCell(j);
