@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.MaskFormatter;
+import java.applet.Applet;
 import java.awt.*;
 import java.awt.event.*;
 import java.sql.*;
@@ -14,7 +15,7 @@ import java.util.Date;
 
 
 
-public class InsertPanel {
+public class InsertPanel extends Applet {
 
 	//private JComboBox <String> field3;
 	private static JTable testTable;
@@ -93,6 +94,7 @@ public class InsertPanel {
 	 * @throws ClassNotFoundException 
 	 */
 	public InsertPanel() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
+		super();
 		UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
 		Connection conn = sqliteConnectionTEST.dbConnector();
 		initialize();
