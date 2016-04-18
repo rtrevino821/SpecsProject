@@ -3,7 +3,6 @@ package appPackage;
 import java.awt.Font;
 import java.sql.*;
 import javax.swing.*;
-import javax.swing.SwingUtilities;
 
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
@@ -13,19 +12,37 @@ import javafx.scene.text.Text;
 
 import testingPackage.LineChartSample;
 import testingPackage.InsertPanel;
+import testingPackage.reportsFrame;
+
 
 import java.net.URISyntaxException;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+<<<<<<< HEAD
 import java.awt.Toolkit;
 
+=======
+//import testingPackage.InsertPanel;
+import testingPackage.ExcelFrame;
+import testingPackage.ExcelFilter;
+//------------------------
+import javafx.scene.chart.*;
+>>>>>>> origin/steve_git
 public class MainScreen extends JFrame{
-
+//---------------------------
 	private static JFrame frame;
 
+	//****** ADDED
+	//private static InsertPanel insert;
+	private static JFXPanel chartFxPanel;
+	private Chart chart;
+	//-------------------------
+	
 	Connection connection = null;
 
 	/**
@@ -82,7 +99,7 @@ public class MainScreen extends JFrame{
 		
 		
 		
-		Platform.runLater(() -> initFX(fxPanel));
+		//Platform.runLater(() -> initFX(fxPanel));
 		
 		
 		
@@ -119,7 +136,9 @@ public class MainScreen extends JFrame{
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
-					new InsertPanel();
+					//new InsertPanel();
+					//new ExcelFrame();
+					new reportsFrame();
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -149,7 +168,9 @@ public class MainScreen extends JFrame{
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				try {
-					new LineChartSample();
+					//new LineChartSample();
+					//new reportsFrame();
+					new ExcelFrame();
 					//report.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -181,7 +202,9 @@ public class MainScreen extends JFrame{
 				try {
 
 					//TestMain.intialize
-					new LineChartSample();
+					ExcelFrame frame = new ExcelFrame();
+					frame.setVisible(true);
+					
 					//report.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -221,16 +244,22 @@ public class MainScreen extends JFrame{
 		lblCompanyAssetsAt.setForeground(new Color(98, 98, 98));
 		frame.getContentPane().add(lblCompanyAssetsAt);
 		
+<<<<<<< HEAD
 		JLabel lblHelloSteve = new JLabel("Hello Steve!");
 		springLayout.putConstraint(SpringLayout.NORTH, lblHelloSteve, 25, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.WEST, lblHelloSteve, 961, SpringLayout.WEST, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.SOUTH, lblHelloSteve, 81, SpringLayout.NORTH, frame.getContentPane());
 		springLayout.putConstraint(SpringLayout.EAST, lblHelloSteve, 1361, SpringLayout.WEST, frame.getContentPane());
+=======
+//   GREETING MESSAGE AT TOP OF SCREEN		
+		
+/*		JLabel lblHelloSteve = new JLabel("Hello Steve!");
+>>>>>>> origin/steve_git
 		lblHelloSteve.setHorizontalAlignment(SwingConstants.RIGHT);
 		lblHelloSteve.setForeground(new Color(98, 98, 98));
 		lblHelloSteve.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 36));
 		frame.getContentPane().add(lblHelloSteve);
-
+*/
 
 		/** OLD PIE CHART TO BE REPLACED **/
 //		JLabel lblNewLabel = new JLabel("");
@@ -265,6 +294,30 @@ public class MainScreen extends JFrame{
 		
 	//TODO replace static graph image with dynamic graph from testingPackage
 	
+		// Website Button to links to Company Website
+				//JLabel webLabel = new JLabel("Hello Steve!");
+				ImageIcon websiteButtonBG = new ImageIcon("src/Grant.jpg");  //Grant-Fridkin-Pearson-PA.jpg
+				JButton websiteButton = new JButton(websiteButtonBG);
+				websiteButton.setOpaque(false);
+				websiteButton.setBorderPainted(false);
+				websiteButton.setBounds(940, 9, 500, 76);
+				websiteButton.setToolTipText("http://www.gfpac.com/");  //http://www.gfpac.com/  //http://www.gfpac.com/
+				websiteButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						try {
+							String command1 = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe http://www.gfpac.com/";
+							Process link1 = Runtime.getRuntime().exec(command1);
+						} catch (Exception ex) {
+							System.out.println("cannot execute command. " + ex);
+						}
+					}
+				});
+				frame.add(websiteButton);
+		
+		
+		
+		
+		
 	}
 
 	private static void initFX(JFXPanel fxPanel) {
