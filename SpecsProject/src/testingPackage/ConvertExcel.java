@@ -23,6 +23,8 @@ import java.util.Iterator;
  *  boolean tempalteState, when true only writes the column header for excel
  */
 public class ConvertExcel {
+	static int blankSpace = 0; //counts num of blak rows
+
 	public static void writeExcel(boolean templateState)throws IOException
 	{
 
@@ -274,6 +276,7 @@ public class ConvertExcel {
 			if(cellArray[j].getCellType() == Cell.CELL_TYPE_BLANK)
 			{
 				try {
+					blankSpace = blankSpace +1;
 					prepare.setNull(j+1, Types.INTEGER);
 					return prepare;
 				} catch (SQLException e) {
@@ -312,6 +315,7 @@ public class ConvertExcel {
 			if(cellArray[j] == null || cellArray[j].getCellType() == Cell.CELL_TYPE_BLANK)
 			{
 				try {
+					blankSpace= blankSpace+1;
 					prepare.setString(j+1, null);
 					return prepare;
 				} catch (SQLException e) {
@@ -337,6 +341,7 @@ public class ConvertExcel {
 			if(cellArray[j].getCellType() == Cell.CELL_TYPE_BLANK)
 			{
 				try {
+					blankSpace= blankSpace+1;
 					prepare.setNull(j+1, Types.DOUBLE);
 					return prepare;
 				} catch (SQLException e) {
@@ -359,6 +364,7 @@ public class ConvertExcel {
 			if(cellArray[j] == null || cellArray[j].getCellType() == Cell.CELL_TYPE_BLANK)
 	     	{
 	         	try {
+					blankSpace++;
 					prepare.setString(j+1, null);
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -684,10 +690,10 @@ public class ConvertExcel {
 			int colCounts = columnLength;//assign colCounts to the length of max num of cols
 			//System.out.println("COLUMN COUNT: "+ colCounts);
 			Cell [] cellArray = new Cell[size];
-			int blankSpace = 0; //counts
+			blankSpace=0;
 			for (int j = 0; j <= size; j++) {
 				//cellArray.System.out.println(j);
-				System.out.println("Blank: " + blankSpace);
+				//System.out.println("Row: " + j + "  Blank: " + blankSpace);
 				if(blankSpace == 24)
 				{//means that 
 					System.out.println("Break");
@@ -709,7 +715,7 @@ public class ConvertExcel {
 					//System.out.println("GOKU:DBZ: " + j);
 					cellArray[j] = row.getCell(j, Row.CREATE_NULL_AS_BLANK);
 					prepare = getParepareValues(cellArray,j,prepare);
-					blankSpace ++;
+					//blankSpace ++;
 				}
 				else{
 					cellArray[j] = row.getCell(j);
@@ -718,7 +724,7 @@ public class ConvertExcel {
 				}
 
 			}// end of j loop
-
+			
 		}//end of i loop
 		try {
 			file.close();

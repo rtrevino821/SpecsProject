@@ -82,6 +82,16 @@ public class InsertPanel extends Applet {
 	//For Lease and Rented
 	private boolean leasedFlag;
 	private boolean rentedFlag;
+	//Input Flags
+	private boolean itemNameFlag;
+	private boolean categoryFlag;
+	private boolean id_tagFlag;
+	private boolean date_acuquiredFlag;
+	private boolean priceFlag;
+
+
+	
+
 
 	// instantiating textfields for each jlabel
 	private JTextField field1 = new JTextField();
@@ -94,8 +104,8 @@ public class InsertPanel extends Applet {
 	private JTextField field6 = new JTextField();	
 	private JFormattedTextField field7;
 
-	JComboBox field8 = new JComboBox();
-	JFormattedTextField field8a = new JFormattedTextField();
+	private JComboBox field8 = new JComboBox();
+	private JFormattedTextField field8a = new JFormattedTextField();
 	JFormattedTextField field8b = new JFormattedTextField();
 	JFormattedTextField field8c = new JFormattedTextField();
 	JTextField field9 = new JTextField();
@@ -116,7 +126,7 @@ public class InsertPanel extends Applet {
 	JTextField field22 = new JTextField();
 	JTextField field23 = new JTextField();
 	 private static InsertPanel instance;
-
+	 
 
 
 	/**
