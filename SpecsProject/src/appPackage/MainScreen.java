@@ -19,7 +19,11 @@ import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.util.Map;
 import java.util.TreeMap;
+<<<<<<< HEAD
 >>>>>>> origin/master
+=======
+>>>>>>> refs/remotes/origin/master
+>>>>>>> refs/remotes/origin/rudy_Branch
 
 public class MainScreen extends JApplet{
 
