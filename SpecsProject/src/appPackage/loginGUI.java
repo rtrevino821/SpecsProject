@@ -229,7 +229,8 @@ public class loginGUI extends JFrame {
 					// Opens the Dashboard if the Login is correct
 					if (count == 1) {
 						MainScreen mainScreen = new MainScreen();
-						dispose();
+						setVisible(false);
+						//dispose();
 						// If user and pass are incorrect
 					} else if (count == 2) {
 						JOptionPane.showMessageDialog(null, "Duplicate Username and Password");
