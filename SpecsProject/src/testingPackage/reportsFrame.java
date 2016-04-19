@@ -1,76 +1,27 @@
 package testingPackage;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.JScrollPane;
-import javax.swing.ComboBoxModel;
-import javax.swing.DefaultCellEditor;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-
-import java.awt.Font;
-import java.awt.GridLayout;
-
-import javax.swing.border.LineBorder;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableColumnModel;
-
-//import org.apache.poi.util.SystemOutLogger;
-
-import java.awt.SystemColor;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import java.awt.*;
+import java.awt.event.*;
 import java.awt.print.PrinterException;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
+import java.sql.*;
 import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Scanner;
 
-import javax.swing.ScrollPaneConstants;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
-import javax.swing.JPanel;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.SpringLayout;
-import javax.swing.border.EmptyBorder;
-import java.awt.LayoutManager;
-
-import javax.print.attribute.HashPrintRequestAttributeSet;
-import javax.print.attribute.PrintRequestAttributeSet;
-import javax.print.attribute.standard.OrientationRequested;
-import javax.swing.BoxLayout;
-import javax.swing.SwingConstants;
-
 public class reportsFrame{
 
     private JFrame reportFrame;
-    //private JComboBox <String> field3;
     private static JTable testTable;
    
-    // instantiating textfields for each jlabel
+            // instantiating textfields for each JLabel
             JComboBox assetQuery = new JComboBox();
             JTextField roomNo = new JTextField();
             JTextField year = new JTextField();
@@ -102,24 +53,19 @@ public class reportsFrame{
             boolean printAssets_Warranty =false;
             boolean printAsset_Leased =false; 
             boolean printAssets_All_Category=false;   
-           
-           
-           
+
            
     /**
      * Launch the application.
      */
     public static void main(String[] args) {
-        EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                try {
-                    UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-                    reportsFrame window = new reportsFrame();
-//                    window.display();
-                    window.reportFrame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
+        EventQueue.invokeLater(() -> {
+            try {
+                UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+                reportsFrame window = new reportsFrame();
+                window.reportFrame.setVisible(true);
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         });
     }
@@ -127,14 +73,9 @@ public class reportsFrame{
    
     public reportsFrame() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
         UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-        Connection conn = sqliteConnectionTEST.dbConnector();
         initialize();
         UpDateTable();
-       
     }
-   
-   
-   
    
     /**
      * Initialize the contents of the frame.
@@ -240,13 +181,7 @@ public class reportsFrame{
         for(int i = 0; i < expiredQueries.length; i++){
             expiredQuery.addItem(expiredQueries[i]);
         }
-       
-//        JComboBox assetQuery = new JComboBox();
-//        JTextField roomNo = new JTextField();
-//        JTextField year = new JTextField();
-//        JTextField yearStart = new JTextField();
-//        JTextField yearEnd = new JTextField();
-//        JComboBox categoryAsset = new JComboBox();
+
         JButton btnLoad1 = new JButton("Run");
         btnLoad1.setFont(font);
 
@@ -373,7 +308,6 @@ public class reportsFrame{
                        
                         String user_Category = (String) categoryAsset.getSelectedItem();
                         String year_Category = year.getText();
-                        //System.out.println(user_Category +"  " + year_Category);
                         UpDateTable_Assets_Over_500_By_Category_And_Year(year_Category, user_Category);
                     }
                    
@@ -385,9 +319,7 @@ public class reportsFrame{
             }
         });
 
-//       
-//        JComboBox deactivatedQuery = new JComboBox();
-//        JComboBox categoryDeactivated = new JComboBox();
+
         JButton btnLoad2 = new JButton("Run");
         btnLoad2.setFont(font);
         btnLoad2.setFont(font);
@@ -707,7 +639,6 @@ public class reportsFrame{
         testTable.setRowHeight(testTable.getRowHeight() + 20);
         testTable.putClientProperty("terminateEditOnFocusLost", true);
         scrollPane_1.setViewportView(testTable);
-        //testTable.setAutoCreateColumnsFromModel(true);
         testTable.setAutoCreateRowSorter(true);
         testTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
        
@@ -745,13 +676,11 @@ public class reportsFrame{
                     else if (printAsset_500_Year == true) {
                        
                         footer1 = new MessageFormat("By Year All Assets Over 500$");
-                       // System.out.println(footer1.toString());
                         testTable.print(JTable.PrintMode.FIT_WIDTH, header, footer1);
                        
                     }
                     else if (printExpired_Year == true) {
                         footer1 = new MessageFormat("Expired Assets");
-                    //    System.out.println(footer1.toString());
                         testTable.print(JTable.PrintMode.FIT_WIDTH, header, footer1);
                        
                     }
