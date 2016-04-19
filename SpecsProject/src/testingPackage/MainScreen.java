@@ -2,28 +2,16 @@
 
 package testingPackage;
 
+import appPackage.sqliteConnection;
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
-import testingPackage.ExcelFrame;
-import testingPackage.InsertPanel;
-import testingPackage.LineChartSample;
-import testingPackage.reportsFrame;
 
 import javax.swing.*;
-
-import appPackage.sqliteConnection;
-
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-
-import java.awt.event.WindowListener;
-import java.awt.Toolkit;
-
 import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.util.Map;
@@ -38,13 +26,11 @@ public class MainScreen extends JApplet{
 
     private static InsertPanel insert;
     private static JFXPanel chartFxPanel;
+    private static JFXPanel pieChartFxPanel;
     private Chart chart;
-    private static int btnPanelWidth;
-    private static int btnPanelHeight;
     private static int FX_PANEL_WIDTH = 1000;
-    private static int FX_PANEL_HEIGHT = 500;
-    private static int headerPanelWidth;
-    private static int headerPanelHeight;
+    private static int FX_PANEL_HEIGHT = 700;
+    private static int FX_CHART_HEIGHT = 800;
 
 
     /**
@@ -81,6 +67,10 @@ public class MainScreen extends JApplet{
         chartFxPanel = new JFXPanel();
         chartFxPanel.setPreferredSize(new Dimension(FX_PANEL_WIDTH, FX_PANEL_HEIGHT));
         //-----------------------------------------------------------------------------------//
+        pieChartFxPanel = new JFXPanel();
+        pieChartFxPanel.setPreferredSize(new Dimension(FX_PANEL_WIDTH, FX_PANEL_HEIGHT));
+        //-----------------------------------------------------------------------------------//
+
         final JFXPanel fxPanel = new JFXPanel();
         fxPanel.setBounds(0, 0, 0, 0);
         fxPanel.setPreferredSize(new Dimension(300,300));
@@ -199,11 +189,17 @@ public class MainScreen extends JApplet{
             public void mouseClicked(MouseEvent arg0) {
                 try {
                     // create JavaFX scene
-                    Platform.runLater(() -> createScene());
                     JFrame fxFrame = setFrame();
-                    fxFrame.getContentPane().add(chartFxPanel);
-                    fxFrame.setVisible(true);
-//                    frame.add(chartFxPanel);
+                    JTabbedPane tabbedPane = new JTabbedPane();
+                    fxFrame.getContentPane().add(tabbedPane);
+
+                    Platform.runLater(() -> createScene());
+                    tabbedPane.addTab("Bar Chart", chartFxPanel);
+
+                    Platform.runLater(() -> createPieScene());
+                    tabbedPane.addTab("Pie Chart", pieChartFxPanel);
+
+                    tabbedPane.setVisible(true);
 
                     //report.setVisible(true);
                 } catch (Exception e) {
@@ -314,7 +310,7 @@ public class MainScreen extends JApplet{
         fxFrame.setLocationRelativeTo(null);
         fxFrame.getContentPane().setLayout(null);
         fxFrame.getContentPane().setLayout(new SpringLayout());
-        fxFrame.setSize(new Dimension(FX_PANEL_WIDTH, FX_PANEL_HEIGHT));
+        fxFrame.setSize(new Dimension(FX_PANEL_WIDTH, FX_CHART_HEIGHT));
 
         ImageIcon icon = new ImageIcon(getClass().getResource("/Resources/appIconImage.png"));
         fxFrame.setIconImage(icon.getImage());
@@ -325,6 +321,12 @@ public class MainScreen extends JApplet{
     private void createScene() {
         chart = createBarChart();
         chartFxPanel.setScene(new Scene(chart));
+    }
+
+    private void createPieScene() {
+        PieChartSample pcs = new PieChartSample();
+        chart = new PieChart(pcs.getPieChartData());
+        pieChartFxPanel.setScene(new Scene(chart));
     }
 
     private BarChart createBarChart() {
