@@ -1,26 +1,9 @@
 package testingPackage;
 
-import java.awt.Color;
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.JScrollPane;
-import javax.swing.ComboBoxModel;
-import javax.swing.DefaultCellEditor;
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
-import javax.swing.JComboBox;
-
-import java.awt.Font;
-import java.awt.GridLayout;
-
-import javax.swing.border.LineBorder;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
+
 import javax.swing.table.TableColumnModel;
 
 //import org.apache.poi.util.SystemOutLogger;
@@ -39,10 +22,20 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+
+import java.awt.*;
+import java.awt.event.*;
+import java.awt.print.PrinterException;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.sql.*;
+
 import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Scanner;
 
 import javax.swing.ScrollPaneConstants;
 import javax.swing.UIManager;
@@ -600,29 +593,35 @@ public class reportsFrame{
 	    
 	    //This check to see what query has been selected to enable pertenant fields
 	    assetQuery.addItemListener(new ItemListener() {
+
             public void itemStateChanged(ItemEvent e) {
-                assetUpdateState();                  
+                assetUpdateState();                 
 
             }
         });
+
 	    assetUpdateState();
 	    
 	  //This check to see what query has been selected to enable pertenant fields
 	    deactivatedQuery.addItemListener(new ItemListener() {
+
             public void itemStateChanged(ItemEvent e) {
-                deactivatedUpdateState();                  
+                deactivatedUpdateState();                 
 
             }
         });
+
 	    deactivatedUpdateState();
 	    
 	  //This check to see what query has been selected to enable pertenant fields
 	    expiredQuery.addItemListener(new ItemListener() {
+
             public void itemStateChanged(ItemEvent e) {
-                expiredUpdateState();                  
+                expiredUpdateState();                 
 
             }
         });
+
 	    expiredUpdateState();
 	    
 	    // array of labels and corresponding textFields for use in display()
@@ -709,8 +708,7 @@ public class reportsFrame{
 		testTable.getTableHeader().setFont(new Font("Segoe UI Semilight", Font.PLAIN, 22));
 		testTable.setRowHeight(testTable.getRowHeight() + 20);
 		testTable.putClientProperty("terminateEditOnFocusLost", true);
-		scrollPane_1.setViewportView(testTable);
-		//testTable.setAutoCreateColumnsFromModel(true);
+		scrollPane_1.setViewportView(testTable);		
 		testTable.setAutoCreateRowSorter(true);
     	testTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
     	
@@ -738,6 +736,7 @@ public class reportsFrame{
     	     
     		// Individualize Reports based off which report is selected  
     		public void actionPerformed(ActionEvent e) {
+    			// checks the currently selected tab to check which tab to print
     	    	 MessageFormat footer1;
     	    	 MessageFormat header = new MessageFormat("Company Assets");  
     	        try {
@@ -822,6 +821,33 @@ public class reportsFrame{
     	
     	
     	JButton btnNewButton_1 = new JButton("Export to Excel");
+    	btnNewButton_1.addActionListener(new ActionListener() {
+        	public void actionPerformed(ActionEvent arg0) {
+        		try {
+					ConvertExcel.writeExcel(testTable);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+        		catch(NullPointerException e1)
+        		{
+        			if(e1.toString().contains("java.lang.NullPointerException"))
+					{
+						Scanner input = null;
+						String line;
+						try {
+							input = new Scanner(new File("LogReportFrameNullPointer.txt"));
+						} catch (FileNotFoundException e2) {
+							e2.printStackTrace();
+						}
+						line = input.nextLine();
+						JOptionPane.showMessageDialog(null, "Check ID_Tag: " + line  +"'s rows for errors");
+
+					}
+        		}
+        		
+        	}
+        });
     	buttonPanel.add(btnNewButton_1);
     	springLayout.putConstraint(SpringLayout.WEST, btnNewButton_1, (int)((scrollPane_1.getWidth() / 2) + 15), SpringLayout.WEST, scrollPane_1);
     	springLayout.putConstraint(SpringLayout.EAST, btnNewButton_1, -50, SpringLayout.EAST, reportFrame.getContentPane());
@@ -937,7 +963,7 @@ public class reportsFrame{
 	}
 	
 	
-	/* RETURNS ASSEYS BASED OFF SPECIFIC ROOM NUMBER */
+	/* RETURNS ASSETS BASED OFF SPECIFIC ROOM NUMBER */
 	public static void Update_Table_Search_By_Room(int room_Number) {
 
 		Connection conn2 = sqliteConnectionTEST.dbConnector();

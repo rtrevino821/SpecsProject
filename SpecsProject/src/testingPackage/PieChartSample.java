@@ -1,6 +1,17 @@
 package testingPackage;
 
-import java.beans.Statement;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.geometry.Side;
+import javafx.scene.Node;
+import javafx.scene.chart.PieChart;
+import javafx.scene.control.Label;
+import javafx.scene.effect.Glow;
+import javafx.scene.effect.Reflection;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.sql.Connection;
@@ -8,49 +19,25 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
-import java.util.TimeZone;
 
-import org.joda.time.DateTime;
+public class PieChartSample extends PieChart {
+	ObservableList<PieChart.Data> pieChartData;
+//	@Override
 
-import javafx.scene.Node;
-import javafx.application.Application;
-import javafx.beans.binding.DoubleBinding;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
-import javafx.geometry.Side;
-import javafx.scene.Scene;
-import javafx.stage.Stage;
-import javafx.scene.chart.*;
-import javafx.scene.chart.PieChart.Data;
-import javafx.scene.control.Label;
-import javafx.scene.effect.Glow;
-import javafx.scene.effect.Reflection;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.Group;
+	public ObservableList<PieChart.Data> getPieChartData(){
+		return pieChartData;
+	}
 
-public class PieChartSample extends Application {
+	public PieChartSample () {
+		super();
+//		Pane root = new Pane();
+//		Scene scene = new Scene(root);
+//		stage.setTitle("Pie Graph Company Total Spent");
+//		stage.setWidth(600);
+//		stage.setHeight(575);
 
-	@Override
-	public void start(Stage stage) {
-
-		Pane root = new Pane();
-		Scene scene = new Scene(root);
-		stage.setTitle("Pie Graph Company Total Spent");
-		stage.setWidth(600);
-		stage.setHeight(575);
-
-			ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
+			pieChartData = FXCollections.observableArrayList(
 				new PieChart.Data("Art: ", test_Total_By_Category("ArtWork")),
 				new PieChart.Data("Cabinets: ", test_Total_By_Category("Furniture & Fixture Cabinets")),
 				new PieChart.Data("Pc's: ", test_Total_By_Category("Computers")),
@@ -89,9 +76,9 @@ public class PieChartSample extends Application {
 			});
 		}
 
-        root.getChildren().addAll(chart, caption);
-        stage.setScene(scene);
-        stage.show();
+//        root.getChildren().addAll(chart, caption);
+//        stage.setScene(scene);
+//        stage.show();
 
         // SETS LEGEND SETTINGS GLOW AND COLORs FOR THE PIE SLICES //
         Set<Node> items = chart.lookupAll("Label.chart-legend-item");
@@ -112,58 +99,58 @@ public class PieChartSample extends Application {
         }
     }
 
-    public static void main(String[] args) {
-        launch(args);
-       
-       
-       // Search_By_Room(0);
-        //Search_Retired_Assets_By_Category("Computer Software");
-        Search_Retired_Assets();
-        //test_individual_Category_Total_Spent("Computers", "2013");
-        //test_Assets_Over_500_By_Year("1997");
-        //test_individual_Category_Total_Spent("Computers", "2008");
-        //All_Assets_Over_500();
-        
-        /*String date = "1997-01-01";
-        String date2 = "2002-12-31";
-        try {
-			test_Date_Range_Over_500(date,date2);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-        */
-        
-        
-//      System.out.println("new method  "+test_Total_By_Category("Computers") + " good");
-//    System.out.println("Pc's++++++++++++++:  "+test_Computers_Total_Spent()+"  correct value"+"\n");
-//      System.out.println("new method  "+test_Total_By_Category("ArtWork")); 
-//    System.out.println("Art:  "+test_ArtWork_Total_Spent()+ "  correct value" + "\n");
-//      System.out.println("new method  "+test_Total_By_Category("Computer Software")); 
-//    System.out.println("Software:  "+test_Computer_Software_Total_Spent()+ "  correct value"+"\n");  
-//      System.out.println("new method  "+test_Total_By_Category("Computers Battery Backups"));
-//    System.out.println("battery:  "+test_Batter_Backup_Total_Spent()+ "  correct value"+"\n");   
-//      System.out.println("new method  "+test_Total_By_Category("Computers MISC & Server E"));
-//    System.out.println("Misc:  " +test_Computer_MISC_Total_Spent()+ "  correct value"+"\n");
-//      System.out.println("new method  "+test_Total_By_Category("Personal Property"));
-//    System.out.println("personal property:  "  + test_Personal_Property_Total_Spent()+ "  correct value" +"\n");
-//      System.out.println("new method  "+test_Total_By_Category("Computers Printers"));
-//    System.out.println("printers:  "+ test_Printers_Total_Spent()+ "  correct value"+ "\n");
-//      System.out.println("new method  "+test_Total_By_Category("Computers Transcription"));
-//    System.out.println("transcription:  "+ test_Transcription_Total_Spent()+ "  correct value" + "\n");
-//      System.out.println("new method  "+test_Total_By_Category("Computers Video/Proj Eq"));
-//    System.out.println("video_projectors:  " + test_Video_Projector_Total_Spent()+ "  correct value" +  "\n");
-//      System.out.println("new method  "+test_Total_By_Category("Furniture & Fixtures"));
-//    System.out.println("furniture:  " + test_Furniture_Fixtures_Total_Spent() + "  correct value"+"\n");
-//     System.out.println("new method  "+test_Total_By_Category("Furniture & Fixture Cabinets"));
-//    System.out.println("Cabinets:  "+test_Furniture_Total_Spent()+ "  correct value "+ "\n");
-//      System.out.println("new method  "+test_Total_By_Category("Leasehold Improvements"));
-//    System.out.println("LeaseHold: "+test_LeaseHold_Total_Spent()+ "\n");
-       
- }
+//    public static void main(String[] args) {
+////        launch(args);
+//
+//
+//       // Search_By_Room(0);
+//        //Search_Retired_Assets_By_Category("Computer Software");
+//        Search_Retired_Assets();
+//        //test_individual_Category_Total_Spent("Computers", "2013");
+//        //test_Assets_Over_500_By_Year("1997");
+//        //test_individual_Category_Total_Spent("Computers", "2008");
+//        //All_Assets_Over_500();
+//
+//        /*String date = "1997-01-01";
+//        String date2 = "2002-12-31";
+//        try {
+//			test_Date_Range_Over_500(date,date2);
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (ParseException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//        */
+//
+//
+////      System.out.println("new method  "+test_Total_By_Category("Computers") + " good");
+////    System.out.println("Pc's++++++++++++++:  "+test_Computers_Total_Spent()+"  correct value"+"\n");
+////      System.out.println("new method  "+test_Total_By_Category("ArtWork"));
+////    System.out.println("Art:  "+test_ArtWork_Total_Spent()+ "  correct value" + "\n");
+////      System.out.println("new method  "+test_Total_By_Category("Computer Software"));
+////    System.out.println("Software:  "+test_Computer_Software_Total_Spent()+ "  correct value"+"\n");
+////      System.out.println("new method  "+test_Total_By_Category("Computers Battery Backups"));
+////    System.out.println("battery:  "+test_Batter_Backup_Total_Spent()+ "  correct value"+"\n");
+////      System.out.println("new method  "+test_Total_By_Category("Computers MISC & Server E"));
+////    System.out.println("Misc:  " +test_Computer_MISC_Total_Spent()+ "  correct value"+"\n");
+////      System.out.println("new method  "+test_Total_By_Category("Personal Property"));
+////    System.out.println("personal property:  "  + test_Personal_Property_Total_Spent()+ "  correct value" +"\n");
+////      System.out.println("new method  "+test_Total_By_Category("Computers Printers"));
+////    System.out.println("printers:  "+ test_Printers_Total_Spent()+ "  correct value"+ "\n");
+////      System.out.println("new method  "+test_Total_By_Category("Computers Transcription"));
+////    System.out.println("transcription:  "+ test_Transcription_Total_Spent()+ "  correct value" + "\n");
+////      System.out.println("new method  "+test_Total_By_Category("Computers Video/Proj Eq"));
+////    System.out.println("video_projectors:  " + test_Video_Projector_Total_Spent()+ "  correct value" +  "\n");
+////      System.out.println("new method  "+test_Total_By_Category("Furniture & Fixtures"));
+////    System.out.println("furniture:  " + test_Furniture_Fixtures_Total_Spent() + "  correct value"+"\n");
+////     System.out.println("new method  "+test_Total_By_Category("Furniture & Fixture Cabinets"));
+////    System.out.println("Cabinets:  "+test_Furniture_Total_Spent()+ "  correct value "+ "\n");
+////      System.out.println("new method  "+test_Total_By_Category("Leasehold Improvements"));
+////    System.out.println("LeaseHold: "+test_LeaseHold_Total_Spent()+ "\n");
+//
+// }
        
     private void applyCustomColorSequence(ObservableList<PieChart.Data> pieChartData, String... pieColors) {
         int i = 0;
@@ -442,7 +429,12 @@ public class PieChartSample extends Application {
         bd = bd.setScale(2, RoundingMode.HALF_UP);
         return bd.doubleValue();
     }
-    
+
+	@Override
+	protected void layoutChartChildren(double top, double left, double width, double height) {
+
+	}
+
 //    public static double test_LeaseHold_Total_Spent() {
 //        Connection conn2 = sqliteConnectionTEST.dbConnector();
 //        java.sql.Statement stmt;

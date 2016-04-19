@@ -1,6 +1,7 @@
 package testingPackage;
 //comment comment
 import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.util.SystemOutLogger;
 import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -23,6 +24,8 @@ import java.util.Iterator;
  *  boolean tempalteState, when true only writes the column header for excel
  */
 public class ConvertExcel {
+	static int blankSpace = 0; //counts num of blak rows
+
 	public static void writeExcel(boolean templateState)throws IOException
 	{
 
@@ -113,9 +116,29 @@ public class ConvertExcel {
 	        	if(table.getColumnName(cols).equals(colName[cols]) )
 	        	{
 	            	String columnString = colName[cols];
+	            	System.out.println("Col: " + columnString);
 	            	if(isColumnIntType(columnString))
 	            	{//writes cell as doubles to remove error checking from excel
+	            		
+
+						FileWriter fw = null;
+
+						try {
+							fw = new FileWriter("LogReportFrameNullPointer.txt");
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						} // needed so printwriter will not overwrite
+						PrintWriter writer = new PrintWriter(fw);
+						//System.out.println("ID Tag: " + model.getValueAt(rows, cols).toString());
+						writer.println( model.getValueAt(rows, 3).toString());
+						writer.close();
+						
 	            		XSSFCell cell = (XSSFCell) row.createCell(cols);//create a cell at the row,col location
+	            		
+	            		
+	            		//System.out.println((model.getValueAt(rows, cols).toString()));
+	            		
+	            		
 	            		double x = Double.parseDouble((String) (model.getValueAt(rows, cols)));//get he  value from table
 			            cell.setCellValue(x);
 			           //row.createCell(cols).setCellValue(model.getValueAt(rows, cols).toString()); //Write value
@@ -188,11 +211,18 @@ public class ConvertExcel {
             row = sheet.getRow(i);//change colcounts to row
             int colCounts = columnLength;//assign colCounts to the length of max num of cols
             Cell [] cellArray = new Cell[colCounts];
-            System.out.println("Total Number of Cols: " + colCounts);
+           // System.out.println("Total Number of Cols: " + colCounts);
             for (int j = 0; j <= columnLength; j++) {
             	if(j==24)
             	{
-            		prepare.executeUpdate();
+            		try{
+            			prepare.executeUpdate();
+            		}
+            		catch(SQLException e)
+            		{
+            			e.printStackTrace();
+            			System.out.println("CAUGHT");
+            		}
             	}
 
             	else if (row.getCell(j) == null)
@@ -224,12 +254,17 @@ public class ConvertExcel {
 	{
 		Connection conn = sqliteConnectionTEST.dbConnector();
 		PreparedStatement prepare = null;
-
+		try {
+			conn.setAutoCommit(false);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		String query = "insert into MasterTable (Item_Name,Item_Description,Category,ID_Tag,Room,"//1-5
 				+ "Floor, Date_Acquired, Ownership, Lease_Term,Lease_Expiration,"//5-10
 				+ "Rent_Due_Date,Supplier,Manufacturer,Model_Number,Serial_Number,"//10-15
 				+ "Warranty_Expiration_Date,Replacement_Date,Deactivation_Date,Deactivated,Deactivation_Method,"//15-20
-				+ "Price, Condition,Quality,Expiration_Date)"//20-23
+				+ "Expiration_Date, Price, Condition,Quality)"//20-23
 				+ "values(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?"
 				+ ",?,?,?,?,?)";  //removed asset over 500 //removed picture
 
@@ -257,11 +292,12 @@ public class ConvertExcel {
 		//System.out.println("J is :" + j);
 		//Ints col 3,5
 
-		if(j==3 || j == 4)
+		if(j==3 || j==4)
 		{
 			if(cellArray[j].getCellType() == Cell.CELL_TYPE_BLANK)
 			{
 				try {
+					blankSpace = blankSpace +1;
 					prepare.setNull(j+1, Types.INTEGER);
 					return prepare;
 				} catch (SQLException e) {
@@ -294,12 +330,13 @@ public class ConvertExcel {
 			return prepare;
 		}
 		//Dates
-		else if(j==6||j==8||j==9||j==10|
-				j==15||j==16||j==17||j==23)
+		else if(j==6||j==8||j==9||j==10
+				 ||j==20 || j==15||j==16||j==17)
 		{
 			if(cellArray[j] == null || cellArray[j].getCellType() == Cell.CELL_TYPE_BLANK)
 			{
 				try {
+					blankSpace= blankSpace+1;
 					prepare.setString(j+1, null);
 					return prepare;
 				} catch (SQLException e) {
@@ -307,7 +344,7 @@ public class ConvertExcel {
 				}
 				return prepare;
 			}
-
+			//System.out.println("NumJ : " + j);
 		 	typeDate =  cellArray[j].getDateCellValue();
 		 	dateFormattedString = cellTempDate.format(typeDate);
 		 	try {
@@ -320,11 +357,12 @@ public class ConvertExcel {
 
 		}
 		//Double
-		else if(j==20)
+		else if(j==21)
 		{
 			if(cellArray[j].getCellType() == Cell.CELL_TYPE_BLANK)
 			{
 				try {
+					blankSpace= blankSpace+1;
 					prepare.setNull(j+1, Types.DOUBLE);
 					return prepare;
 				} catch (SQLException e) {
@@ -347,6 +385,7 @@ public class ConvertExcel {
 			if(cellArray[j] == null || cellArray[j].getCellType() == Cell.CELL_TYPE_BLANK)
 	     	{
 	         	try {
+					blankSpace++;
 					prepare.setString(j+1, null);
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -354,7 +393,19 @@ public class ConvertExcel {
 				return prepare;
 	     	}
 	     	else{
-	         	System.out.println(j);
+	     		if(cellArray[j].getCellType() == Cell.CELL_TYPE_NUMERIC)
+	     		{
+	    			cellTempDbl  = cellArray[j].getNumericCellValue();
+	    			try {
+	    				prepare.setDouble(j+1, cellTempDbl);
+	    			} catch (SQLException e) {
+	    				e.printStackTrace();
+	    			}
+	    			//System.out.println(cellTempDbl);
+	    			return prepare;
+
+	     		}
+	         	//System.out.println(j);
 	     		cellTempString = cellArray[j].getStringCellValue();
 	     		try {
 					prepare.setString(j+1, cellTempString);
@@ -390,7 +441,7 @@ public class ConvertExcel {
 
 	public static boolean isColumnIntType(String colName)
 	{
-		if(colName.equals("ID")||(colName.equals("Price")))
+		if(colName.equals("ID_Tag")||(colName.equals("Price")))
 				{
 					return true;
 				}
@@ -432,6 +483,7 @@ public class ConvertExcel {
         int cols=rsmd.getColumnCount();
         String c[]=new String[cols];
         for(int i=0;i<cols;i++){
+        	System.out.println("Count: " + i + " Name: " +rsmd.getColumnName(i+1).toString() );
             c[i]=rsmd.getColumnName(i+1);
         }
 
@@ -458,23 +510,50 @@ public class ConvertExcel {
 		Iterator<Row> rowIterator = sheet.iterator();
 		Row row = sheet.getRow(0);
 		int rowsCount = sheet.getLastRowNum();
-
+		Cell cell; 
 		String [] colHeader =  new String[rowsCount];
-		for(int count = 0; count < row.getLastCellNum(); count++)
+		FileWriter fw = null;
+		Boolean flag = true;
+		try {
+			fw = new FileWriter("LogC.txt");
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		} // needed so printwriter will not overwrite
+		PrintWriter writer = new PrintWriter(fw);
+		for(int count = 0; count < c.length; count++)
 		{//get column headers from excel
-			Cell cell = row.getCell(count);
-			if(!cell.getStringCellValue().equals(c[count]))
+			if(row.getCell(count) == null)
 			{
-				conn.close();
-				return false;
-
+//				int i = 1;
+//				System.out.println((char)(i+'A'-1));
+				writer.println("Column " +(c[count]) + " at  Excel column: " + (char)(count+'A'));
+				flag = false;
+		
 			}
-//			else
-//				System.out.println(cell.getStringCellValue());
+			else{
+				cell = row.getCell(count);
+//				System.out.println("Loop NAME: " + c[count]);
+
+				if(!cell.getStringCellValue().equals(c[count]) || cell == null )
+				{
+//					System.out.println("NOT Matched: " + cell.getStringCellValue());
+					//conn.close();
+					writer.println("Column " +(c[count]) + " at  Excel column: " + (char)(count+'A'));
+					flag = false;
+				}
+			}
 		}
+		
 
 		conn.close();
-		return true;
+		writer.close();
+		try {
+			fw.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return flag;
 
 	}
 
@@ -585,7 +664,7 @@ public class ConvertExcel {
 	public static void importExcel(File fs) throws SQLException
 	{//uncomment
 		PreparedStatement prepare = initPrepare();
-
+		int size = 24; //num of  columns
 		FileInputStream file = null;
 		try {
 			file = new FileInputStream(fs);
@@ -611,34 +690,55 @@ public class ConvertExcel {
 		int rowsCount = sheet.getLastRowNum();
 
 		String [] colHeader =  new String[rowsCount];
+		System.out.println("Rows Count: " + rowsCount);
 		int columnLength = 0;
-		for(int count = 0; count < row.getLastCellNum(); count++)
+		for(int count = 0; count < rowsCount; count++)
 		{//get column headers from excel
-			Cell cell = row.getCell(count);
-			columnLength = count+1;
-			colHeader[count] = cell.getStringCellValue();
-			//System.out.println(colHeader[count]);
+			if(count <= 23)
+			{
+				Cell cell = row.getCell(count);
+				columnLength = count+1;
+				//System.out.println( cell.getStringCellValue());
+				//System.out.println( count);
+
+				colHeader[count] = cell.getStringCellValue();
+				//System.out.println(colHeader[count]);
+			}
+			
 		}
 
 		//System.out.println("Total Number of Rows: " + (rowsCount + 1));
 		for (int i = 3; i <= rowsCount-1; i++) {//start at 1 to skip column
 			row = sheet.getRow(i);//change colcounts to row
 			int colCounts = columnLength;//assign colCounts to the length of max num of cols
-			Cell [] cellArray = new Cell[colCounts];
-			//System.out.println("Total Number of Cols: " + colCounts);
-			for (int j = 0; j <= columnLength; j++) {
-				if(j==23)
+			//System.out.println("COLUMN COUNT: "+ colCounts);
+			Cell [] cellArray = new Cell[size];
+			blankSpace=0;
+			for (int j = 0; j <= size; j++) {
+				//cellArray.System.out.println(j);
+				//System.out.println("Row: " + j + "  Blank: " + blankSpace);
+				if(blankSpace == 24)
+				{//means that 
+					System.out.println("Break");
+					break;
+				}
+				
+				if(j==24)//num of columns in database
 				{
 					prepare.executeUpdate();
+					prepare.getConnection().commit();
+					//System.out.println("Successflly Inserted");
+
 				}
 
 				else if (row.getCell(j) == null)
 				{//if cel is blank, create a blank cell
 					//break;
 					//System.out.println("NULL at " + i + " , " + j );
+					//System.out.println("GOKU:DBZ: " + j);
 					cellArray[j] = row.getCell(j, Row.CREATE_NULL_AS_BLANK);
 					prepare = getParepareValues(cellArray,j,prepare);
-
+					//blankSpace ++;
 				}
 				else{
 					cellArray[j] = row.getCell(j);
@@ -647,7 +747,7 @@ public class ConvertExcel {
 				}
 
 			}// end of j loop
-
+			
 		}//end of i loop
 		try {
 			file.close();
