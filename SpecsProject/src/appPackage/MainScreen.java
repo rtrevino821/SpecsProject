@@ -385,7 +385,9 @@ public class MainScreen extends JApplet{
         SwingUtilities.invokeLater(() -> {
             try {
                 MainScreen mainScreen = new MainScreen();
-            } catch (Exception e) {e.printStackTrace();}
+            } catch (Exception e) {
+            	e.printStackTrace();
+            	}
         });
     }
 
@@ -408,19 +410,18 @@ public class MainScreen extends JApplet{
         chartFxPanel = new JFXPanel();
         chartFxPanel.setPreferredSize(new Dimension(FX_PANEL_WIDTH, FX_PANEL_HEIGHT));
         //-----------------------------------------------------------------------------------//
-
-        JFrame frame = new JFrame();
-        //frame.setResizable(false);
-        //frame.isResizable();
-        frame.setIconImage(Toolkit.getDefaultToolkit().getImage(MainScreen.class.getResource("/Resources/appIconImage.png")));
-        frame.getContentPane().setLayout(null);
         final JFXPanel fxPanel = new JFXPanel();
         fxPanel.setBounds(0, 0, 0, 0);
         fxPanel.setPreferredSize(new Dimension(300,300));
+        
+        
+        JFrame frame = new JFrame();
+        frame.setIconImage(Toolkit.getDefaultToolkit().getImage(MainScreen.class.getResource("/Resources/appIconImage.png")));
+        frame.getContentPane().setLayout(null);        
         frame.getContentPane().add(fxPanel);
         frame.setVisible(true);
         frame.getContentPane().setBackground(new Color(244, 244, 244));
-        //frame.setBackground(Color.WHITE);
+        frame.setBackground(Color.WHITE);
         frame.setTitle("GFP Asset Report System");
         frame.setSize(1440, 865);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -565,6 +566,7 @@ public class MainScreen extends JApplet{
 
                     ExcelFrame frame = new ExcelFrame();
                     frame.setVisible(true);
+                    frame.setLocationRelativeTo(null);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

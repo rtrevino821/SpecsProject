@@ -206,6 +206,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -234,6 +236,7 @@ public class ExcelFrame extends JFrame {
                 try {
                     ExcelFrame frame = new ExcelFrame();
                     frame.setVisible(true);
+                    frame.setLocationRelativeTo(null);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -245,25 +248,41 @@ public class ExcelFrame extends JFrame {
      * Create the frame.
      */
     public ExcelFrame() {
+    	setLocationRelativeTo(null);
         setIconImage(Toolkit.getDefaultToolkit().getImage(ExcelFrame.class.getResource("/Resources/appIconImage.png")));
         setTitle("Excel Options");
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        setBounds(100, 100, 268, 223);
+        //setBounds(100, 100, 905, 330);
+        setSize(905,330);
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+        contentPane.setBackground(new Color(244, 244, 244));
         setContentPane(contentPane);
         ImageIcon icon = new ImageIcon(getClass().getResource("/Resources/appIconImage.png"));
 
         final JFileChooser fc = new JFileChooser();
         fc.setFileFilter(new ExcelFilter());
 
-        JButton btnImportExcel = new JButton("Import Excel");
+        JLabel btnImportExcel = new JLabel("");
+        btnImportExcel.setIcon(new ImageIcon(ExcelFrame.class.getResource("/Resources/importIcon.jpg")));
         btnImportExcel.setToolTipText("Inserts Excel files to database.");
         btnImportExcel.addFocusListener(new FocusAdapter() {
 
         });
-        btnImportExcel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        btnImportExcel.addMouseListener(new MouseAdapter() {
+        	
+        	@Override
+            public void mouseEntered(MouseEvent arg0) {
+        		//btnImportExcel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        		btnImportExcel.setIcon(new ImageIcon(ExcelFrame.class.getResource("/Resources/importIcon_Hover.jpg")));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+            	btnImportExcel.setIcon(new ImageIcon(ExcelFrame.class.getResource("/Resources/importIcon.jpg")));
+            }
+        	
+        	@Override
+            public void mouseClicked(MouseEvent e) {
 
                 //Handle open button action.
                 if (e.getSource() == btnImportExcel) {
@@ -407,20 +426,45 @@ public class ExcelFrame extends JFrame {
 
         });
 
-        JButton btnExportExcel = new JButton("Export Excel");
+        JLabel btnExportExcel = new JLabel("");
+        btnExportExcel.setIcon(new ImageIcon(ExcelFrame.class.getResource("/Resources/exportIcon.jpg")));
         btnExportExcel.setToolTipText("Exports all data from database into an excel file.");
-        btnExportExcel.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        btnExportExcel.addMouseListener(new MouseAdapter() {
+        	
+        	@Override
+            public void mouseEntered(MouseEvent arg0) {
+        		//btnImportExcel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        		btnExportExcel.setIcon(new ImageIcon(ExcelFrame.class.getResource("/Resources/exportIcon_Hover.jpg")));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+            	btnExportExcel.setIcon(new ImageIcon(ExcelFrame.class.getResource("/Resources/exportIcon.jpg")));
+            }
+        	
+        	@Override
+            public void mouseClicked(MouseEvent e) {
                 try {
                     ConvertExcel.writeExcel(false);
                 } catch (IOException e1) {e1.printStackTrace();}
             }
         });
 
-        JButton button = new JButton("Excel Template");
-        button.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) 
-            {
+        JLabel button = new JLabel("");
+        button.setIcon(new ImageIcon(ExcelFrame.class.getResource("/Resources/templateIcon.jpg")));
+        button.addMouseListener(new MouseAdapter() {
+        	
+        	@Override
+            public void mouseEntered(MouseEvent arg0) {
+        		//btnImportExcel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        		button.setIcon(new ImageIcon(ExcelFrame.class.getResource("/Resources/templateIcon_Hover.jpg")));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+            	button.setIcon(new ImageIcon(ExcelFrame.class.getResource("/Resources/templateIcon.jpg")));
+            }
+        	
+        	@Override
+            public void mouseClicked(MouseEvent e) {
                 try {
                     ConvertExcel.writeExcel(true);
                 } catch (IOException e1) {
@@ -430,28 +474,10 @@ public class ExcelFrame extends JFrame {
             }
         });
         button.setToolTipText("Opens a template in Excel to import file.");
-        GroupLayout gl_contentPane = new GroupLayout(contentPane);
-        gl_contentPane.setHorizontalGroup(
-                gl_contentPane.createParallelGroup(Alignment.TRAILING)
-                .addGroup(gl_contentPane.createSequentialGroup()
-                        .addContainerGap(44, Short.MAX_VALUE)
-                        .addGroup(gl_contentPane.createParallelGroup(Alignment.LEADING)
-                                .addComponent(btnExportExcel, GroupLayout.PREFERRED_SIZE, 158, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(button, GroupLayout.PREFERRED_SIZE, 158, GroupLayout.PREFERRED_SIZE)
-                                .addComponent(btnImportExcel, GroupLayout.PREFERRED_SIZE, 158, GroupLayout.PREFERRED_SIZE))
-                        .addGap(40))
-                );
-        gl_contentPane.setVerticalGroup(
-                gl_contentPane.createParallelGroup(Alignment.LEADING)
-                .addGroup(gl_contentPane.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(btnImportExcel, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(ComponentPlacement.RELATED)
-                        .addComponent(btnExportExcel, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                        .addComponent(button, GroupLayout.PREFERRED_SIZE, 53, GroupLayout.PREFERRED_SIZE))
-                );
-        contentPane.setLayout(gl_contentPane);
+        contentPane.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+        contentPane.add(btnExportExcel);
+        contentPane.add(button);
+        contentPane.add(btnImportExcel);
 
 
 
