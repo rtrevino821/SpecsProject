@@ -308,7 +308,7 @@ public class MainScreen extends JApplet{
         fxFrame.setVisible(true);
         fxFrame.getContentPane().setBackground(new Color(244, 244, 244));
         fxFrame.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 12));
-        fxFrame.setTitle("Insert Asset");
+        fxFrame.setTitle("Infographic");
         fxFrame.setBounds(100, 100, 1504, 793);
         fxFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         fxFrame.setLocationRelativeTo(null);

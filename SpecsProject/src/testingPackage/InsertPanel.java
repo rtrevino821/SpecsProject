@@ -430,13 +430,13 @@ public class InsertPanel extends Applet {
 	    
 	    // array of labels and corresponding textFields for use in display()
 	    Object[] fields = {
-	    	"Item Name:    ", field1,
+	    	"* Item Name:    ", field1,
 	    	"Item Description:    ", field2,
-	    	"Category:    ", field3,
-	    	"ID Tag:    ", field4,
+	    	"* Category:    ", field3,
+	    	"* ID Tag:    ", field4,
 	    	"Room #:    ", field5,
 	    	"Floor #:    ", field6,
-	    	"Date Aquired:    ", field7,
+	    	"* Date Aquired:    ", field7,
 	    	"Ownership:    ", field8,
 	    	"Lease Term:    ", field8a,
 	    	"Lease Expiration:    ", field8b,
@@ -451,7 +451,7 @@ public class InsertPanel extends Applet {
 	    	"Deactivated:    ",field14a,
 	    	"Deactivation Method:    ", field15,
 	    	"Expiration Date:    ", field15a,
-	    	"Price:    ", field16,
+	    	"* Price:    ", field16,
 	    	"Quality:    ", field17,
 	    	"Condition:    ", field18
 	    	
@@ -770,31 +770,32 @@ public class InsertPanel extends Applet {
 				if(field1.getText().equals(""))
 				{
 					JOptionPane.showMessageDialog(null, "Item_Name field is empty.");
+					}
 				
-				if(field4.getText().contains(""))
+					else if(field4.getText().equals(""))
 				{
 					JOptionPane.showMessageDialog(null, "ID_Tag field is empty.");
 
 				}
-				if(field7.getText().contains("  -  -    "))
+					else if(field7.getText().contains("  -  -    "))
 				{
 					JOptionPane.showMessageDialog(null, "Date_Acquired field is empty.");
 				}
 				
-				if(priceFlag == false)
+					else if(priceFlag == false)
 				{
 					JOptionPane.showMessageDialog(null, "Price field is empty.");
 
 				}
-				}
+				//}
 				//Category validations
-				if(field3.getSelectedIndex() == -1 && newCategoryString == null )
+				else if(field3.getSelectedIndex() == -1 && newCategoryString == null )
 				{
 					JOptionPane.showMessageDialog(null, "Cateogry field is empty.");
 					return;
 
 				}		
-				if(newCategoryString == null)
+				else if(newCategoryString == null)
 				{
 					JOptionPane.showMessageDialog(null, "Category field is empty.");
 					return;

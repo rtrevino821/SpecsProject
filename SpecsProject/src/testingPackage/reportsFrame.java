@@ -1,9 +1,26 @@
 package testingPackage;
 
-import javax.swing.*;
-import javax.swing.border.EmptyBorder;
-import javax.swing.table.DefaultTableModel;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.EventQueue;
 
+import javax.swing.JFrame;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JTextField;
+import javax.swing.JScrollPane;
+import javax.swing.ComboBoxModel;
+import javax.swing.DefaultCellEditor;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+
+import java.awt.Font;
+import java.awt.GridLayout;
+
+import javax.swing.border.LineBorder;
+import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 //import org.apache.poi.util.SystemOutLogger;
@@ -17,20 +34,14 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.print.PrinterException;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-
-import java.awt.*;
-import java.awt.event.*;
-import java.awt.print.PrinterException;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.sql.*;
-
 import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
@@ -158,7 +169,7 @@ public class reportsFrame{
 		springLayout.putConstraint(SpringLayout.EAST, scrollPane_1, -21, SpringLayout.EAST, reportFrame.getContentPane());
 		reportFrame.getContentPane().add(scrollPane_1);
 		
-
+		
 		
 		// Font styling for TextFields
 		Font font = new Font("Segoe UI Semilight", Font.PLAIN, 20);
@@ -195,6 +206,7 @@ public class reportsFrame{
 	    	assetQuery.addItem(assetQueries[i]);
 	    }
 	    
+	    
 	  //query options for deactivated assets
 	    String [] deactivatedQueries = {
 	    		"Deactivated assets",
@@ -226,7 +238,7 @@ public class reportsFrame{
 	    	expiredQuery.addItem(expiredQueries[i]);
 	    }
 	    
-
+	    
 	    JButton btnLoad1 = new JButton("Run");
 	    btnLoad1.setFont(font);
 
@@ -593,35 +605,29 @@ public class reportsFrame{
 	    
 	    //This check to see what query has been selected to enable pertenant fields
 	    assetQuery.addItemListener(new ItemListener() {
-
             public void itemStateChanged(ItemEvent e) {
-                assetUpdateState();                 
+                assetUpdateState();                  
 
             }
         });
-
 	    assetUpdateState();
 	    
 	  //This check to see what query has been selected to enable pertenant fields
 	    deactivatedQuery.addItemListener(new ItemListener() {
-
             public void itemStateChanged(ItemEvent e) {
-                deactivatedUpdateState();                 
+                deactivatedUpdateState();                  
 
             }
         });
-
 	    deactivatedUpdateState();
 	    
 	  //This check to see what query has been selected to enable pertenant fields
 	    expiredQuery.addItemListener(new ItemListener() {
-
             public void itemStateChanged(ItemEvent e) {
-                expiredUpdateState();                 
+                expiredUpdateState();                  
 
             }
         });
-
 	    expiredUpdateState();
 	    
 	    // array of labels and corresponding textFields for use in display()
@@ -708,7 +714,8 @@ public class reportsFrame{
 		testTable.getTableHeader().setFont(new Font("Segoe UI Semilight", Font.PLAIN, 22));
 		testTable.setRowHeight(testTable.getRowHeight() + 20);
 		testTable.putClientProperty("terminateEditOnFocusLost", true);
-		scrollPane_1.setViewportView(testTable);		
+		scrollPane_1.setViewportView(testTable);
+		//testTable.setAutoCreateColumnsFromModel(true);
 		testTable.setAutoCreateRowSorter(true);
     	testTable.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
     	
@@ -736,7 +743,6 @@ public class reportsFrame{
     	     
     		// Individualize Reports based off which report is selected  
     		public void actionPerformed(ActionEvent e) {
-    			// checks the currently selected tab to check which tab to print
     	    	 MessageFormat footer1;
     	    	 MessageFormat header = new MessageFormat("Company Assets");  
     	        try {
@@ -963,7 +969,7 @@ public class reportsFrame{
 	}
 	
 	
-	/* RETURNS ASSETS BASED OFF SPECIFIC ROOM NUMBER */
+	/* RETURNS ASSEYS BASED OFF SPECIFIC ROOM NUMBER */
 	public static void Update_Table_Search_By_Room(int room_Number) {
 
 		Connection conn2 = sqliteConnectionTEST.dbConnector();
