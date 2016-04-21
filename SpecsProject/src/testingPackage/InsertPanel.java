@@ -255,15 +255,15 @@ public class InsertPanel extends Applet {
 				}
 				else{
 					//System.out.println(field3.getSelectedItem());
-					try {
-						newCategoryString = field3.getSelectedItem().toString();
-						System.out.println(newCategoryString);
-						prepare.setString(3, field3.getSelectedItem().toString());
-					} catch (SQLException e1) {
-						// TODO Auto-generated catch block
-						
-						e1.printStackTrace();
-					}
+//					try {
+//						newCategoryString = field3.getSelectedItem().toString();
+//						System.out.println(newCategoryString);
+//						prepare.setString(3, newCategoryString);
+//					} catch (SQLException e1) {
+//						// TODO Auto-generated catch block
+//						
+//						e1.printStackTrace();
+//					}
 				}
 					
 			}
@@ -313,7 +313,11 @@ public class InsertPanel extends Applet {
 							categoryFlag = true;
 							newCategoryString = field3.getSelectedItem().toString();
 							System.out.println(newCategoryString);
-							prepare.setString(3, field3.getEditor().getItem().toString());
+							if(newCategoryString != null)
+							{
+								prepare.setString(3, newCategoryString);
+							}
+								
 						} catch (SQLException e1) {
 							// TODO Auto-generated catch block
 							e1.printStackTrace();
@@ -403,8 +407,12 @@ public class InsertPanel extends Applet {
 			// TODO Auto-generated catch block
 			e2.printStackTrace();
 		}
+		
 		field7 = new JFormattedTextField(formatter);
+		
 		field8a  = new JFormattedTextField(formatter);
+		field7.setToolTipText("Enter Date in format of MM-DD-YYYYY");
+
 		field8a.setEnabled(false);
 		field8b  = new JFormattedTextField(formatter);
 		field8b.setEnabled(false);
@@ -559,6 +567,8 @@ public class InsertPanel extends Applet {
 						field2.setText("");
 					if(testTable.getValueAt(row, 2) != null)
 					{
+					
+						//if(field3.)
 						field3.setSelectedItem(testTable.getValueAt(row, 2).toString());
 					}
 					else
@@ -713,7 +723,15 @@ public class InsertPanel extends Applet {
 					
 					String value1 = field1.getText();
 					String value2 = field2.getText();
-					String value3 = field3.getSelectedItem().toString();
+					
+					String value3 = null;
+					if(field3.getSelectedIndex()== -1 && field3.getEditor().toString().length() >0)
+					{
+						JOptionPane.showMessageDialog(null, "Category field is emptyUPDATE.");
+						return;	
+					}
+					else
+						value3 = field3.getSelectedItem().toString();;
 					String value4 = field4.getText();
 					String value5 = field5.getText();
 					String value6 = field6.getText();
@@ -736,27 +754,35 @@ public class InsertPanel extends Applet {
 					String value17 = field17.getText();
 					String value18 = field18.getText();
 					//Deactivation_Date ='" + value14 
+					boolean bool = false;
+					boolean flag;
+					flag = validFields(bool);
+					System.out.println(flag);
+					if(flag == true)
+					{
+						String sql = "Update MasterTable set Item_Name='" + value1 + "' , Item_Description ='" + value2
+								+ "' , Category ='" + value3 + "' ,ID_Tag ='" + value4 + "' ,Room ='" + value5
+								+ "' , Floor ='" + value6 + "' ,Date_Acquired ='" + value7 + "',Ownership ='" + value8
+								+"'  , Lease_Term ='" + value8a + "'  , Lease_Expiration ='" + value8b + "'  , Rent_Due_Date='" + value8c 
+								+"'  , Supplier ='" + value9 + "'  , Manufacturer ='" + value10 + "'  , Model_Number='" + value10a
+								+"'  , Serial_Number ='" + value11 + "'  , Warranty_Expiration_Date ='" + value12 + "'  , Replacement_Date='" + value13
+								+"'  , Deactivation_Date ='" + value14 + "'  , Deactivation_Method ='" + value15 + "'  , Expiration_Date='" + value15a
+								+"'  , Price ='" + value16 + "'  , Quality ='" + value17 + "'  , Condition='" + value18
 
-					String sql = "Update MasterTable set Item_Name='" + value1 + "' , Item_Description ='" + value2
-							+ "' , Category ='" + value3 + "' ,ID_Tag ='" + value4 + "' ,Room ='" + value5
-							+ "' , Floor ='" + value6 + "' ,Date_Acquired ='" + value7 + "',Ownership ='" + value8
-							+"'  , Lease_Term ='" + value8a + "'  , Lease_Expiration ='" + value8b + "'  , Rent_Due_Date='" + value8c 
-							+"'  , Supplier ='" + value9 + "'  , Manufacturer ='" + value10 + "'  , Model_Number='" + value10a
-							+"'  , Serial_Number ='" + value11 + "'  , Warranty_Expiration_Date ='" + value12 + "'  , Replacement_Date='" + value13
-							+"'  , Deactivation_Date ='" + value14 + "'  , Deactivation_Method ='" + value15 + "'  , Expiration_Date='" + value15a
-							+"'  , Price ='" + value16 + "'  , Quality ='" + value17 + "'  , Condition='" + value18
+								+ "' where ID_Tag ='" + value4 + "'";
+						System.out.println(sql);
+						prepare = conn.prepareStatement(sql);
+						prepare.execute();
+						JOptionPane.showMessageDialog(null, "Updated");
+						UpDateTable();
 
-							+ "' where ID_Tag ='" + value4 + "'";
-					System.out.println(sql);
-					prepare = conn.prepareStatement(sql);
-					prepare.execute();
-					JOptionPane.showMessageDialog(null, "Updated");
-				} catch (SQLException e) {
-					JOptionPane.showMessageDialog(null, e);
+					}}catch (SQLException e) {
+						JOptionPane.showMessageDialog(null, e);
+					}
 				}
-				UpDateTable();
-			}
-		});
+			});
+					
+					
 		
 	}
 
@@ -766,56 +792,12 @@ public class InsertPanel extends Applet {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				//Check ItemName, Category, ID_Tag, Date_Acquired, and Price are not empty
-				
-				if(field1.getText().equals(""))
+				boolean bool = false;
+				boolean flag;
+				flag = validFields(bool);
+				System.out.println(flag);
+				if(flag == true)
 				{
-					JOptionPane.showMessageDialog(null, "Item_Name field is empty.");
-				
-				if(field4.getText().contains(""))
-				{
-					JOptionPane.showMessageDialog(null, "ID_Tag field is empty.");
-
-				}
-				if(field7.getText().contains("  -  -    "))
-				{
-					JOptionPane.showMessageDialog(null, "Date_Acquired field is empty.");
-				}
-				
-				if(priceFlag == false)
-				{
-					JOptionPane.showMessageDialog(null, "Price field is empty.");
-
-				}
-				}
-				//Category validations
-				if(field3.getSelectedIndex() == -1 && newCategoryString == null )
-				{
-					JOptionPane.showMessageDialog(null, "Cateogry field is empty.");
-					return;
-
-				}		
-				if(newCategoryString == null)
-				{
-					JOptionPane.showMessageDialog(null, "Category field is empty.");
-					return;
-
-				}
-				else if(newCategoryString.contains("") && field3.getSelectedIndex() == 0)
-				{
-					JOptionPane.showMessageDialog(null, "Category field is empty.");
-					return;
-
-				}
-	
-				else{
-					if(newCategoryString != null )
-					{
-						if(newCategoryString.contains("") && field3.getSelectedIndex() == 0)
-								{
-							JOptionPane.showMessageDialog(null, "Category is empty.");
-							return;
-								}
-					}
 				try {
 					//System.out.println("Cateogry :" + newCategoryString + " lenght: " + newCategoryString.length());
 					prepare.executeUpdate();
@@ -830,7 +812,77 @@ public class InsertPanel extends Applet {
 			
 
 			}
-    	}});		
+		}});		
+	}
+	
+	public boolean validFields(boolean flag)
+	{
+		if(field1.getText().equals(""))
+		{
+			JOptionPane.showMessageDialog(null, "Item_Name field is empty.");
+			return flag = false;
+		}
+		//Category validations
+		else if(field3.getSelectedIndex() == -1 && newCategoryString == null )
+		{
+			JOptionPane.showMessageDialog(null, "Category field is empty.1");
+			return flag = false;
+
+		}
+		else if(field4.getText().equals(""))
+		{
+			JOptionPane.showMessageDialog(null, "ID_Tag field is empty.4");
+			return flag = false;
+
+		}
+		else if(newCategoryString == null)
+		{
+			if(!newCategoryString.equals(field3.getSelectedItem().toString()))
+			{
+				JOptionPane.showMessageDialog(null, "Category field is empty.Nested");
+				return flag = false;
+			}
+			JOptionPane.showMessageDialog(null, "Category field is empty.2");
+			return flag = false;
+
+		}
+		else if(newCategoryString.contains("") && field3.getSelectedIndex() == 0)
+		{
+			JOptionPane.showMessageDialog(null, "Category field is empty.3");
+			return flag = false;
+		}
+		
+		else if(field7.getText().contains("  -  -    "))
+		{
+			JOptionPane.showMessageDialog(null, "Date_Acquired field is empty.5");
+			return flag = false;
+		}
+		
+		else if(field16.getText().equals(""))
+		{
+			JOptionPane.showMessageDialog(null, "Price field is empty.");
+			return flag = false;
+		}
+		
+		else{
+			if(newCategoryString != null )
+			{
+				if(newCategoryString.contains("") && field3.getSelectedIndex() == 0)
+						{
+					JOptionPane.showMessageDialog(null, "Category is empty.6");
+					return flag = false;
+
+						}
+			}
+			else{
+				System.out.println("pop");
+				return flag = true;
+			}
+
+			
+		}
+		System.out.println("pop");
+		return flag = true;
 	}
 
 	public void setFrame()
@@ -894,35 +946,31 @@ public class InsertPanel extends Applet {
 		field4.setText("");
 		field5.setText("");
 		field6.setText("");
+		field7.setValue("");
 		field7.setFormatterFactory(factory);
 		field8.setSelectedIndex(0);
+		field8a.setValue("");
 		field8a.setFormatterFactory(factory);
+		field8b.setValue("");
 		field8b.setFormatterFactory(factory);
+		field8c.setValue("");
 		field8c.setFormatterFactory(factory);
 		field9.setText("");
 		field10.setText("");
 		field10a.setText("");
 		field11.setText("");
+		field12.setValue("");
 		field12.setFormatterFactory(factory);
+		field13.setValue("");
 		field13.setFormatterFactory(factory);
+		field14.setValue("");
 		field14.setFormatterFactory(factory);
 		field14a.setSelected(false);
-		field15.setText("");
+		field15a.setValue("");
 		field15a.setFormatterFactory(factory);
 		field16.setText("");
 		field17.setText("");
 		field18.setText("");
-
-
-		
-
-		
-
-
-
-
-
-
 
 	}
 	
@@ -1339,17 +1387,17 @@ public class InsertPanel extends Applet {
 			
 			public void focusLost(FocusEvent arg0) {
 				//field7.setFocusLostBehavior(JFormattedTextField.PERSIST);
-				if(jText.getText().contains(""))
-				{
-					try {
-						prepare.setString(Integer.parseInt(jText.getName()), jText.getText());
-						System.out.println("EMpty Field");
-					} catch (NumberFormatException | SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					
-				}
+//				if(jText.getText().contains(""))
+//				{
+//					try {
+//						prepare.setString(Integer.parseInt(jText.getName()), "");
+//						System.out.println("EMpty Field");
+//					} catch (NumberFormatException | SQLException e) {
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//					
+//				}
 			}
 		});
 	}
@@ -1684,7 +1732,7 @@ public class InsertPanel extends Applet {
 			{//Verified Lease Expiratin is before date
 				try {
 					System.out.println(jText.getName() + ": " + jText.getText());
-					jText.setBackground(Color.green);
+					jText.setBackground(Color.white);
 
 					prepare.setString(Integer.parseInt(jText.getName()), input);
 				} catch (NumberFormatException | SQLException e1) {

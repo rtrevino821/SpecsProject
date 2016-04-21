@@ -73,6 +73,7 @@ public class reportsFrame{
     // instantiating textfields for each jlabel
             JComboBox assetQuery = new JComboBox();
             JTextField roomNo = new JTextField();
+            
             JTextField year = new JTextField();
             JTextField yearStart = new JTextField();
             JTextField yearEnd = new JTextField();
@@ -110,6 +111,11 @@ public class reportsFrame{
      * Launch the application.
      */
     public static void main(String[] args) {
+    	try {
+    		UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+    	} catch (Throwable e) {
+    		e.printStackTrace();
+    	}
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
@@ -622,6 +628,14 @@ public class reportsFrame{
         });
         expiredUpdateState();
        
+        TextPrompt tp = new TextPrompt("YYYY", year);
+        TextPrompt tp1 = new TextPrompt("YYYY-DD-MM are Acceptable", yearStart);
+        TextPrompt tp2 = new TextPrompt("YYYY-DD-MM are Acceptable", yearEnd);
+
+		tp.setFont(font);
+		tp1.setFont(font);
+		tp2.setFont(font);
+
         // array of labels and corresponding textFields for use in display()
         Object[] fields = {
                 //Assets Queries
@@ -687,6 +701,8 @@ public class reportsFrame{
         textPanel.setLayout(gl_textPanel);
         reportFrame.getContentPane().add(scrollPane);
        
+		
+
         int i=0;
         while (i < fields.length) {
             JLabel label = new JLabel((String) fields[i++], JLabel.RIGHT);
@@ -1285,6 +1301,7 @@ public class reportsFrame{
 
         boolean assetByRoomEnabled = assetQuery.getSelectedItem().equals("Assets by Room #");
         roomNo.setEnabled(assetByRoomEnabled);
+       // roomNo.setBackground(UIManager.getColor("JTextField.background"));
 
         boolean assetByYearEnabled = assetQuery.getSelectedItem().equals("Assets over $500 & Year acquired");
         year.setEnabled(assetByYearEnabled);
