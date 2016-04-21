@@ -24,13 +24,28 @@ public class MainScreen extends JApplet{
 
     Connection connection = null;
 
-    private static InsertPanel insert;
-    private static JFXPanel chartFxPanel;
-    private static JFXPanel pieChartFxPanel;
+    private JFrame frame;
+    private InsertPanel insertPane;
+    private JFXPanel fxPanel;
+    private JFrame fxFrame;
+    private JFXPanel chartFxPanel;
+    private JFXPanel pieChartFxPanel;
     private Chart chart;
-    private static int FX_PANEL_WIDTH = 1000;
-    private static int FX_PANEL_HEIGHT = 700;
-    private static int FX_CHART_HEIGHT = 800;
+
+    private JLabel Logo_MainScreen;
+    private JLabel lblATeamSoftware;
+    private JLabel reportsIcon;
+    private JLabel insertIcon;
+    private JLabel infoGraphIcon;
+    private JLabel excelFuncIcon;
+    private JLabel interWebIcon;
+    private JLabel helpIcon;
+
+    private static final int MAINSCREEN_WIDTH = 1440;
+    private static final int MAINSCREEN_HEIGHT = 865;
+    private static final int FX_PANEL_WIDTH = 1000;
+    private static final int FX_PANEL_HEIGHT = 700;
+    private static final int FX_CHART_HEIGHT = 800;
 
 
     /**
@@ -62,6 +77,23 @@ public class MainScreen extends JApplet{
     @Override
     public void init() {
 
+        setFXPanels();
+        setFrame();
+
+        setMiscLabels();
+
+        setReportsIcon();
+        setInsertIcon();
+        setInfoGraphIcon();
+        setExcelFuncIcon();
+        setInterWebIcon();
+        setHelpIcon();
+    }
+        
+        
+        
+        
+    private void setFXPanels() {
         // create javafx panel for charts
         //-----------------------------------------------------------------------------------//
         chartFxPanel = new JFXPanel();
@@ -70,237 +102,14 @@ public class MainScreen extends JApplet{
         pieChartFxPanel = new JFXPanel();
         pieChartFxPanel.setPreferredSize(new Dimension(FX_PANEL_WIDTH, FX_PANEL_HEIGHT));
         //-----------------------------------------------------------------------------------//
-
-        final JFXPanel fxPanel = new JFXPanel();
+        fxPanel = new JFXPanel();
         fxPanel.setBounds(0, 0, 0, 0);
         fxPanel.setPreferredSize(new Dimension(300,300));
-        
-        
-        JFrame frame = new JFrame();
-        frame.setIconImage(Toolkit.getDefaultToolkit().getImage(MainScreen.class.getResource("/Resources/appIconImage.png")));
-        frame.getContentPane().setLayout(null);        
-        frame.getContentPane().add(fxPanel);
-        frame.setVisible(true);
-        frame.getContentPane().setBackground(new Color(244, 244, 244));
-        frame.setBackground(Color.WHITE);
-        frame.setTitle("GFP Asset Report System");
-        frame.setSize(1440, 865);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setLocationRelativeTo(null);
-
-
-
-
-//        Platform.runLater(() -> initFX(fxPanel));
-
-
-
-        JLabel Logo_MainScreen = new JLabel("");
-        Logo_MainScreen.setBounds(15, 16, 300, 65);
-        Logo_MainScreen.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/Logo_Alt_2.jpg")));
-        frame.getContentPane().add(Logo_MainScreen);
-
-        JLabel lblATeamSoftware = new JLabel("A Team Software Suite 2016");
-        lblATeamSoftware.setBounds(1086, 773, 317, 20);
-        lblATeamSoftware.setHorizontalAlignment(SwingConstants.RIGHT);
-        lblATeamSoftware.setForeground(new Color(98, 98, 98));
-        lblATeamSoftware.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 20));
-        frame.getContentPane().add(lblATeamSoftware);
-        
-        JLabel reportsIcon = new JLabel("");
-        reportsIcon.setHorizontalAlignment(SwingConstants.CENTER);
-        reportsIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/reportIcon.jpg")));
-        reportsIcon.setBounds(59, 123, 394, 301);
-        frame.getContentPane().add(reportsIcon);
-        reportsIcon.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                //helpIconLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            	reportsIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/reportIcon_Hover.jpg")));
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-            	reportsIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/reportIcon.jpg")));
-            }
-            
-            @Override
-            public void mouseClicked(MouseEvent arg0) {
-                try {
-
-                    new reportsFrame();
-              
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        
-        JLabel insertIcon = new JLabel("");
-        insertIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/editReportIcon.jpg")));
-        insertIcon.setHorizontalAlignment(SwingConstants.CENTER);
-        insertIcon.setBounds(512, 123, 394, 301);
-        frame.getContentPane().add(insertIcon);
-        insertIcon.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                //helpIconLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            	insertIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/editReportIcon_Hover.jpg")));
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-            	insertIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/editReportIcon.jpg")));
-            }
-            
-            @Override
-            public void mouseClicked(MouseEvent arg0) {
-                try {
-
-                    InsertPanel frame = new InsertPanel();
-                    frame.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        
-        JLabel infoGraphIcon = new JLabel("");
-        infoGraphIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/infoGraphic.jpg")));
-        infoGraphIcon.setHorizontalAlignment(SwingConstants.CENTER);
-        infoGraphIcon.setBounds(965, 123, 394, 301);
-        frame.getContentPane().add(infoGraphIcon);
-        infoGraphIcon.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                //helpIconLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            	infoGraphIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/infoGraphic_Hover.jpg")));
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-            	infoGraphIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/infoGraphic.jpg")));
-            }
-            
-            @Override
-            public void mouseClicked(MouseEvent arg0) {
-                try {
-                    // create JavaFX scene
-                    JFrame fxFrame = setFrame();
-                    JTabbedPane tabbedPane = new JTabbedPane();
-                    fxFrame.getContentPane().add(tabbedPane);
-
-                    Platform.runLater(() -> createScene());
-                    tabbedPane.addTab("Bar Chart", chartFxPanel);
-
-                    Platform.runLater(() -> createPieScene());
-                    tabbedPane.addTab("Pie Chart", pieChartFxPanel);
-
-                    tabbedPane.setVisible(true);
-
-                    //report.setVisible(true);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        
-        
-        JLabel excelFuncIcon = new JLabel("");
-        excelFuncIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/excelIcon.jpg")));
-        excelFuncIcon.setHorizontalAlignment(SwingConstants.CENTER);
-        excelFuncIcon.setBounds(59, 432, 394, 301);
-        frame.getContentPane().add(excelFuncIcon);
-        excelFuncIcon.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                //helpIconLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            	excelFuncIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/excelIcon_Hover.jpg")));
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-            	excelFuncIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/excelIcon.jpg")));
-            }
-            
-            @Override
-            public void mouseClicked(MouseEvent arg0) {
-                try {
-
-                    ExcelFrame frame = new ExcelFrame();
-                    frame.setVisible(true);
-                    frame.setLocationRelativeTo(null);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-        
-        JLabel interWebIcon = new JLabel("");
-        interWebIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/interWeb.jpg")));
-        interWebIcon.setHorizontalAlignment(SwingConstants.CENTER);
-        interWebIcon.setBounds(512, 432, 394, 301);
-        frame.getContentPane().add(interWebIcon);
-        interWebIcon.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                //helpIconLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-            	interWebIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/interWeb_Hover.jpg")));
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-            	interWebIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/interWeb.jpg")));
-            }
-            
-            @Override
-            public void mouseClicked(MouseEvent arg0) {
-            	try {
-                    String command1 = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe http://www.gfpac.com/";
-                    Process link1 = Runtime.getRuntime().exec(command1);
-                } catch (Exception ex) {
-                    System.out.println("cannot execute command. " + ex);
-                }
-            }
-        });
-        
-        JLabel helpIcon = new JLabel("");
-        helpIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/helpIcon.jpg")));
-        helpIcon.setHorizontalAlignment(SwingConstants.CENTER);
-        helpIcon.setBounds(965, 432, 394, 301);
-        frame.getContentPane().add(helpIcon);
-        frame.setVisible(true);
-        helpIcon.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseEntered(MouseEvent e) {
-                //helpIconLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                helpIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/helpIcon_Hover.jpg")));
-
-            }
-
-            @Override
-            public void mouseExited(MouseEvent e) {
-                helpIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/helpIcon.jpg")));
-            }
-        });
-      
-        
     }
-        
-        
-        
-        
-    
 
-
-    public JFrame setFrame()
-    {
-        JFrame fxFrame = new JFrame();
+    public void setFXFrame() {
+        fxFrame = new JFrame();
+//        fxFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         fxFrame.setVisible(true);
         fxFrame.getContentPane().setBackground(new Color(244, 244, 244));
         fxFrame.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 12));
@@ -314,9 +123,21 @@ public class MainScreen extends JApplet{
 
         ImageIcon icon = new ImageIcon(getClass().getResource("/Resources/appIconImage.png"));
         fxFrame.setIconImage(icon.getImage());
-        return fxFrame;
     }
 
+    private void setFrame() {
+        frame = new JFrame();
+        frame.setIconImage(Toolkit.getDefaultToolkit().getImage(MainScreen.class.getResource("/Resources/appIconImage.png")));
+        frame.getContentPane().setLayout(null);
+        frame.getContentPane().add(fxPanel);
+        frame.setVisible(true);
+        frame.getContentPane().setBackground(new Color(244, 244, 244));
+        frame.setBackground(Color.WHITE);
+        frame.setTitle("GFP Asset Report System");
+        frame.setSize(MAINSCREEN_WIDTH, MAINSCREEN_HEIGHT);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setLocationRelativeTo(null);
+    }
 
     private void createScene() {
         chart = createBarChart();
@@ -333,7 +154,6 @@ public class MainScreen extends JApplet{
         XYChart.Series series = new XYChart.Series();
         TreeMap<String,Double> map = testingPackage.LineChartSample.test_Everything_Total_Spent();
         for(Map.Entry<String,Double> e : map.entrySet()){
-            System.out.println("year: "+e.getKey()+", spent: "+e.getValue());
             series.getData().add(new XYChart.Data(e.getKey(), e.getValue()));
         }
         CategoryAxis xAxis = new CategoryAxis();
@@ -346,5 +166,185 @@ public class MainScreen extends JApplet{
         chart.getData().add(series);
 
         return chart;
+    }
+
+    private void setMiscLabels() {
+        Logo_MainScreen = new JLabel("");
+        Logo_MainScreen.setBounds(15, 16, 300, 65);
+        Logo_MainScreen.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/Logo_Alt_2.jpg")));
+        frame.getContentPane().add(Logo_MainScreen);
+
+        lblATeamSoftware = new JLabel("A Team Software Suite 2016");
+        lblATeamSoftware.setBounds(1086, 773, 317, 20);
+        lblATeamSoftware.setHorizontalAlignment(SwingConstants.RIGHT);
+        lblATeamSoftware.setForeground(new Color(98, 98, 98));
+        lblATeamSoftware.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 20));
+        frame.getContentPane().add(lblATeamSoftware);
+    }
+    //------BUTTON SETUP METHODS----------//
+
+    private void setReportsIcon() {
+        reportsIcon = new JLabel("");
+        reportsIcon.setHorizontalAlignment(SwingConstants.CENTER);
+        reportsIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/reportIcon.jpg")));
+        reportsIcon.setBounds(59, 123, 394, 301);
+        frame.getContentPane().add(reportsIcon);
+        reportsIcon.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                //helpIconLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                reportsIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/reportIcon_Hover.jpg")));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                reportsIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/reportIcon.jpg")));
+            }
+            @Override
+            public void mouseClicked(MouseEvent arg0) {
+                try {
+                    new reportsFrame();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    private void setInsertIcon() {
+        insertIcon = new JLabel("");
+        insertIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/editReportIcon.jpg")));
+        insertIcon.setHorizontalAlignment(SwingConstants.CENTER);
+        insertIcon.setBounds(512, 123, 394, 301);
+        frame.getContentPane().add(insertIcon);
+        insertIcon.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                //helpIconLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                insertIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/editReportIcon_Hover.jpg")));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                insertIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/editReportIcon.jpg")));
+            }
+            @Override
+            public void mouseClicked(MouseEvent arg0) {
+                try {
+                    insertPane = new InsertPanel();
+                    insertPane.setVisible(true);
+                } catch (Exception e) {e.printStackTrace();}
+            }
+        });
+    }
+
+    private void setInfoGraphIcon(){
+        infoGraphIcon = new JLabel("");
+        infoGraphIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/infoGraphic.jpg")));
+        infoGraphIcon.setHorizontalAlignment(SwingConstants.CENTER);
+        infoGraphIcon.setBounds(965, 123, 394, 301);
+        frame.getContentPane().add(infoGraphIcon);
+        infoGraphIcon.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                //helpIconLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                infoGraphIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/infoGraphic_Hover.jpg")));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                infoGraphIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/infoGraphic.jpg")));
+            }
+            @Override
+            public void mouseClicked(MouseEvent arg0) {
+                try {
+                    // create JavaFX scene
+                    setFXFrame();
+                    JTabbedPane tabbedPane = new JTabbedPane();
+                    fxFrame.getContentPane().add(tabbedPane);
+
+                    Platform.runLater(() -> createScene());
+                    tabbedPane.addTab("Bar Chart", chartFxPanel);
+
+                    Platform.runLater(() -> createPieScene());
+                    tabbedPane.addTab("Pie Chart", pieChartFxPanel);
+
+                    tabbedPane.setVisible(true);
+
+                    //report.setVisible(true);
+                } catch (Exception e) {e.printStackTrace();}
+            }
+        });
+    }
+
+    private void setExcelFuncIcon() {
+        excelFuncIcon = new JLabel("");
+        excelFuncIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/excelIcon.jpg")));
+        excelFuncIcon.setHorizontalAlignment(SwingConstants.CENTER);
+        excelFuncIcon.setBounds(59, 432, 394, 301);
+        frame.getContentPane().add(excelFuncIcon);
+        excelFuncIcon.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                //helpIconLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                excelFuncIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/excelIcon_Hover.jpg")));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                excelFuncIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/excelIcon.jpg")));
+            }
+            @Override
+            public void mouseClicked(MouseEvent arg0) {
+                try {
+                    ExcelFrame frame = new ExcelFrame();
+                    frame.setVisible(true);
+                    frame.setLocationRelativeTo(null);
+                } catch (Exception e) {e.printStackTrace();}
+            }
+        });
+    }
+
+    private void setInterWebIcon() {
+        interWebIcon = new JLabel("");
+        interWebIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/interWeb.jpg")));
+        interWebIcon.setHorizontalAlignment(SwingConstants.CENTER);
+        interWebIcon.setBounds(512, 432, 394, 301);
+        frame.getContentPane().add(interWebIcon);
+        interWebIcon.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                //helpIconLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                interWebIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/interWeb_Hover.jpg")));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                interWebIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/interWeb.jpg")));
+            }
+            @Override
+            public void mouseClicked(MouseEvent arg0) {
+                try {
+                    String command1 = "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe http://www.gfpac.com/";
+                    Process link1 = Runtime.getRuntime().exec(command1);
+                } catch (Exception ex) {System.out.println("cannot execute command. " + ex);}
+            }
+        });
+    }
+
+    private void setHelpIcon(){
+        helpIcon = new JLabel("");
+        helpIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/helpIcon.jpg")));
+        helpIcon.setHorizontalAlignment(SwingConstants.CENTER);
+        helpIcon.setBounds(965, 432, 394, 301);
+        frame.getContentPane().add(helpIcon);
+        frame.setVisible(true);
+        helpIcon.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                //helpIconLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                helpIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/helpIcon_Hover.jpg")));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                helpIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/helpIcon.jpg")));
+            }
+        });
+
     }
 }
