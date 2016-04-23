@@ -952,6 +952,8 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import net.proteanit.sql.DbUtils;
+import sqliteConnection.SqliteConnectionUserName;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
@@ -990,7 +992,7 @@ public class managerFrame extends JPanel {
 	 */
 
 	public managerFrame() throws URISyntaxException {
-		connection = sqliteConnection.dbConnector();
+		connection = SqliteConnectionUserName.dbConnector();
 		initialize();
 		Update_table();
 		Update_table_Schedule();

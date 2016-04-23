@@ -1,4 +1,4 @@
-package testingPackage;
+package mainPackage;
 
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
@@ -6,6 +6,9 @@ import javafx.scene.Scene;
 import javafx.scene.chart.*;
 
 import javax.swing.*;
+
+import graphs.PieChartSample;
+
 import java.awt.*;
 import java.util.Map;
 import java.util.TreeMap;
@@ -57,7 +60,7 @@ public class Infographics {
 
     private BarChart createBarChart() {
         XYChart.Series series = new XYChart.Series();
-        TreeMap<String,Double> map = testingPackage.LineChartSample.test_Everything_Total_Spent();
+        TreeMap<String,Double> map = graphs.LineChartSample.test_Everything_Total_Spent();
         for(Map.Entry<String,Double> e : map.entrySet()){
             series.getData().add(new XYChart.Data(e.getKey(), e.getValue()));
         }

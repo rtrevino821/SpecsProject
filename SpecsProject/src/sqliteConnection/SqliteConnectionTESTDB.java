@@ -1,9 +1,9 @@
-package testingPackage;
+package sqliteConnection;
 
 import java.sql.*;
 import javax.swing.*;
 
-public class sqliteConnectionTEST {
+public class SqliteConnectionTESTDB {
 	Connection conn = null;
 	public static Connection dbConnector(){
 		try{

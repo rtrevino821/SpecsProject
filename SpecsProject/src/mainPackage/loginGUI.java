@@ -1,4 +1,4 @@
-package testingPackage;
+package mainPackage;
 //new
 
 //EventQueue is a platform-independent class that queues events
@@ -34,14 +34,13 @@ import javax.swing.JTextField;
 // Used for positioning and orienting components on the screen
 import javax.swing.SwingConstants;
 
-import mainPackage.MainScreen;
+import appPackage.MainScreen;
 import sqliteConnection.SqliteConnectionUserName;
 
 //Used to create fonts for the displayed texts
 import java.awt.Font;
 // Used to change the color of buttons
 import java.awt.Color;
-import javax.swing.UIManager;
 
 public class loginGUI extends JFrame {
 
