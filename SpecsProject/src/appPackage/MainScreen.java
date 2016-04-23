@@ -338,12 +338,15 @@ import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
-import testingPackage.ExcelFrame;
-import testingPackage.InsertPanel;
-import testingPackage.LineChartSample;
-import testingPackage.reportsFrame;
+import mainPackage.InsertPanel;
+import mainPackage.reportsFrame;
+import sqliteConnection.SqliteConnectionUserName;
 
 import javax.swing.*;
+
+import excelPackage.ExcelFrame;
+import graphs.LineChartSample;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -394,7 +397,7 @@ public class MainScreen extends JApplet{
 
     public MainScreen() throws URISyntaxException {
         super();
-        connection = sqliteConnection.dbConnector();
+        connection = SqliteConnectionUserName.dbConnector();
         init();
 //        UpdateTable();
     }
@@ -658,7 +661,7 @@ public class MainScreen extends JApplet{
 
     private BarChart createBarChart() {
         XYChart.Series series = new XYChart.Series();
-        TreeMap<String,Double> map = testingPackage.LineChartSample.test_Everything_Total_Spent();
+        TreeMap<String,Double> map = graphs.LineChartSample.test_Everything_Total_Spent();
         for(Map.Entry<String,Double> e : map.entrySet()){
             System.out.println("year: "+e.getKey()+", spent: "+e.getValue());
             series.getData().add(new XYChart.Data(e.getKey(), e.getValue()));

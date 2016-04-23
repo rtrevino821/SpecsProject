@@ -1,9 +1,12 @@
-package testingPackage;
+package excelPackage;
 
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
+
+import sqliteConnection.SqliteConnectionTESTDB;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -93,7 +96,7 @@ public class ExcelFrame extends JFrame {
                 //Handle open button action.
                 if (e.getSource() == btnImportExcel) {
                     int returnVal = fc.showOpenDialog(btnImportExcel);
-                    Connection conn = sqliteConnectionTEST.dbConnector();
+                    Connection conn = SqliteConnectionTESTDB.dbConnector();
                     //disable auto commit
                     try {
                         conn.setAutoCommit(false);

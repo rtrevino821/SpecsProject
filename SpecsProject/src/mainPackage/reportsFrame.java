@@ -1,10 +1,13 @@
-package testingPackage;
+package mainPackage;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.table.DefaultTableModel;
 
 import javax.swing.table.TableColumnModel;
+
+import excelPackage.ConvertExcel;
+import sqliteConnection.SqliteConnectionTESTDB;
 
 //import org.apache.poi.util.SystemOutLogger;
 
@@ -117,7 +120,7 @@ public class reportsFrame{
 	
 	public reportsFrame() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-		Connection conn = sqliteConnectionTEST.dbConnector();
+		Connection conn = SqliteConnectionTESTDB.dbConnector();
 		initialize();
 		UpDateTable();
 		
@@ -131,7 +134,7 @@ public class reportsFrame{
 	 */
 	private void initialize() {
 		
-		Connection conn = sqliteConnectionTEST.dbConnector();
+		Connection conn = SqliteConnectionTESTDB.dbConnector();
 		
 		reportFrame = new JFrame();
 		reportFrame.setVisible(true);
@@ -863,7 +866,7 @@ public class reportsFrame{
 	{
 		try 
 		{
-			Connection conn = sqliteConnectionTEST.dbConnector();
+			Connection conn = SqliteConnectionTESTDB.dbConnector();
 			DefaultTableModel dm = new DefaultTableModel();
 	        //query and resultset
 			String testTable_String = "Select * from MasterTable";
@@ -885,7 +888,7 @@ public class reportsFrame{
 	/*WORKING PROPERLY ALL ASSETS OVER 500 WITHIN USER CHOSEN RANGE OF DATES*/
 	public static void update_Table_Assets_Over_500_Year_Range(String date, String date2) { 
 																							
-		Connection conn2 = sqliteConnectionTEST.dbConnector();
+		Connection conn2 = SqliteConnectionTESTDB.dbConnector();
 		java.sql.Statement stmt;
 
 		try {
@@ -914,7 +917,7 @@ public class reportsFrame{
 	/* WORKING PROPERLY ALL ASSETS OVER 500*/
 	public static void UpDateTable_Assets_Over_500() {
 
-		Connection conn2 = sqliteConnectionTEST.dbConnector();
+		Connection conn2 = SqliteConnectionTESTDB.dbConnector();
 		java.sql.Statement stmt;
 
 		try {
@@ -940,7 +943,7 @@ public class reportsFrame{
 	/* WORKING PROPERLY ALL ASSETS OVER 500 FOR SINGLE YEAR CHOSEN BY USER*/
 	public static void UpDateTable_Assets_Over_500_By_Year(String year2) {  
 
-		Connection conn2 = sqliteConnectionTEST.dbConnector();
+		Connection conn2 = SqliteConnectionTESTDB.dbConnector();
 		java.sql.Statement stmt;
 
 		try {
@@ -966,7 +969,7 @@ public class reportsFrame{
 	/* RETURNS ASSETS BASED OFF SPECIFIC ROOM NUMBER */
 	public static void Update_Table_Search_By_Room(int room_Number) {
 
-		Connection conn2 = sqliteConnectionTEST.dbConnector();
+		Connection conn2 = SqliteConnectionTESTDB.dbConnector();
 		java.sql.Statement stmt;
 
 		try {
@@ -990,7 +993,7 @@ public class reportsFrame{
 	/* RETURNS ASSETS OVER 500 BY YEAR AND CATEGORY */
 	public static void UpDateTable_Assets_Over_500_By_Category(String category) {  
 
-		Connection conn2 = sqliteConnectionTEST.dbConnector();
+		Connection conn2 = SqliteConnectionTESTDB.dbConnector();
 		java.sql.Statement stmt;
 
 		try {
@@ -1015,7 +1018,7 @@ public class reportsFrame{
 	
 	public static void UpDateTable_All_Assets_By_Category(String category) {  
 
-		Connection conn2 = sqliteConnectionTEST.dbConnector();
+		Connection conn2 = SqliteConnectionTESTDB.dbConnector();
 		java.sql.Statement stmt;
 
 		try {
@@ -1041,7 +1044,7 @@ public class reportsFrame{
 	/* RETURNS ASSETS OVER 500 BY YEAR AND CATEGORY */
 	public static void UpDateTable_Assets_Over_500_By_Category_And_Year(String year, String category) {
 
-		Connection conn2 = sqliteConnectionTEST.dbConnector();
+		Connection conn2 = SqliteConnectionTESTDB.dbConnector();
 		java.sql.Statement stmt;
 
 		try {
@@ -1066,7 +1069,7 @@ public class reportsFrame{
 	// Where MasterTable.Deactivated LIKE 'Removed'"
 	public static void UpDateTable_Retired_Assets() {
 
-		Connection conn2 = sqliteConnectionTEST.dbConnector();
+		Connection conn2 = SqliteConnectionTESTDB.dbConnector();
 		java.sql.Statement stmt;
 
 		try {
@@ -1090,7 +1093,7 @@ public class reportsFrame{
 	/* RETURN ALL EXPIRED ASSETS */
 	public static void UpDateTable_Expired_Assets(String year) {
 
-		Connection conn2 = sqliteConnectionTEST.dbConnector();
+		Connection conn2 = SqliteConnectionTESTDB.dbConnector();
 		java.sql.Statement stmt;
 
 		try {
@@ -1115,7 +1118,7 @@ public class reportsFrame{
 	/* RETURNS ALL EXPIRED ASSETS UP TO THE CURRENT DATE*/
 	public static void UpDateTable_Expired_Assets_To_Date(String string) {
 
-		Connection conn2 = sqliteConnectionTEST.dbConnector();
+		Connection conn2 = SqliteConnectionTESTDB.dbConnector();
 		java.sql.Statement stmt;
 
 		try {
@@ -1140,7 +1143,7 @@ public class reportsFrame{
 	/* Return EVERY ASSETS IN A CATEGORY */
 	public static void UpDateTable_Retired_Assets_By_Category(String category) {
 
-		Connection conn2 = sqliteConnectionTEST.dbConnector();
+		Connection conn2 = SqliteConnectionTESTDB.dbConnector();
 		java.sql.Statement stmt;
 
 		try {
@@ -1166,7 +1169,7 @@ public class reportsFrame{
 	/* RETURN ALL ASSETS WITH A WARRANTY EXPIRATION BY SPECIFIC YEAR */
 	public static void UpDateTable_Warranty_Assets(String year) {
 
-		Connection conn2 = sqliteConnectionTEST.dbConnector();
+		Connection conn2 = SqliteConnectionTESTDB.dbConnector();
 		java.sql.Statement stmt;
 
 		try {
@@ -1191,7 +1194,7 @@ public class reportsFrame{
 	/*RETURNS ALL ASSETS WITH LEASE EXPIRATION BY YEAR*/
 	public static void UpDateTable_Leased_Assets(String year) {
 
-		Connection conn2 = sqliteConnectionTEST.dbConnector();
+		Connection conn2 = SqliteConnectionTESTDB.dbConnector();
 		java.sql.Statement stmt;
 
 		try {
@@ -1254,7 +1257,7 @@ public class reportsFrame{
 
 	public void addCategoryColumns() {
 
-		Connection conn2 = sqliteConnectionTEST.dbConnector();
+		Connection conn2 = SqliteConnectionTESTDB.dbConnector();
 		java.sql.Statement stmt;
 
 		try {

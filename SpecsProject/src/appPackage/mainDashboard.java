@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 
 import net.proteanit.sql.DbUtils;
+import sqliteConnection.SqliteConnectionUserName;
 
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -70,7 +71,7 @@ public class mainDashboard {
 	 * 
 	 */
 	public mainDashboard() throws URISyntaxException {
-		connection = sqliteConnection.dbConnector();
+		connection = SqliteConnectionUserName.dbConnector();
 		initialize();
 		UpdateTable();
 	}

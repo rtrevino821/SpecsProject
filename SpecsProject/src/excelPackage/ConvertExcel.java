@@ -1,4 +1,4 @@
-package testingPackage;
+package excelPackage;
 //comment comment
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.util.SystemOutLogger;
@@ -6,6 +6,8 @@ import org.apache.poi.xssf.usermodel.XSSFCell;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.joda.time.DateTime;
+
+import sqliteConnection.SqliteConnectionTESTDB;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -252,7 +254,7 @@ public class ConvertExcel {
 
 	public static PreparedStatement initPrepare()
 	{
-		Connection conn = sqliteConnectionTEST.dbConnector();
+		Connection conn = SqliteConnectionTESTDB.dbConnector();
 		PreparedStatement prepare = null;
 		try {
 			conn.setAutoCommit(false);
@@ -462,7 +464,7 @@ public class ConvertExcel {
 	 */
 	public static boolean validateExcel(File fs) throws SQLException
 	{
-		Connection conn = sqliteConnectionTEST.dbConnector();
+		Connection conn = SqliteConnectionTESTDB.dbConnector();
 		String testTable_String = "Select * from MasterTable";
 		PreparedStatement showTestTable = null;
 		ResultSet rs = null;
@@ -615,7 +617,7 @@ public class ConvertExcel {
 	{//Duplicate
 		try
 		{
-			Connection conn = sqliteConnectionTEST.dbConnector();
+			Connection conn = SqliteConnectionTESTDB.dbConnector();
 			DefaultTableModel dm = new DefaultTableModel();
 	        //query and resultset
 			String testTable_String = "Select * from MasterTable";
