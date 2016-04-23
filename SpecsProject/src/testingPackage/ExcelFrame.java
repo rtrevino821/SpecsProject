@@ -167,6 +167,7 @@ public class ExcelFrame extends JFrame {
                                                 + output,
                                                 "ERROR",
                                                 JOptionPane.ERROR_MESSAGE);    
+                                conn.close();
                             }
 
                         } catch (SQLException e1) {
@@ -177,6 +178,13 @@ public class ExcelFrame extends JFrame {
                                         "CLOSE All SQLITE APPLICATIONS, and try again",
                                         "ERROR",
                                         JOptionPane.ERROR_MESSAGE);
+                                try {
+									conn.close();
+								} catch (SQLException e2) {
+									// TODO Auto-generated catch block
+									e2.printStackTrace();
+								}
+
                             }
                             else if(e1.toString().contains("[SQLITE_CONSTRAINT]  Abort due to constraint violation"))
                             {
@@ -210,7 +218,14 @@ public class ExcelFrame extends JFrame {
                                                 + line +"\nFix duplicate and reimport file."
                                                 ,
                                                 "ERROR",
-                                                JOptionPane.ERROR_MESSAGE);    
+                                                JOptionPane.ERROR_MESSAGE);
+                                try {
+									conn.close();
+								} catch (SQLException e2) {
+									// TODO Auto-generated catch block
+									e2.printStackTrace();
+								}
+
 
                             }
                             e1.printStackTrace();
@@ -230,7 +245,7 @@ public class ExcelFrame extends JFrame {
                     }
                 }
             }
-
+        	
         });
 
         JLabel btnExportExcel = new JLabel("");
