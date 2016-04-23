@@ -313,7 +313,7 @@ public class ConvertExcel {
 					FileWriter fw = null;
 
 					try {
-						fw = new FileWriter("Log.txt");
+						fw = new FileWriter("LogDuplicateID_Tag.txt");
 					} catch (IOException e1) {
 						e1.printStackTrace();
 					} // needed so printwriter will not overwrite
@@ -515,7 +515,7 @@ public class ConvertExcel {
 		FileWriter fw = null;
 		Boolean flag = true;
 		try {
-			fw = new FileWriter("LogC.txt");
+			fw = new FileWriter("LogMissingColumns.txt");
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		} // needed so printwriter will not overwrite

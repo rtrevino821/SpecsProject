@@ -70,7 +70,8 @@ public class ExcelFrame extends JFrame {
 
         JLabel btnImportExcel = new JLabel("");
         btnImportExcel.setIcon(new ImageIcon(ExcelFrame.class.getResource("/Resources/importIcon.jpg")));
-        btnImportExcel.setToolTipText("Inserts Excel files to database.");
+        btnImportExcel.setToolTipText("Inserts Excel files to database.Insertion of Excel Start at Row 4, "
+        		+ "Anything before Row 4 will not be inserted to database");
         btnImportExcel.addFocusListener(new FocusAdapter() {
 
         });
@@ -139,7 +140,7 @@ public class ExcelFrame extends JFrame {
                                 String line;
                                 StringBuilder sb = new StringBuilder();
                                 try {
-                                    input = new Scanner(new File("LogC.txt"));
+                                    input = new Scanner(new File("LogMissingColumns.txt"));
                                 } catch (FileNotFoundException e2) {
                                     e2.printStackTrace();
                                 }
@@ -196,7 +197,7 @@ public class ExcelFrame extends JFrame {
                                 Scanner input = null;
                                 String line;
                                 try {
-                                    input = new Scanner(new File("Log.txt"));
+                                    input = new Scanner(new File("LogDuplicateID_Tag.txt"));
                                 } catch (FileNotFoundException e2) {
                                     e2.printStackTrace();
                                 }
@@ -278,7 +279,7 @@ public class ExcelFrame extends JFrame {
                 }
             }
         });
-        button.setToolTipText("Opens a template in Excel to import file.");
+        button.setToolTipText("Opens a template with all necessary column names in Excel to import data.");
         contentPane.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
         contentPane.add(btnExportExcel);
         contentPane.add(button);
