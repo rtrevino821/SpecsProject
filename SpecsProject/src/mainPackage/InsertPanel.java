@@ -241,19 +241,20 @@ public class InsertPanel extends Applet {
 			}
 		});
 
-		
 
-		//
-		//    	frmInsertAsset.addWindowListener(new WindowAdapter()
-		//           {
-		//               @Override
-		//               public void windowClosing(WindowEvent e)
-		//               {
-		//                   System.out.println("Closed");
-		//                   MainScreen.frame.setVisible(true);
-		//                   e.getWindow().dispose();
-		//               }
-		//           });
+
+
+		frmInsertAsset.addWindowListener(new WindowAdapter()
+		{
+			@Override
+			public void windowClosing(WindowEvent e)
+			{
+				System.out.println("Closed");
+				MainScreen.frame.setVisible(true);
+				frmInsertAsset.dispose();
+
+			}
+		});
 
 	}//end of init
 	private void setupDateFields() {
@@ -775,6 +776,10 @@ public class InsertPanel extends Applet {
 	private void setupFrame()
 	{
 		frmInsertAsset.setVisible(true);
+		Dimension DimMax = Toolkit.getDefaultToolkit().getScreenSize();
+		frmInsertAsset.setMaximumSize(DimMax);
+
+		frmInsertAsset.setExtendedState(JFrame.MAXIMIZED_BOTH);		
 		frmInsertAsset.getContentPane().setBackground(new Color(244, 244, 244));
 		frmInsertAsset.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 12));
 		frmInsertAsset.setTitle("Insert Asset");

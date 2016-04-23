@@ -372,11 +372,25 @@ public class ExcelFrame extends JFrame {
                                 }
                                 String temp = sb.toString();
                                 String output = null;
-
-                                if(temp.substring(temp.length()-2).contains(","))
-                                {
-                                    output = temp.substring(0, temp.length()-2);
+                                try{
+                                	if(temp.substring(temp.length()-2).contains(","))
+                                	{
+                                		output = temp.substring(0, temp.length()-2);
+                                	}
                                 }
+                                catch (StringIndexOutOfBoundsException se)
+                                {
+                                	if(temp.substring(temp.length()-1).contains(","))
+                                	{
+                                		output = temp.substring(0, temp.length()-1);
+                                	}
+                                }
+                                
+                                
+                            
+                            	
+                            
+                                
                                 //System.out.println(output.substring(output.length()-1).contains(","));
                                 JOptionPane.showMessageDialog(contentPane,
                                         file.getName() +" is missing columns: "
@@ -429,6 +443,7 @@ public class ExcelFrame extends JFrame {
                                                 JOptionPane.ERROR_MESSAGE);    
 
                             }
+                           
                             e1.printStackTrace();
 
                         }
