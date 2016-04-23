@@ -8,6 +8,7 @@ import javax.swing.table.TableColumnModel;
 
 import excelPackage.ConvertExcel;
 import sqliteConnection.SqliteConnectionTESTDB;
+import testingPackage.TextPrompt;
 
 //import org.apache.poi.util.SystemOutLogger;
 
@@ -627,6 +628,9 @@ public class reportsFrame{
 
 	    expiredUpdateState();
 	    
+        TextPrompt tp1 = new TextPrompt("YYYY-DD-MM", yearStart);
+        TextPrompt tp2 = new TextPrompt("YYYY-DD-MM", yearEnd);
+	    
 	    // array of labels and corresponding textFields for use in display()
 	    Object[] fields = {
 	    		//Assets Queries
@@ -890,7 +894,7 @@ public class reportsFrame{
 																							
 		Connection conn2 = SqliteConnectionTESTDB.dbConnector();
 		java.sql.Statement stmt;
-
+		
 		try {
 
 			stmt = conn2.createStatement();

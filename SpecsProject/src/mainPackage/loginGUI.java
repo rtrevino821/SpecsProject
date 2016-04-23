@@ -34,7 +34,7 @@ import javax.swing.JTextField;
 // Used for positioning and orienting components on the screen
 import javax.swing.SwingConstants;
 
-import appPackage.MainScreen;
+import mainPackage.MainScreen;
 import sqliteConnection.SqliteConnectionUserName;
 
 //Used to create fonts for the displayed texts

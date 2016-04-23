@@ -6,6 +6,7 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
 import sqliteConnection.SqliteConnectionTESTDB;
+import sqliteConnection.SqliteConnectionUserName;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -309,7 +310,7 @@ public class ExcelFrame extends JFrame {
                 //Handle open button action.
                 if (e.getSource() == btnImportExcel) {
                     int returnVal = fc.showOpenDialog(btnImportExcel);
-                    Connection conn = sqliteConnectionTEST.dbConnector();
+                    Connection conn = SqliteConnectionUserName.dbConnector();
                     //disable auto commit
                     try {
                         conn.setAutoCommit(false);
