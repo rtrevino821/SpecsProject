@@ -629,8 +629,8 @@ public class reportsFrame{
         expiredUpdateState();
        
         TextPrompt tp = new TextPrompt("YYYY", year);
-        TextPrompt tp1 = new TextPrompt("YYYY-DD-MM are Acceptable", yearStart);
-        TextPrompt tp2 = new TextPrompt("YYYY-DD-MM are Acceptable", yearEnd);
+        TextPrompt tp1 = new TextPrompt("YYYY-DD-MM", yearStart);
+        TextPrompt tp2 = new TextPrompt("YYYY-DD-MM", yearEnd);
 
 		tp.setFont(font);
 		tp1.setFont(font);
