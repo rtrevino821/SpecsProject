@@ -2,19 +2,14 @@ package mainPackage;
 
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;
-import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.Scene;
 import javafx.scene.chart.*;
-import javafx.scene.image.WritableImage;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
 
 import graphs.PieChartSample;
 
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -49,16 +44,12 @@ public class Infographics {
         tabbedPane.addTab("Pie Chart", pieChartFxPanel);
 
         tabbedPane.setVisible(true);
-        
-        
     }
 
 
     private void createScene() {
         chart = createBarChart();
         chartFxPanel.setScene(new Scene(chart));
-       
-
     }
 
     private void createPieScene() {
@@ -82,7 +73,6 @@ public class Infographics {
         final BarChart chart = new BarChart(xAxis, yAxis);
         chart.getData().add(series);
 
-        
         return chart;
     }
 

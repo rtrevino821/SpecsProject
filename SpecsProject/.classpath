@@ -29,5 +29,6 @@
 	<classpathentry kind="lib" path="src/Jars/plastic-1.2.0.jar"/>
 	<classpathentry kind="lib" path="src/Jars/jtoaster-1.0.5.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/JavaFX"/>
+	<classpathentry kind="lib" path="src/Jars/swingx-all-1.6.4.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

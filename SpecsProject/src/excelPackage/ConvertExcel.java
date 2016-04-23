@@ -68,6 +68,17 @@ public class ConvertExcel {
 	            	if(isColumnIntType(columnString))
 	            	{//writes cell as doubles
 	            		XSSFCell cell = (XSSFCell) row.createCell(cols);//create a cell at the row,col location
+	            		FileWriter fw = null;
+
+						try {
+							fw = new FileWriter("LogReportNumberFormatException.txt");
+						} catch (IOException e1) {
+							e1.printStackTrace();
+						} // needed so printwriter will not overwrite
+						PrintWriter writer = new PrintWriter(fw);
+						System.out.println("ID Tag: " + model.getValueAt(rows, cols).toString());
+						writer.println( model.getValueAt(rows, 3).toString());
+						
 	            		double x = Double.parseDouble((String) (model.getValueAt(rows, cols)));//get he  value from table
 			            cell.setCellValue(x);
 			           //row.createCell(cols).setCellValue(model.getValueAt(rows, cols).toString()); //Write value
