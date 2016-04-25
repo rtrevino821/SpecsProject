@@ -107,7 +107,9 @@ public class MainScreen extends JApplet{
             @Override
             public void mouseClicked(MouseEvent arg0) {
                 try {
-                    new reportsFrame();
+                	reportsFrame  ReportFrame = new reportsFrame();
+                    ReportFrame.setVisible(true);
+                    frame.setVisible(false);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }

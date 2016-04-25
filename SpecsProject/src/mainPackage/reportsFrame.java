@@ -35,6 +35,8 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.awt.print.PrinterException;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -153,6 +155,21 @@ public class reportsFrame {
 
 		// Font styling for TextFields
 		Font font = new Font("Segoe UI Semilight", Font.PLAIN, 20);
+		
+		//Close window and reshow the main screen
+		
+		reportFrame.addWindowListener(new WindowAdapter()
+		{
+			@Override
+			public void windowClosing(WindowEvent e)
+			{
+				//System.out.println("Closed");
+				MainScreen.frame.setVisible(true);
+				reportFrame.dispose();
+
+			}
+		});
+
 
 		// instantiating textfields for each jlabel
 		addCategoriesToJCombo();
@@ -1086,6 +1103,11 @@ public class reportsFrame {
 		boolean ByYearEnabled = expiredQuery.getSelectedItem().equals("Expired assets to date");
 		yearExpired.setEnabled(!ByYearEnabled);
 
+	}
+
+	public void setVisible(boolean b) {
+		// TODO Auto-generated method stub
+		
 	}
 } //end of ReportsFrame
 	

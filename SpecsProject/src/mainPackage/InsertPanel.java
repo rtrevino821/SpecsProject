@@ -218,17 +218,17 @@ public class InsertPanel extends Applet {
 
 
 
-//		frmInsertAsset.addWindowListener(new WindowAdapter()
-//		{
-//			@Override
-//			public void windowClosing(WindowEvent e)
-//			{
-//				//System.out.println("Closed");
-//				MainScreen.frame.setVisible(true);
-//				frmInsertAsset.dispose();
-//
-//			}
-//		});
+		frmInsertAsset.addWindowListener(new WindowAdapter()
+		{
+			@Override
+			public void windowClosing(WindowEvent e)
+			{
+				//System.out.println("Closed");
+				MainScreen.frame.setVisible(true);
+				frmInsertAsset.dispose();
+
+			}
+		});
 
 	}//end of init
 	private void setupDateFields() {
