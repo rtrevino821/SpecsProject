@@ -61,10 +61,12 @@ public class ExcelFrame extends JFrame {
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         //setBounds(100, 100, 905, 330);
         setSize(905,330);
+        
         contentPane = new JPanel();
         contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
         contentPane.setBackground(new Color(244, 244, 244));
         setContentPane(contentPane);
+        
         ImageIcon icon = new ImageIcon(getClass().getResource("/Resources/appIconImage.png"));
 
 
@@ -121,10 +123,12 @@ public class ExcelFrame extends JFrame {
                         try {
                             if(ConvertExcel.validateExcel(file)){
                                 //ImageIcon icon = new ImageIcon(getClass().getResource("/Resources/black-check-mark-md.png"));
-
+                            	
+                    			
                                 long startTime = System.currentTimeMillis();
 
                                 ConvertExcel.importExcel(file);
+
                                 //Logs how long import took
                                 long endTime   = System.currentTimeMillis();
                                 long totalTime = endTime - startTime;
@@ -372,11 +376,25 @@ public class ExcelFrame extends JFrame {
                                 }
                                 String temp = sb.toString();
                                 String output = null;
-
-                                if(temp.substring(temp.length()-2).contains(","))
-                                {
-                                    output = temp.substring(0, temp.length()-2);
+                                try{
+                                	if(temp.substring(temp.length()-2).contains(","))
+                                	{
+                                		output = temp.substring(0, temp.length()-2);
+                                	}
                                 }
+                                catch (StringIndexOutOfBoundsException se)
+                                {
+                                	if(temp.substring(temp.length()-1).contains(","))
+                                	{
+                                		output = temp.substring(0, temp.length()-1);
+                                	}
+                                }
+                                
+                                
+                            
+                            	
+                            
+                                
                                 //System.out.println(output.substring(output.length()-1).contains(","));
                                 JOptionPane.showMessageDialog(contentPane,
                                         file.getName() +" is missing columns: "
@@ -429,6 +447,7 @@ public class ExcelFrame extends JFrame {
                                                 JOptionPane.ERROR_MESSAGE);    
 
                             }
+                           
                             e1.printStackTrace();
 
                         }

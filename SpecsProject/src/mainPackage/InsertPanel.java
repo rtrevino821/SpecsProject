@@ -144,32 +144,6 @@ public class InsertPanel extends Applet {
 	 * @throws ClassNotFoundException 
 	 */
 
-	//	public static InsertPanel getInstance() 
-	//	{
-	//	if (instance == null)
-	//	{
-	//	try {
-	//	instance = new InsertPanel();
-	//	} catch (ClassNotFoundException e) {
-	//	// TODO Auto-generated catch block
-	//	e.printStackTrace();
-	//	} catch (InstantiationException e) {
-	//	// TODO Auto-generated catch block
-	//	e.printStackTrace();
-	//	} catch (IllegalAccessException e) {
-	//	// TODO Auto-generated catch block
-	//	e.printStackTrace();
-	//	} catch (SQLException e) {
-	//	// TODO Auto-generated catch block
-	//	e.printStackTrace();
-	//	} catch (UnsupportedLookAndFeelException e) {
-	//	// TODO Auto-generated catch block
-	//	e.printStackTrace();
-	//	}
-	//	}
-	//	return instance;
-	//
-	//	}
 	public InsertPanel() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		super();
 		UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
@@ -241,19 +215,20 @@ public class InsertPanel extends Applet {
 			}
 		});
 
-		
 
-		//
-		//    	frmInsertAsset.addWindowListener(new WindowAdapter()
-		//           {
-		//               @Override
-		//               public void windowClosing(WindowEvent e)
-		//               {
-		//                   System.out.println("Closed");
-		//                   MainScreen.frame.setVisible(true);
-		//                   e.getWindow().dispose();
-		//               }
-		//           });
+
+
+		frmInsertAsset.addWindowListener(new WindowAdapter()
+		{
+			@Override
+			public void windowClosing(WindowEvent e)
+			{
+				//System.out.println("Closed");
+				MainScreen.frame.setVisible(true);
+				frmInsertAsset.dispose();
+
+			}
+		});
 
 	}//end of init
 	private void setupDateFields() {
@@ -376,11 +351,11 @@ public class InsertPanel extends Applet {
 								if(field3.getEditor().getItem().toString().equals(""))
 								{
 									categoryFlag = false;
-									System.out.println("Blank");
+									//System.out.println("Blank");
 								}
 								else 
 								{
-									System.out.println("OK");
+									//System.out.println("OK");
 									categoryFlag = true;
 								}
 							}
@@ -393,7 +368,7 @@ public class InsertPanel extends Applet {
 						
 						categoryFlag = true;
 						newCategoryString = field3.getSelectedItem().toString();
-						System.out.println(newCategoryString);
+						//System.out.println(newCategoryString);
 						
 					}
 
@@ -427,7 +402,7 @@ public class InsertPanel extends Applet {
 					if(field3.getSelectedItem() != null)
 					{
 						newCategoryString = field3.getSelectedItem().toString();
-						System.out.println(newCategoryString);
+						//System.out.println(newCategoryString);
 					}
 				}
 
@@ -467,13 +442,13 @@ public class InsertPanel extends Applet {
 	private void addTextBoxFields()
 	{
 		Object[] fields = {
-				"Item Name:    ", field1,
+				"*Item Name:    ", field1,
 				"Item Description:    ", field2,
-				"Category:    ", field3,
-				"ID Tag:    ", field4,
+				"*Category:    ", field3,
+				"*ID Tag:    ", field4,
 				"Room #:    ", field5,
 				"Floor #:    ", field6,
-				"Date Aquired:    ", field7,
+				"*Date Aquired:    ", field7,
 				"Ownership:    ", field8,
 				"Lease Term:    ", field8a,
 				"Lease Expiration:    ", field8b,
@@ -488,7 +463,7 @@ public class InsertPanel extends Applet {
 				"Deactivated:    ",field14a,
 				"Deactivation Method:    ", field15,
 				"Expiration Date:    ", field15a,
-				"Price:    ", field16,
+				"*Price:    ", field16,
 				"Quality:    ", field17,
 				"Condition:    ", field18
 
@@ -573,7 +548,8 @@ public class InsertPanel extends Applet {
 					String value5 = field5.getText();
 					String value6 = field6.getText();
 					String value7 = field7.getText();
-					if(value7.equals("  -  -    "))
+					
+					if(value7.equals("  -  -    ") ||  value7.equals(""))
 					{
 						value7= "";
 					}
@@ -615,6 +591,11 @@ public class InsertPanel extends Applet {
 					String value14a = field14a.getText();
 					String value15 = field15.getText();
 					String value15a = field15.getText();
+					if(value15.equals("  -  -    "))
+					{
+						value15= "";
+					}
+					
 					String value16 = field16.getText();
 					String value17 = field17.getText();
 					String value18 = field18.getText();
@@ -631,7 +612,9 @@ public class InsertPanel extends Applet {
 								+"'  , Price ='" + value16 + "'  , Quality ='" + value17 + "'  , Condition='" + value18
 
 								+ "' where ID_Tag ='" + value4 + "'";
-						System.out.println(sql);
+						//System.out.println(sql);
+						field4.setEnabled(true);
+
 						updatePrepare = conn.prepareStatement(sql);
 						updatePrepare.executeUpdate();
 						//updatePrepare.clearParameters();
@@ -672,9 +655,6 @@ public class InsertPanel extends Applet {
 					try {
 						reInitGetPrepareStamentValues();
 						prepare.setString(3, newCategoryString);
-						
-						
-
 						prepare.executeUpdate();
 						conn.commit();
 
@@ -772,9 +752,187 @@ public class InsertPanel extends Applet {
 		}
 		return true;
 	}
+	/**
+	 *  Displays the Table values to the corresponding Column TextBox
+	 */
+	protected void displayTableValues() {
+		testTable.addMouseListener(new MouseAdapter()
+		{
+	
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				try {
+					int row = testTable.getSelectedRow();	
+					DefaultFormatterFactory factory = new DefaultFormatterFactory(formatter);
+					field4.setEnabled(false);
+	
+					//Gets text from row and fills jtext if cell is not empty
+	
+					if(testTable.getValueAt(row, 0) != null)
+					{
+						field1.setText(testTable.getValueAt(row, 0).toString());
+					}
+					else
+						field1.setText("");
+					if(testTable.getValueAt(row, 1) != null)
+					{
+						field2.setText(testTable.getValueAt(row, 1).toString());
+					}
+					else
+						field2.setText("");
+					if(testTable.getValueAt(row, 2) != null)
+					{
+						field3.setSelectedItem(testTable.getValueAt(row, 2).toString());
+						newCategoryString = field3.getSelectedItem().toString();
+					}
+					else
+						field3.setSelectedIndex(0);
+					if(testTable.getValueAt(row, 3) != null)
+					{
+						field4.setText(testTable.getValueAt(row, 3).toString());
+					}
+					else
+						field4.setText("");
+					if(testTable.getValueAt(row, 4) != null)
+					{
+						field5.setText(testTable.getValueAt(row, 4).toString());
+					}
+					else
+						field5.setText("");
+					if(testTable.getValueAt(row, 5) != null)
+					{
+						field6.setText(testTable.getValueAt(row, 5).toString());
+					}
+					else
+						field6.setText("");
+					if(testTable.getValueAt(row, 6) != null)
+					{
+						field7.setText(testTable.getValueAt(row, 6).toString());
+						
+					}
+					else
+						field7.setFormatterFactory(factory);
+					if(testTable.getValueAt(row, 7) != null)
+					{
+						field8.setSelectedItem(testTable.getValueAt(row, 7).toString());
+	
+					}
+					else
+						field8.setSelectedIndex(0);
+					if(testTable.getValueAt(row, 8) != null)
+					{
+						field8a.setText(testTable.getValueAt(row, 8).toString());
+					}
+					else
+						field8a.setFormatterFactory(factory);
+	
+					if(testTable.getValueAt(row, 9) != null)
+					{
+						field8b.setText(testTable.getValueAt(row, 9).toString());
+					}
+					else
+						field8b.setFormatterFactory(factory);
+					if(testTable.getValueAt(row, 10) != null)
+					{
+						field8c.setText(testTable.getValueAt(row, 10).toString());
+					}
+					else
+						field8c.setFormatterFactory(factory);
+					if(testTable.getValueAt(row, 11) != null)
+					{
+						field9.setText(testTable.getValueAt(row, 11).toString());
+					}
+					else
+						field9.setText("");
+					if(testTable.getValueAt(row, 12) != null)
+					{
+						field10.setText(testTable.getValueAt(row, 12).toString());
+					}
+					else
+						field10.setText("");
+	
+					if(testTable.getValueAt(row, 13) != null)
+					{
+						field10a.setText(testTable.getValueAt(row, 13).toString());
+					}
+					else
+						field10a.setText("");
+					if(testTable.getValueAt(row, 14) != null)
+					{
+						field11.setText(testTable.getValueAt(row, 14).toString());
+					}
+					else
+						field11.setText("");
+					if(testTable.getValueAt(row, 15) != null)
+					{
+						field12.setText(testTable.getValueAt(row, 15).toString());
+					}
+					else
+						field12.setFormatterFactory(factory);
+					if(testTable.getValueAt(row, 16) != null)
+					{
+						field13.setText(testTable.getValueAt(row, 16).toString());
+					}
+					else
+						field13.setFormatterFactory(factory);
+					if(testTable.getValueAt(row, 17) != null)
+					{
+						field14.setText(testTable.getValueAt(row, 17).toString());
+					}
+					else
+						field14.setFormatterFactory(factory);
+					if(testTable.getValueAt(row, 18) != null)
+					{
+						field14a.setSelected((testTable.getValueAt(row, 18).toString() == "Y"));
+					}
+					if(testTable.getValueAt(row, 19) != null)
+					{
+						field15.setText(testTable.getValueAt(row, 19).toString());
+					}
+					else
+						field15.setText("");
+					if(testTable.getValueAt(row, 20) != null)
+					{
+						field15a.setText(testTable.getValueAt(row, 20).toString());
+					}
+					else
+						field15a.setFormatterFactory(factory);
+					if(testTable.getValueAt(row, 21) != null)
+					{
+						field16.setText(testTable.getValueAt(row, 21).toString());
+					}
+					else
+						field16.setText("");
+					if(testTable.getValueAt(row, 22) != null)
+					{
+						field17.setText(testTable.getValueAt(row, 22).toString());
+					}
+					else
+						field17.setText("");
+					if(testTable.getValueAt(row, 23) != null)
+					{
+						field18.setText(testTable.getValueAt(row, 23).toString());
+					}
+					else
+						field18.setText("");
+	
+				} catch (Exception e) {
+					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, e + "\nCaught");
+				}	
+			}		
+		});	
+	}
+	
+
+
 	private void setupFrame()
 	{
 		frmInsertAsset.setVisible(true);
+		Dimension DimMax = Toolkit.getDefaultToolkit().getScreenSize();
+		frmInsertAsset.setMaximumSize(DimMax);
+
+		frmInsertAsset.setExtendedState(JFrame.MAXIMIZED_BOTH);		
 		frmInsertAsset.getContentPane().setBackground(new Color(244, 244, 244));
 		frmInsertAsset.setFont(new Font("Segoe UI Semilight", Font.PLAIN, 12));
 		frmInsertAsset.setTitle("Insert Asset");
@@ -809,7 +967,7 @@ public class InsertPanel extends Applet {
 		if(field8a.getText().equals("  -  -    "))
 		{
 			prepare.setString(9, "");
-			System.out.println("Blanksss");
+			//System.out.println("Blanksss");
 		}
 		else
 			prepare.setString(9, field8a.getText());
@@ -852,10 +1010,10 @@ public class InsertPanel extends Applet {
 		prepare.setString(19, field15.getText());
 		if(field15.isEnabled())
 		{
-			prepare.setString(20, "YES");
+			prepare.setString(20, "Y");
 		}
 		else
-			prepare.setString(20, "NO");
+			prepare.setString(20, "N");
 		if(field21.getText().equals("  -  -    "))
 		{
 			prepare.setString(21, "");
@@ -1177,7 +1335,7 @@ public class InsertPanel extends Applet {
 				if(e.getStateChange() == ItemEvent.SELECTED) {//checkbox has been selected
 					field15.setEnabled(true);
 					try {
-						prepare.setString(19, "YES");
+						prepare.setString(19, "Y");
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -1185,7 +1343,7 @@ public class InsertPanel extends Applet {
 				} else {//checkbox has been deselected
 					field15.setEnabled(false);
 					try {
-						prepare.setString(19, "NO");
+						prepare.setString(19, "N");
 					} catch (SQLException e1) {
 						// TODO Auto-generated catch block
 						e1.printStackTrace();
@@ -1276,8 +1434,7 @@ public class InsertPanel extends Applet {
 		field1.addKeyListener(new KeyAdapter() {
 			public void keyReleased(KeyEvent e) {
 				getStringInput(field1, e);
-				System.out.println("New: " +newCategoryString);
-
+				//System.out.println("New: " +newCategoryString);
 				stringFocusLost(field1);
 			}
 		});
@@ -1369,7 +1526,7 @@ public class InsertPanel extends Applet {
 				{
 					try {
 						prepare.setString(Integer.parseInt(jText.getName()), jText.getText());
-						System.out.println("EMpty Field");
+						//System.out.println("EMpty Field");
 					} catch (NumberFormatException | SQLException e) {
 						// TODO Auto-generated catch block
 						JOptionPane.showMessageDialog(null, "NumFormat");
@@ -1389,7 +1546,7 @@ public class InsertPanel extends Applet {
 	{
 		try {
 			prepare.setString(Integer.parseInt(jText.getName()), jText.getText());
-			System.out.println("TextBox: Field" + jText.getName() + "\nValue: " + jText.getText());
+			//System.out.println("TextBox: Field" + jText.getName() + "\nValue: " + jText.getText());
 		} catch (NumberFormatException | SQLException e1) {
 			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(null, "Item_Name field is empty.");
@@ -1459,6 +1616,7 @@ public class InsertPanel extends Applet {
 		String regex = "\\d\\d\\d\\d\\W\\d\\d\\W\\d\\d" ;
 		String yearPattern ="\\d\\d\\d\\d";
 		String dayPattern ="\\d\\d";
+		
 
 		Pattern p = Pattern.compile(regex);
 		Pattern pYear = Pattern.compile(yearPattern);
@@ -1466,24 +1624,9 @@ public class InsertPanel extends Applet {
 		jText.addFocusListener(new FocusAdapter(){
 			@Override
 			public void focusLost(FocusEvent arg0) {
-				//When user empties field, prevent it from reverting
-				System.out.println();
-				//	jText.addPropertyChangeListener(new PropertyChangeListener()
-				//	{
-				//
-				//	@Override
-				//	public void propertyChange(PropertyChangeEvent evt) {
-				//	if(evt.getSource().equals(field7))
-				//	System.out.println("NameField: " + jText.getName() + "\n"+ evt.getOldValue().toString());
-				//	System.out.println("NameField: " + jText.getName() + "\n newValue"+ evt.getNewValue().toString());
-				//	
-				//	}
-				//	
-				//	});
+		
 				if(jText.getText().contains("  -  -    ") && jText.getName().equals("7"))
 				{
-					//PlaceHolder
-					//jText.setFocusLostBehavior(JFormattedTextField.PERSIST);
 					DefaultFormatterFactory factory = new DefaultFormatterFactory(formatter);
 					jText.setFormatterFactory(factory);
 
@@ -1505,6 +1648,12 @@ public class InsertPanel extends Applet {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
+					catch (StringIndexOutOfBoundsException e3)
+					{
+						e3.printStackTrace();
+						jText.setFormatterFactory(factory);
+						jText.setValue(null);
+					}
 				}
 				else if(jText.getText().contains("  -  -    "))
 				{
@@ -1522,6 +1671,7 @@ public class InsertPanel extends Applet {
 					}
 
 				}
+				//else if()
 
 			}
 		});
@@ -1724,180 +1874,6 @@ public class InsertPanel extends Applet {
 			}
 		}//End of m.find	
 	}//End of Method
-
-	/**
-	 *  Displays the Table values to the corresponding Column TextBox
-	 */
-	protected void displayTableValues() {
-		testTable.addMouseListener(new MouseAdapter()
-		{
-	
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				try {
-					int row = testTable.getSelectedRow();	
-					DefaultFormatterFactory factory = new DefaultFormatterFactory(formatter);
-	
-					//Gets text from row and fills jtext if cell is not empty
-	
-					if(testTable.getValueAt(row, 0) != null)
-					{
-						field1.setText(testTable.getValueAt(row, 0).toString());
-					}
-					else
-						field1.setText("");
-					if(testTable.getValueAt(row, 1) != null)
-					{
-						field2.setText(testTable.getValueAt(row, 1).toString());
-					}
-					else
-						field2.setText("");
-					if(testTable.getValueAt(row, 2) != null)
-					{
-						field3.setSelectedItem(testTable.getValueAt(row, 2).toString());
-					}
-					else
-						field3.setSelectedIndex(0);
-					if(testTable.getValueAt(row, 3) != null)
-					{
-						field4.setText(testTable.getValueAt(row, 3).toString());
-					}
-					else
-						field4.setText("");
-					if(testTable.getValueAt(row, 4) != null)
-					{
-						field5.setText(testTable.getValueAt(row, 4).toString());
-					}
-					else
-						field5.setText("");
-					if(testTable.getValueAt(row, 5) != null)
-					{
-						field6.setText(testTable.getValueAt(row, 5).toString());
-					}
-					else
-						field6.setText("");
-					if(testTable.getValueAt(row, 6) != null)
-					{
-						field7.setText(testTable.getValueAt(row, 6).toString());
-	
-					}
-					else
-						field7.setFormatterFactory(factory);
-					if(testTable.getValueAt(row, 7) != null)
-					{
-						field8.setSelectedItem(testTable.getValueAt(row, 7).toString());
-	
-					}
-					else
-						field8.setSelectedIndex(0);
-					if(testTable.getValueAt(row, 8) != null)
-					{
-						field8a.setText(testTable.getValueAt(row, 8).toString());
-					}
-					else
-						field8a.setFormatterFactory(factory);
-	
-					if(testTable.getValueAt(row, 9) != null)
-					{
-						field8b.setText(testTable.getValueAt(row, 9).toString());
-					}
-					else
-						field8b.setFormatterFactory(factory);
-					if(testTable.getValueAt(row, 10) != null)
-					{
-						field8c.setText(testTable.getValueAt(row, 10).toString());
-					}
-					else
-						field8c.setFormatterFactory(factory);
-					if(testTable.getValueAt(row, 11) != null)
-					{
-						field9.setText(testTable.getValueAt(row, 11).toString());
-					}
-					else
-						field9.setText("");
-					if(testTable.getValueAt(row, 12) != null)
-					{
-						field10.setText(testTable.getValueAt(row, 12).toString());
-					}
-					else
-						field10.setText("");
-	
-					if(testTable.getValueAt(row, 13) != null)
-					{
-						field10a.setText(testTable.getValueAt(row, 13).toString());
-					}
-					else
-						field10a.setText("");
-					if(testTable.getValueAt(row, 14) != null)
-					{
-						field11.setText(testTable.getValueAt(row, 14).toString());
-					}
-					else
-						field11.setText("");
-					if(testTable.getValueAt(row, 15) != null)
-					{
-						field12.setText(testTable.getValueAt(row, 15).toString());
-					}
-					else
-						field12.setFormatterFactory(factory);
-					if(testTable.getValueAt(row, 16) != null)
-					{
-						field13.setText(testTable.getValueAt(row, 16).toString());
-					}
-					else
-						field13.setFormatterFactory(factory);
-					if(testTable.getValueAt(row, 17) != null)
-					{
-						field14.setText(testTable.getValueAt(row, 17).toString());
-					}
-					else
-						field14.setFormatterFactory(factory);
-					if(testTable.getValueAt(row, 18) != null)
-					{
-						field14a.setSelected((testTable.getValueAt(row, 18).toString() == "YES"));
-					}
-					if(testTable.getValueAt(row, 19) != null)
-					{
-						field15.setText(testTable.getValueAt(row, 19).toString());
-					}
-					else
-						field15.setText("");
-					if(testTable.getValueAt(row, 20) != null)
-					{
-						field15a.setText(testTable.getValueAt(row, 20).toString());
-					}
-					else
-						field15a.setFormatterFactory(factory);
-					if(testTable.getValueAt(row, 21) != null)
-					{
-						field16.setText(testTable.getValueAt(row, 21).toString());
-					}
-					else
-						field16.setText("");
-					if(testTable.getValueAt(row, 22) != null)
-					{
-						field17.setText(testTable.getValueAt(row, 22).toString());
-					}
-					else
-						field17.setText("");
-					if(testTable.getValueAt(row, 23) != null)
-					{
-						field18.setText(testTable.getValueAt(row, 23).toString());
-					}
-					else
-						field18.setText("");
-	
-				} catch (Exception e) {
-					e.printStackTrace();
-					JOptionPane.showMessageDialog(null, e + "\nCaught");
-				}
-				
-			}
-	
-			
-		});
-		
-	}
 
 	/**
 	 *  Creates a connection for a preparestatment to insert data to MasterTable

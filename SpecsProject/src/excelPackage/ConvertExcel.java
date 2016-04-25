@@ -220,7 +220,7 @@ public class ConvertExcel {
 
 
         //System.out.println("Total Number of Rows: " + (rowsCount + 1));
-        for (int i = 3; i <= rowsCount-1; i++) {//start at 1 to skip column
+        for (int i = 1; i <= rowsCount-1; i++) {//start at 1 to skip column
             row = sheet.getRow(i);//change colcounts to row
             int colCounts = columnLength;//assign colCounts to the length of max num of cols
             Cell [] cellArray = new Cell[colCounts];

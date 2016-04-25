@@ -15,7 +15,7 @@ public class MainScreen extends JApplet{
 
 //    private static JFrame frame;
 
-    private JFrame frame;
+    protected static JFrame frame;
     private InsertPanel insertPane;
     private Infographics infoGraphPane;
 
@@ -67,6 +67,7 @@ public class MainScreen extends JApplet{
         frame.setBackground(Color.WHITE);
         frame.setTitle("GFP Asset Report System");
         frame.setSize(MAINSCREEN_WIDTH, MAINSCREEN_HEIGHT);
+      
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocationRelativeTo(null);
     }
@@ -106,7 +107,9 @@ public class MainScreen extends JApplet{
             @Override
             public void mouseClicked(MouseEvent arg0) {
                 try {
-                    new reportsFrame();
+                	reportsFrame  ReportFrame = new reportsFrame();
+                    ReportFrame.setVisible(true);
+                    frame.setVisible(false);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -135,6 +138,7 @@ public class MainScreen extends JApplet{
                 try {
                     insertPane = new InsertPanel();
                     insertPane.setVisible(true);
+                    frame.setVisible(false);
                 } catch (Exception e) {e.printStackTrace();}
             }
         });
