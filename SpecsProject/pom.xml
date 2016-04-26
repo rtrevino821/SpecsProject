@@ -296,9 +296,10 @@
         <version>2.9.2</version>
     </dependency>
     <dependency>
-        <groupId>joda-time</groupId>
-        <artifactId>joda-time</artifactId>
-        <version>2.9.2</version>
+       <groupId>com.lowagie</groupId>
+	<artifactId>itext</artifactId>
+	<version>2.1.7</version>
     </dependency>
+    
 </dependencies>
 </project>
