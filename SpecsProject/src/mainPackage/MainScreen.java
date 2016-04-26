@@ -8,6 +8,7 @@ import excelPackage.ExcelFrame;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.net.URISyntaxException;
 
 
@@ -239,6 +240,22 @@ public class MainScreen extends JApplet{
             public void mouseExited(MouseEvent e) {
                 helpIcon.setIcon(new ImageIcon(MainScreen.class.getResource("/Resources/helpIcon.jpg")));
             }
+            
+            public void mouseClicked(MouseEvent arg0) {
+                try {
+                	
+                	File file = new File("Manual/User Guide.pdf");
+                    if (file.toString().endsWith(".pdf")) 
+                        Runtime.getRuntime().exec("rundll32 url.dll,FileProtocolHandler " + file);
+                    else {
+                        Desktop desktop = Desktop.getDesktop();
+                        desktop.open(file);
+                }
+                	
+
+                } catch (Exception ex) {System.out.println("cannot execute command. " + ex);}
+            }
+            
         });
 
     }
