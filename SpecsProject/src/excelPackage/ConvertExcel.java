@@ -76,7 +76,7 @@ public class ConvertExcel {
 							e1.printStackTrace();
 						} // needed so printwriter will not overwrite
 						PrintWriter writer = new PrintWriter(fw);
-						System.out.println("ID Tag: " + model.getValueAt(rows, cols).toString());
+						//System.out.println("ID Tag: " + model.getValueAt(rows, cols).toString());
 						writer.println( model.getValueAt(rows, 3).toString());
 						
 	            		double x = Double.parseDouble((String) (model.getValueAt(rows, cols)));//get he  value from table
@@ -97,7 +97,7 @@ public class ConvertExcel {
 	        row = sheet.createRow((rows + 1));
 	    }//end of row loop
 	    wb.write(new FileOutputStream(file.toString()));//Save the file
-	    openExcel(file);
+	   openExcel(file);
 	}//end of method
 
 	//overloaded method for TestMain

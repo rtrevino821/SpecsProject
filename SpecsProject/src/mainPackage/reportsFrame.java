@@ -186,6 +186,13 @@ public class reportsFrame {
 		expiredQuery.setFont(font);
 		yearExpired.setFont(font);
 
+		//setting mask for input format
+		TextPrompt tp1 = new TextPrompt("YYYY-MM-DD",yearStart);
+		TextPrompt tp2 = new TextPrompt("YYYY-MM-DD",yearEnd);
+
+		
+		
+		
 		// drop down options for assets
 		String[] assetQueries = { "Select Asset Query", "Assets by Room #", "Assets by Category", "Assets over $500",
 				"Assets over $500 & Year acquired", "Assets over $500 within year range",
@@ -913,7 +920,7 @@ public class reportsFrame {
 			stmt = conn2.createStatement();
 			DefaultTableModel dm = new DefaultTableModel();
 			String testTable_String = ("SELECT *" + " From MasterTable"
-					+ " Where MasterTable.Deactivated LIKE 'Removed'" + " AND MasterTable.Category = '" + category
+					+ " Where MasterTable.Deactivated LIKE 'Y'" + " AND MasterTable.Category = '" + category
 					+ "';'");
 
 			PreparedStatement showTestTable = conn2.prepareStatement(testTable_String);
