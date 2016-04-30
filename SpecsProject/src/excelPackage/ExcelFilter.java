@@ -24,7 +24,7 @@ public class ExcelFilter extends FileFilter {
 	}
 
 	public String getDescription() {
-		return "Excel .xls Only";
+		return "Excel .xlsx Only";
 	}
 	public String extension(File f)
 	{

@@ -107,6 +107,7 @@ public class ExcelFrame extends JFrame {
                     Savepoint sv = null;
                     try {
                         sv = conn.setSavepoint("sv");
+                        
                     } catch (SQLException e4) {
                         // TODO Auto-generated catch block
                         e4.printStackTrace();
@@ -120,8 +121,8 @@ public class ExcelFrame extends JFrame {
                                 //ImageIcon icon = new ImageIcon(getClass().getResource("/Resources/black-check-mark-md.png"));
 
                                 long startTime = System.currentTimeMillis();
-
                                 ConvertExcel.importExcel(file);
+                                
                                 //Logs how long import took
                                 long endTime   = System.currentTimeMillis();
                                 long totalTime = endTime - startTime;
@@ -142,7 +143,7 @@ public class ExcelFrame extends JFrame {
                                 String line;
                                 StringBuilder sb = new StringBuilder();
                                 try {
-                                    input = new Scanner(new File("LogC.txt"));
+                                    input = new Scanner(new File("LogMissingColumns.txt"));
                                 } catch (FileNotFoundException e2) {
                                     e2.printStackTrace();
                                 }
@@ -155,6 +156,7 @@ public class ExcelFrame extends JFrame {
                                     sb.append("\n");
 
                                 }
+                                System.out.println(sb.toString());
                                 String temp = sb.toString();
                                 String output = null;
 
@@ -170,16 +172,48 @@ public class ExcelFrame extends JFrame {
                                                 JOptionPane.ERROR_MESSAGE);    
                             }
 
-                        } catch (SQLException e1) {
+                        }
+                        catch(StringIndexOutOfBoundsException se)
+                        {
+    						
+                        	JOptionPane.showMessageDialog(contentPane,
+                        			"Error: File is missing the required columns for import",
+                                             
+                                            "ERROR",
+                                            JOptionPane.ERROR_MESSAGE);  
+                        }
+                        catch(NullPointerException np)
+                        {
+                        	
+                        	JOptionPane.showMessageDialog(contentPane,
+                        			 "Error: File imported contained empty row(s), please close Excel Options and reopen it.",
+                                             
+                                            "ERROR",
+                                            JOptionPane.ERROR_MESSAGE);  
+    						
+
+                        }
+                        
+                        
+                        
+                        catch (SQLException e1) {
                             if(e1.toString().contains(" [SQLITE_BUSY]  The database file is locked "
                                     + "(database is locked)"))
                             {//Occurs when connection is not closed
                                 JOptionPane.showMessageDialog(contentPane,
-                                        "CLOSE All SQLITE APPLICATIONS, and try again",
+                                        "Database is locked. Close Excel Options Window and open it again.",
                                         "ERROR",
                                         JOptionPane.ERROR_MESSAGE);
                             }
-                            else if(e1.toString().contains("[SQLITE_CONSTRAINT]  Abort due to constraint violation"))
+                            if(e1.toString().contains("lock"))
+                            {
+                            	JOptionPane.showMessageDialog(contentPane,
+                                        "Database is locked. Close Excel Options Window and open it again.",
+                                        "ERROR",
+                                        JOptionPane.ERROR_MESSAGE);
+                            }
+                        
+                            else if(e1.toString().contains("[SQLITE_CONSTRAINT]"))
                             {
                                 try {
                                     //rollback the changes because of constraint
@@ -188,6 +222,7 @@ public class ExcelFrame extends JFrame {
                                     //conn.commit();
                                     try {
                                         conn.close();
+                                        conn = SqliteConnectionTESTDB.dbConnector();
                                     } catch (SQLException e2) {
                                         // TODO Auto-generated catch block
                                         e1.printStackTrace();
@@ -199,7 +234,7 @@ public class ExcelFrame extends JFrame {
                                 Scanner input = null;
                                 String line;
                                 try {
-                                    input = new Scanner(new File("Log.txt"));
+                                    input = new Scanner(new File("LogDuplicateID_Tag.txt"));
                                 } catch (FileNotFoundException e2) {
                                     e2.printStackTrace();
                                 }
