@@ -17,6 +17,7 @@ import java.io.*;
 import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 
@@ -269,6 +270,7 @@ public class ConvertExcel {
 		PreparedStatement prepare = null;
 		try {
 			conn.setAutoCommit(false);
+			//buildIDTagList();
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -285,6 +287,25 @@ public class ConvertExcel {
 			prepare = conn.prepareStatement(query);
 		} catch (SQLException e) { e.printStackTrace(); }
 		return prepare;
+	}
+	
+	public static void buildIDTagList() throws SQLException
+	{
+		//unfinshed
+		
+		ArrayList<Integer> list = new ArrayList<Integer>();
+		
+		String checkDuplicate = "SELECT ID_Tag from MasterTable";
+		Connection conn = SqliteConnectionTESTDB.dbConnector();
+		PreparedStatement prepareDuplicateStatment = null;
+		prepareDuplicateStatment = conn.prepareStatement(checkDuplicate);
+		ResultSet rs = prepareDuplicateStatment.executeQuery();
+		rs.getInt("ID_Tag");
+		ResultSetMetaData meta = rs.getMetaData();
+		final int columnCount = meta.getColumnCount();
+	
+		
+		 
 	}
 
 	/**
@@ -324,7 +345,8 @@ public class ConvertExcel {
 				if(j+1 == 4)
 				{
 					FileWriter fw = null;
-
+					
+				
 					try {
 						fw = new FileWriter("LogDuplicateID_Tag.txt");
 					} catch (IOException e1) {
@@ -740,6 +762,7 @@ public class ConvertExcel {
 				{
 					prepare.executeUpdate();
 					prepare.getConnection().commit();
+					
 					//System.out.println("Successflly Inserted");
 
 				}
