@@ -23,7 +23,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 
 import excelPackage.ConvertExcel;
-import sqliteConnection.SqliteConnectionTESTDB;
+import sqliteConnection.SqliteConnectionCarmaDB;
 
 //import org.apache.poi.util.SystemOutLogger;
 
@@ -111,7 +111,7 @@ public class reportsFrame {
 	public reportsFrame() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException,
 			UnsupportedLookAndFeelException {
 		UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-		Connection conn = SqliteConnectionTESTDB.dbConnector();
+		Connection conn = SqliteConnectionCarmaDB.dbConnector();
 		initialize();
 		UpDateTable();
 
@@ -122,7 +122,7 @@ public class reportsFrame {
 	*/
 	private void initialize() {
 
-		Connection conn = SqliteConnectionTESTDB.dbConnector();
+		Connection conn = SqliteConnectionCarmaDB.dbConnector();
 
 		reportFrame = new JFrame();
 		reportFrame.setVisible(true);
@@ -643,7 +643,7 @@ public class reportsFrame {
 	//update table from most recent data in database
 	public static void UpDateTable() {
 		try {
-			Connection conn = SqliteConnectionTESTDB.dbConnector();
+			Connection conn = SqliteConnectionCarmaDB.dbConnector();
 			DefaultTableModel dm = new DefaultTableModel();
 			String testTable_String = "Select * from MasterTable";
 			PreparedStatement showTestTable = conn.prepareStatement(testTable_String);
@@ -661,7 +661,7 @@ public class reportsFrame {
 	// Filters assets to "All assets over 500 within user chosen range of dates"
 	public static void update_Table_Assets_Over_500_Year_Range(String startDate, String endDate) {
 
-		Connection conn2 = SqliteConnectionTESTDB.dbConnector();
+		Connection conn2 = SqliteConnectionCarmaDB.dbConnector();
 		java.sql.Statement stmt;
 
 		try {
@@ -690,7 +690,7 @@ public class reportsFrame {
 	// Filters assets to "All assets over 500"
 	public static void UpDateTable_Assets_Over_500() {
 
-		Connection conn2 = SqliteConnectionTESTDB.dbConnector();
+		Connection conn2 = SqliteConnectionCarmaDB.dbConnector();
 		java.sql.Statement stmt;
 
 		try {
@@ -715,7 +715,7 @@ public class reportsFrame {
 	// Filters assets to "All assets over 500 for single year chosen by user
 	public static void UpDateTable_Assets_Over_500_By_Year(String year) {
 
-		Connection conn2 = SqliteConnectionTESTDB.dbConnector();
+		Connection conn2 = SqliteConnectionCarmaDB.dbConnector();
 		java.sql.Statement stmt;
 
 		try {
@@ -740,7 +740,7 @@ public class reportsFrame {
 	// Filters assets to all assets in specified room
 	public static void Update_Table_Search_By_Room(int room_Number) {
 
-		Connection conn2 = SqliteConnectionTESTDB.dbConnector();
+		Connection conn2 = SqliteConnectionCarmaDB.dbConnector();
 		java.sql.Statement stmt;
 
 		try {
@@ -764,7 +764,7 @@ public class reportsFrame {
 	//Filters assets to all assets over 500 by category specified by user
 	public static void UpDateTable_Assets_Over_500_By_Category(String category) {
 
-		Connection conn2 = SqliteConnectionTESTDB.dbConnector();
+		Connection conn2 = SqliteConnectionCarmaDB.dbConnector();
 		java.sql.Statement stmt;
 
 		try {
@@ -789,7 +789,7 @@ public class reportsFrame {
 	// Filters assets to all assets of user specified category
 	public static void UpDateTable_All_Assets_By_Category(String category) {
 
-		Connection conn2 = SqliteConnectionTESTDB.dbConnector();
+		Connection conn2 = SqliteConnectionCarmaDB.dbConnector();
 		java.sql.Statement stmt;
 
 		try {
@@ -814,7 +814,7 @@ public class reportsFrame {
 	// Filters assets to all assets over 500 by year and by category
 	public static void UpDateTable_Assets_Over_500_By_Category_And_Year(String year, String category) {
 
-		Connection conn2 = SqliteConnectionTESTDB.dbConnector();
+		Connection conn2 = SqliteConnectionCarmaDB.dbConnector();
 		java.sql.Statement stmt;
 
 		try {
@@ -839,7 +839,7 @@ public class reportsFrame {
 	// Filters assets to all assets with Y in the deactivated column
 	public static void UpDateTable_Retired_Assets() {
 
-		Connection conn2 = SqliteConnectionTESTDB.dbConnector();
+		Connection conn2 = SqliteConnectionCarmaDB.dbConnector();
 		java.sql.Statement stmt;
 
 		try {
@@ -863,7 +863,7 @@ public class reportsFrame {
 	// Filters assets to all expired assets within year specified
 	public static void upDateTable_Expired_Assets_By_Year(String year) {
 
-		Connection conn2 = SqliteConnectionTESTDB.dbConnector();
+		Connection conn2 = SqliteConnectionCarmaDB.dbConnector();
 		java.sql.Statement stmt;
 
 		try {
@@ -888,7 +888,7 @@ public class reportsFrame {
 	//Filters assets to all expired assets to date
 	public static void UpDateTable_Expired_Assets_To_Date(String string) {
 
-		Connection conn2 = SqliteConnectionTESTDB.dbConnector();
+		Connection conn2 = SqliteConnectionCarmaDB.dbConnector();
 		java.sql.Statement stmt;
 
 		try {
@@ -913,7 +913,7 @@ public class reportsFrame {
 	// FIlters assets to all assets within specified category
 	public static void UpDateTable_Retired_Assets_By_Category(String category) {
 
-		Connection conn2 = SqliteConnectionTESTDB.dbConnector();
+		Connection conn2 = SqliteConnectionCarmaDB.dbConnector();
 		java.sql.Statement stmt;
 
 		try {
@@ -939,7 +939,7 @@ public class reportsFrame {
 	// Filters assets to all assets with warranty expiration matching specified year
 	public static void UpDateTable_Warranty_Assets(String year) {
 
-		Connection conn2 = SqliteConnectionTESTDB.dbConnector();
+		Connection conn2 = SqliteConnectionCarmaDB.dbConnector();
 		java.sql.Statement stmt;
 
 		try {
@@ -964,7 +964,7 @@ public class reportsFrame {
 	// Filter assets to all assets with lease expiration matching user specified year
 	public static void UpDateTable_Leased_Assets(String year) {
 
-		Connection conn2 = SqliteConnectionTESTDB.dbConnector();
+		Connection conn2 = SqliteConnectionCarmaDB.dbConnector();
 		java.sql.Statement stmt;
 
 		try {
@@ -1042,7 +1042,7 @@ public class reportsFrame {
 	// Adds categories to category drop down boxes
 	public void addCategoriesToJCombo() {
 
-		Connection conn2 = SqliteConnectionTESTDB.dbConnector();
+		Connection conn2 = SqliteConnectionCarmaDB.dbConnector();
 		java.sql.Statement stmt;
 
 		try {

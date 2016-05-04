@@ -30,7 +30,7 @@ import javax.swing.text.MaskFormatter;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
 
-import sqliteConnection.SqliteConnectionTESTDB;
+import sqliteConnection.SqliteConnectionCarmaDB;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -147,7 +147,7 @@ public class InsertPanel extends Applet {
 	public InsertPanel() throws SQLException, ClassNotFoundException, InstantiationException, IllegalAccessException, UnsupportedLookAndFeelException {
 		super();
 		UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
-		Connection conn = SqliteConnectionTESTDB.dbConnector();
+		Connection conn = SqliteConnectionCarmaDB.dbConnector();
 		initialize();
 		UpDateTable();
 
@@ -160,7 +160,7 @@ public class InsertPanel extends Applet {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		Connection conn = SqliteConnectionTESTDB.dbConnector();
+		Connection conn = SqliteConnectionCarmaDB.dbConnector();
 		//Components
 		JScrollPane scrollPane_1 = new JScrollPane();
 		JButton btnInsert = new JButton("Insert");
@@ -537,7 +537,7 @@ public class InsertPanel extends Applet {
 			public void actionPerformed(ActionEvent arg0) {
 				PreparedStatement updatePrepare = null;
 				
-				Connection conn = SqliteConnectionTESTDB.dbConnector();
+				Connection conn = SqliteConnectionCarmaDB.dbConnector();
 				try {
 					
 
@@ -1128,7 +1128,7 @@ public class InsertPanel extends Applet {
 	{
 		try 
 		{
-			Connection conn = SqliteConnectionTESTDB.dbConnector();
+			Connection conn = SqliteConnectionCarmaDB.dbConnector();
 			DefaultTableModel dm = new DefaultTableModel(){
 				@Override
 				public Class getColumnClass(int c) {
@@ -1243,7 +1243,7 @@ public class InsertPanel extends Applet {
 	 */
 	private void addCategories() {
 
-		Connection conn2 = SqliteConnectionTESTDB.dbConnector();
+		Connection conn2 = SqliteConnectionCarmaDB.dbConnector();
 		java.sql.Statement stmt;
 		field3.removeAllItems();
 		field3.addItem("<New Category>");
@@ -1880,7 +1880,7 @@ public class InsertPanel extends Applet {
 	 */
 	public void initPrepareStatment()
 	{
-		Connection conn = SqliteConnectionTESTDB.dbConnector();
+		Connection conn = SqliteConnectionCarmaDB.dbConnector();
 		try {
 			conn.setAutoCommit(false);
 		} catch (SQLException e) {

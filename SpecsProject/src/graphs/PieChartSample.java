@@ -11,7 +11,7 @@ import javafx.scene.effect.Reflection;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import sqliteConnection.SqliteConnectionTESTDB;
+import sqliteConnection.SqliteConnectionCarmaDB;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -104,7 +104,7 @@ public class PieChartSample extends PieChart {
     /*FOLLOWING QUERYS USED FOR PIE CHART TO DISPLAY INDIVIDUAL CATEGORY TOTALS*/
     
     public static double test_Total_By_Category(String group) {
-        Connection conn2 = SqliteConnectionTESTDB.dbConnector();
+        Connection conn2 = SqliteConnectionCarmaDB.dbConnector();
         java.sql.Statement stmt;
 
         double sum = 0;

@@ -25,7 +25,7 @@ import javax.swing.table.TableRowSorter;
 
 import excelPackage.ConvertExcel;
 import net.proteanit.sql.DbUtils;
-import sqliteConnection.SqliteConnectionTESTDB;
+import sqliteConnection.SqliteConnectionCarmaDB;
 
 import javax.swing.JScrollPane;
 import javax.swing.UIManager;
@@ -64,7 +64,7 @@ public class TestMain {
 	 * @throws SQLException 
 	 */
 	public TestMain() throws SQLException {
-		Connection conn = SqliteConnectionTESTDB.dbConnector();
+		Connection conn = SqliteConnectionCarmaDB.dbConnector();
 		initialize();
 		
 	}
@@ -87,7 +87,7 @@ public class TestMain {
 		
 		 
 
-		Connection conn = SqliteConnectionTESTDB.dbConnector();
+		Connection conn = SqliteConnectionCarmaDB.dbConnector();
 
 		
 		JButton btnNewButton = new JButton("Insert");
@@ -183,7 +183,7 @@ public class TestMain {
 	
 	public void initTable() throws SQLException
 	{
-		Connection conn = SqliteConnectionTESTDB.dbConnector();
+		Connection conn = SqliteConnectionCarmaDB.dbConnector();
 		DefaultTableModel dm = new DefaultTableModel()
 		{
 //			Class[] types = new Class [] {
@@ -248,7 +248,7 @@ public class TestMain {
 	{
 		try 
 		{
-			Connection conn = SqliteConnectionTESTDB.dbConnector();
+			Connection conn = SqliteConnectionCarmaDB.dbConnector();
 			DefaultTableModel dm = new DefaultTableModel()
 			{
 				
@@ -327,7 +327,7 @@ public class TestMain {
 
 		System.out.println("Data: " + delRowString);
 		//System.out.println(testTable.getSelectedRow());
-		Connection conn = SqliteConnectionTESTDB.dbConnector();
+		Connection conn = SqliteConnectionCarmaDB.dbConnector();
 		String query = "DELETE FROM Artwork WHERE Asset = ? ";
 		PreparedStatement prepareDel = conn.prepareStatement(query);
 		prepareDel.setString(1, delRowString);
@@ -349,7 +349,7 @@ public class TestMain {
 		
 		System.out.println("Data: " + delRowString);
 		//System.out.println(testTable.getSelectedRow());
-		Connection conn = SqliteConnectionTESTDB.dbConnector();
+		Connection conn = SqliteConnectionCarmaDB.dbConnector();
 		String query = "DELETE FROM Artwork WHERE Asset = ? ";
 		PreparedStatement prepareDel = conn.prepareStatement(query);
 		prepareDel.setString(1, delRowString);

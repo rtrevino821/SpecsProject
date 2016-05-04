@@ -26,7 +26,7 @@ import javafx.scene.chart.XYChart.Series;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-import sqliteConnection.SqliteConnectionTESTDB;
+import sqliteConnection.SqliteConnectionCarmaDB;
 
 public class LineChartSample extends Application{
     @Override public void start(Stage stage) {
@@ -80,7 +80,7 @@ public class LineChartSample extends Application{
     }
    
     public static TreeMap<String,Double> test_Everything_Total_Spent() {
-        Connection conn2 = SqliteConnectionTESTDB.dbConnector();
+        Connection conn2 = SqliteConnectionCarmaDB.dbConnector();
         java.sql.Statement stmt;
 
         TreeMap<String,Double> yearlyTotalSpent = new TreeMap<String,Double>();
