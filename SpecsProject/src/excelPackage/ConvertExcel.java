@@ -7,7 +7,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.joda.time.DateTime;
 
-import sqliteConnection.SqliteConnectionTESTDB;
+import sqliteConnection.SqliteConnectionCarmaDB;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
@@ -19,6 +19,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Iterator;
 
 
@@ -28,10 +29,11 @@ import java.util.Iterator;
  */
 public class ConvertExcel {
 	static int blankSpace = 0; //counts num of blak rows
+	static HashSet<Integer> idtagSet; //contains id tags from db
+
 
 	public static void writeExcel(boolean templateState)throws IOException
 	{
-
 		JTable table = new JTable();
 	    DateTime dt = new DateTime();
 	    UpDateTable(table);
@@ -266,11 +268,11 @@ public class ConvertExcel {
 
 	public static PreparedStatement initPrepare()
 	{
-		Connection conn = SqliteConnectionTESTDB.dbConnector();
+		Connection conn = SqliteConnectionCarmaDB.dbConnector();
 		PreparedStatement prepare = null;
 		try {
 			conn.setAutoCommit(false);
-			//buildIDTagList();
+			buildIDTagList();
 		} catch (SQLException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -294,15 +296,22 @@ public class ConvertExcel {
 		//unfinshed
 		
 		ArrayList<Integer> list = new ArrayList<Integer>();
-		
+		idtagSet = new  HashSet<Integer>();
 		String checkDuplicate = "SELECT ID_Tag from MasterTable";
-		Connection conn = SqliteConnectionTESTDB.dbConnector();
+		Connection conn = SqliteConnectionCarmaDB.dbConnector();
 		PreparedStatement prepareDuplicateStatment = null;
 		prepareDuplicateStatment = conn.prepareStatement(checkDuplicate);
 		ResultSet rs = prepareDuplicateStatment.executeQuery();
+		
 		rs.getInt("ID_Tag");
 		ResultSetMetaData meta = rs.getMetaData();
-		final int columnCount = meta.getColumnCount();
+		final int cols = meta.getColumnCount();
+		 while(rs.next()){
+			 for(int i=0;i<cols;i++){
+	         		int x = rs.getInt("ID_Tag");
+	         		idtagSet.add(x);
+	                }
+        }
 	
 		
 		 
@@ -344,18 +353,7 @@ public class ConvertExcel {
 			try {
 				if(j+1 == 4)
 				{
-					FileWriter fw = null;
 					
-				
-					try {
-						fw = new FileWriter("LogDuplicateID_Tag.txt");
-					} catch (IOException e1) {
-						e1.printStackTrace();
-					} // needed so printwriter will not overwrite
-					PrintWriter writer = new PrintWriter(fw);
-					System.out.println("ID Tag: " + cellTempInt);
-					writer.println("ID Tag: " + cellTempInt);
-					writer.close();
 				}
 
 				prepare.setInt(j+1, cellTempInt);
@@ -497,7 +495,7 @@ public class ConvertExcel {
 	 */
 	public static boolean validateExcel(File fs) throws SQLException
 	{
-		Connection conn = SqliteConnectionTESTDB.dbConnector();
+		Connection conn = SqliteConnectionCarmaDB.dbConnector();
 		String testTable_String = "Select * from MasterTable";
 		PreparedStatement showTestTable = null;
 		ResultSet rs = null;
@@ -650,7 +648,7 @@ public class ConvertExcel {
 	{//Duplicate
 		try
 		{
-			Connection conn = SqliteConnectionTESTDB.dbConnector();
+			Connection conn = SqliteConnectionCarmaDB.dbConnector();
 			DefaultTableModel dm = new DefaultTableModel();
 	        //query and resultset
 			String testTable_String = "Select * from MasterTable";
@@ -696,7 +694,7 @@ public class ConvertExcel {
 	}
 
 	//Overload for user to import excel
-	public static void importExcel(File fs) throws SQLException
+	public static boolean importExcel(File fs) throws SQLException
 	{//uncomment
 		PreparedStatement prepare = initPrepare();
 		int size = 24; //num of  columns
@@ -743,7 +741,7 @@ public class ConvertExcel {
 		}
 
 		//System.out.println("Total Number of Rows: " + (rowsCount + 1));
-		for (int i = 3; i <= rowsCount-1; i++) {//start at 1 to skip column
+		for (int i = 1; i <= rowsCount; i++) {//start at 1 to skip column
 			row = sheet.getRow(i);//change colcounts to row
 			int colCounts = columnLength;//assign colCounts to the length of max num of cols
 			//System.out.println("COLUMN COUNT: "+ colCounts);
@@ -760,11 +758,11 @@ public class ConvertExcel {
 				
 				if(j==24)//num of columns in database
 				{
+					
 					prepare.executeUpdate();
 					prepare.getConnection().commit();
 					
 					//System.out.println("Successflly Inserted");
-
 				}
 
 				else if (row.getCell(j) == null)
@@ -778,6 +776,28 @@ public class ConvertExcel {
 				}
 				else{
 					cellArray[j] = row.getCell(j);
+					if(j ==4)
+					{
+
+						System.out.println("ID " + cellArray[j].getNumericCellValue());
+
+						if(idtagSet.contains((int) cellArray[j].getNumericCellValue()))
+						{
+							
+							FileWriter fw = null;
+							try {
+								fw = new FileWriter("LogDuplicateID_Tag.txt");
+							} catch (IOException e1) {
+								e1.printStackTrace();
+							} // needed so printwriter will not overwrite
+							PrintWriter writer = new PrintWriter(fw);
+							System.out.println("Found : ");
+							writer.println("ID Tag: " + (int) cellArray[j].getNumericCellValue());
+							writer.close();
+							
+							return false;
+						}
+					}
 					//System.out.println("Loc: " + i +" ," + j);
 					prepare = getParepareValues(cellArray,j,prepare);
 				}
@@ -790,6 +810,7 @@ public class ConvertExcel {
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
+		return true;
 
 
 	}//end of method

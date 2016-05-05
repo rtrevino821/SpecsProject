@@ -2,7 +2,7 @@ package oldCode;
 
 import com.nitido.utils.toaster.Toaster;
 
-import sqliteConnection.SqliteConnectionTESTDB;
+import sqliteConnection.SqliteConnectionCarmaDB;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -74,7 +74,7 @@ public class TestInsert extends JFrame {
 		contentPane.setLayout(null);
 		
 		/////Variables
-		conn = SqliteConnectionTESTDB.dbConnector();
+		conn = SqliteConnectionCarmaDB.dbConnector();
 		String query = "insert into Artwork(\"group\",Asset,Property_Description,Date_In_Service,Price)"
 				+ "values(?,?,?,?,?)";
 		prepare = conn.prepareStatement(query);

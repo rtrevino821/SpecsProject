@@ -5,7 +5,7 @@ import javax.swing.GroupLayout.Alignment;
 import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.border.EmptyBorder;
 
-import sqliteConnection.SqliteConnectionTESTDB;
+import sqliteConnection.SqliteConnectionCarmaDB;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -95,23 +95,23 @@ public class ExcelFrame extends JFrame {
                 //Handle open button action.
                 if (e.getSource() == btnImportExcel) {
                     int returnVal = fc.showOpenDialog(btnImportExcel);
-                    Connection conn = SqliteConnectionTESTDB.dbConnector();
-                    //disable auto commit
-                    try {
-                        conn.setAutoCommit(false);
-                    } catch (SQLException e3) {
-                        // TODO Auto-generated catch block
-                        e3.printStackTrace();
-                    }
-                    //create a sv point incase sql exception
-                    Savepoint sv = null;
-                    try {
-                        sv = conn.setSavepoint("sv");
-                        
-                    } catch (SQLException e4) {
-                        // TODO Auto-generated catch block
-                        e4.printStackTrace();
-                    }
+//                    Connection conn = SqliteConnectionCarmaDB.dbConnector();
+//                    //disable auto commit
+//                    try {
+//                        conn.setAutoCommit(false);
+//                    } catch (SQLException e3) {
+//                        // TODO Auto-generated catch block
+//                        e3.printStackTrace();
+//                    }
+//                    //create a sv point incase sql exception
+//                    Savepoint sv = null;
+//                    try {
+//                        sv = conn.setSavepoint("sv");
+//                        
+//                    } catch (SQLException e4) {
+//                        // TODO Auto-generated catch block
+//                        e4.printStackTrace();
+//                    }
                     if (returnVal == JFileChooser.APPROVE_OPTION) {
                         File file = fc.getSelectedFile();
 
@@ -121,7 +121,7 @@ public class ExcelFrame extends JFrame {
                                 //ImageIcon icon = new ImageIcon(getClass().getResource("/Resources/black-check-mark-md.png"));
 
                                 long startTime = System.currentTimeMillis();
-                                ConvertExcel.importExcel(file);
+                                if(ConvertExcel.importExcel(file)){
                                 
                                 //Logs how long import took
                                 long endTime   = System.currentTimeMillis();
@@ -135,7 +135,30 @@ public class ExcelFrame extends JFrame {
                                                 +"\nTime: " + sdf.format(resultdate) ,
                                                 "Import",
                                                 JOptionPane.INFORMATION_MESSAGE
-                                        );    
+                                        ); 
+                              
+                            }
+                                else
+                                {
+                                	//Duplicate ID Tag
+                                	  Scanner input = null;
+                                      String line;
+                                      try {
+                                          input = new Scanner(new File("LogDuplicateID_Tag.txt"));
+                                      } catch (FileNotFoundException e2) {
+                                          e2.printStackTrace();
+                                      }
+
+                                      line = input.nextLine();
+                                      JOptionPane.showMessageDialog(contentPane,
+                                              file.getName() +" was not imported\n"
+                                                      +"Duplicates Entry found in: "
+                                                      + line +"\nFix duplicate and reimport file."
+                                                      ,
+                                                      "ERROR",
+                                                      JOptionPane.ERROR_MESSAGE);  
+                                	
+                                }
                             }
                             else{//The excel imported does not match format
                                 //custom title, warning icon
@@ -187,15 +210,10 @@ public class ExcelFrame extends JFrame {
                         	
                         	JOptionPane.showMessageDialog(contentPane,
                         			 "Error: File imported contained empty row(s), please close Excel Options and reopen it.",
-                                             
                                             "ERROR",
                                             JOptionPane.ERROR_MESSAGE);  
-    						
-
+                        	
                         }
-                        
-                        
-                        
                         catch (SQLException e1) {
                             if(e1.toString().contains(" [SQLITE_BUSY]  The database file is locked "
                                     + "(database is locked)"))
@@ -204,33 +222,24 @@ public class ExcelFrame extends JFrame {
                                         "Database is locked. Close Excel Options Window and open it again.",
                                         "ERROR",
                                         JOptionPane.ERROR_MESSAGE);
+         		
                             }
-                            if(e1.toString().contains("lock"))
+                            else if(e1.toString().contains("lock"))
                             {
                             	JOptionPane.showMessageDialog(contentPane,
                                         "Database is locked. Close Excel Options Window and open it again.",
                                         "ERROR",
                                         JOptionPane.ERROR_MESSAGE);
+                            	
                             }
                         
                             else if(e1.toString().contains("[SQLITE_CONSTRAINT]"))
                             {
-                                try {
-                                    //rollback the changes because of constraint
-                                    conn.rollback(sv);;
-                                    conn.rollback();
-                                    //conn.commit();
-                                    try {
-                                        conn.close();
-                                        conn = SqliteConnectionTESTDB.dbConnector();
-                                    } catch (SQLException e2) {
-                                        // TODO Auto-generated catch block
-                                        e1.printStackTrace();
-                                    }
-                                } catch (SQLException e3) {
-                                    // TODO Auto-generated catch block
-                                    e3.printStackTrace();
-                                }
+                                //rollback the changes because of constraint
+//                                    conn.rollback(sv);
+//                                    conn.rollback();
+								//conn.commit();
+								
                                 Scanner input = null;
                                 String line;
                                 try {
@@ -252,13 +261,7 @@ public class ExcelFrame extends JFrame {
                             e1.printStackTrace();
 
                         }
-                        try {
-                            conn.close();
-                        } catch (SQLException e1) {
-                            // TODO Auto-generated catch block
-                            e1.printStackTrace();
-                        }
-
+                        
                         //This is where a real application would open the file.
                         //System.out.println(("Opening: " + file.getName() + "."));
                     } else {
