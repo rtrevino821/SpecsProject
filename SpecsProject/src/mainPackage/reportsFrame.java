@@ -189,6 +189,9 @@ public class reportsFrame {
 		//setting mask for input format
 		TextPrompt tp1 = new TextPrompt("YYYY-MM-DD",yearStart);
 		TextPrompt tp2 = new TextPrompt("YYYY-MM-DD",yearEnd);
+		TextPrompt tp3 = new TextPrompt("YYYY",yearExpired);
+		TextPrompt tp4 = new TextPrompt("YYYY",year);
+
 
 		
 		
@@ -407,7 +410,7 @@ public class reportsFrame {
 
 				"Select All:    ", 				assetQuery,
 				"From Room No.:    ",			roomNo, 
-				"From Year:    ", 				year, 
+				"Year:    ", 				    year, 
 				"From Year:    ",				yearStart, 
 				"to Year:    ", 				yearEnd, 
 				"From Category:    ", 			categoryAsset,
@@ -424,7 +427,7 @@ public class reportsFrame {
 				"Expired Assets    ", 			empty3, // spacer
 
 				"Select All:    ", 				expiredQuery, 
-				"From Year:    ", 				yearExpired, 
+				"Year:    ", 				    yearExpired, 
 				"    ", 						btnRunExpiredQuery //Run Button
 				};
 		
