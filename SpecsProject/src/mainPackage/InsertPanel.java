@@ -1211,30 +1211,30 @@ public class InsertPanel extends Applet {
 		testTable.repaint();
 		testTable.validate();//
 
-		testTable.getColumnModel().getColumn(0).setPreferredWidth(280);
-		testTable.getColumnModel().getColumn(1).setPreferredWidth(180);
+		testTable.getColumnModel().getColumn(0).setPreferredWidth(380);
+		testTable.getColumnModel().getColumn(1).setPreferredWidth(380);
 		testTable.getColumnModel().getColumn(2).setPreferredWidth(320);
-		testTable.getColumnModel().getColumn(3).setPreferredWidth(180);
+		testTable.getColumnModel().getColumn(3).setPreferredWidth(150);
 		testTable.getColumnModel().getColumn(4).setPreferredWidth(100);
 		testTable.getColumnModel().getColumn(5).setPreferredWidth(120);
 		testTable.getColumnModel().getColumn(6).setPreferredWidth(220);
-		testTable.getColumnModel().getColumn(7).setPreferredWidth(180);
-		testTable.getColumnModel().getColumn(8).setPreferredWidth(180);
-		testTable.getColumnModel().getColumn(9).setPreferredWidth(220);
-		testTable.getColumnModel().getColumn(10).setPreferredWidth(320);
+		testTable.getColumnModel().getColumn(7).setPreferredWidth(220);
+		testTable.getColumnModel().getColumn(8).setPreferredWidth(220);																		
+		testTable.getColumnModel().getColumn(9).setPreferredWidth(220);																	
+		testTable.getColumnModel().getColumn(10).setPreferredWidth(220);																			
 		testTable.getColumnModel().getColumn(11).setPreferredWidth(320);
-		testTable.getColumnModel().getColumn(12).setPreferredWidth(180);
-		//Edit
-		testTable.getColumnModel().getColumn(13).setPreferredWidth(180);
-		testTable.getColumnModel().getColumn(14).setPreferredWidth(180);
-		testTable.getColumnModel().getColumn(15).setPreferredWidth(180);
-		testTable.getColumnModel().getColumn(16).setPreferredWidth(180);
-		testTable.getColumnModel().getColumn(17).setPreferredWidth(180);
-		testTable.getColumnModel().getColumn(18).setPreferredWidth(180);
-		testTable.getColumnModel().getColumn(19).setPreferredWidth(180);
-		testTable.getColumnModel().getColumn(20).setPreferredWidth(180);
+		testTable.getColumnModel().getColumn(12).setPreferredWidth(320);
+		testTable.getColumnModel().getColumn(13).setPreferredWidth(320);
+		testTable.getColumnModel().getColumn(14).setPreferredWidth(320);
+		testTable.getColumnModel().getColumn(15).setPreferredWidth(320);
+		testTable.getColumnModel().getColumn(16).setPreferredWidth(320);
+		testTable.getColumnModel().getColumn(17).setPreferredWidth(320);
+		testTable.getColumnModel().getColumn(18).setPreferredWidth(320);
+		testTable.getColumnModel().getColumn(19).setPreferredWidth(320);
+		testTable.getColumnModel().getColumn(20).setPreferredWidth(320);
 		testTable.getColumnModel().getColumn(21).setPreferredWidth(180);
-		testTable.getColumnModel().getColumn(22).setPreferredWidth(360);
+		testTable.getColumnModel().getColumn(22).setPreferredWidth(320);
+		testTable.getColumnModel().getColumn(23).setPreferredWidth(320);
 
 	}
 
