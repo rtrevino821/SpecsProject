@@ -23,14 +23,18 @@ Place Rs2xml.jar and Sqlite-jdbc-3.8.11.2.jar into Referenced Libraries inside y
 
 Step 4:
 Open SQL Manager > click Database > import > select file  > OK 
+
 Step 5:
 Open eclipse > expand (Auto_Project) source folder > right click LoginGUI > run as > JAVA Application
 
 ## Contributors
 
 Steven Joy: Database queries, graphs, documentation, reports, tester. 
-Rudy Trevino: Overall GUI development, look and feel, program architecture, tester.  
+
+Rudy Trevino: Overall GUI development, look and feel, program architecture, tester. 
+
 Merzier Pettit-Frere: Database functionality, Insert/delete, excel capabilities, Github, tester.
+
 James DeSeno: Javafx incorporation, graphs, Github, tester.  
 
 ## License
