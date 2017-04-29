@@ -1,4 +1,8 @@
 # SpecsProject
+
+##mage
+
+![Alt text](https://github.com/rtrevino821/SpecsProject/blob/master/SpecsProject/specsProjectPic1.PNG?raw=true "Picture")
 ## Synopsis
 
 Our client wanted an application to keep track of assets in their lawfirm. 
@@ -39,3 +43,4 @@ James DeSeno: Javafx incorporation, graphs, Github, tester.
 
 ## License
 GNU GPL v3.0
+
