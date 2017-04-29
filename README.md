@@ -1,9 +1,8 @@
 # SpecsProject
 
 ## Images
-
-![Alt text](https://github.com/rtrevino821/SpecsProject/blob/master/SpecsProject/specsProjectPic1.PNG?raw=true "Picture1")
-![Alt text](https://github.com/rtrevino821/SpecsProject/blob/master/SpecsProject/specsProjectPic2.PNG?raw=true "Picture2")
+![Alt text](https://github.com/rtrevino821/SpecsProject/blob/master/SpecsProject/specsProjectPic2.PNG?raw=true "Picture1")
+![Alt text](https://github.com/rtrevino821/SpecsProject/blob/master/SpecsProject/specsProjectPic1.PNG?raw=true "Picture2")
 
 ## Synopsis
 
@@ -42,6 +41,10 @@ Rudy Trevino: Overall GUI development, look and feel, program architecture, test
 Merzier Pettit-Frere: Database functionality, Insert/delete, excel capabilities, Github, tester.
 
 James DeSeno: Javafx incorporation, graphs, Github, tester.  
+
+
+
+
 
 ## License
 GNU GPL v3.0
