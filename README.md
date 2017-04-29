@@ -1,8 +1,10 @@
 # SpecsProject
 
-##mage
+## Images
 
-![Alt text](https://github.com/rtrevino821/SpecsProject/blob/master/SpecsProject/specsProjectPic1.PNG?raw=true "Picture")
+![Alt text](https://github.com/rtrevino821/SpecsProject/blob/master/SpecsProject/specsProjectPic1.PNG?raw=true "Picture1")
+![Alt text](https://github.com/rtrevino821/SpecsProject/blob/master/SpecsProject/specsProjectPic2.PNG?raw=true "Picture2")
+
 ## Synopsis
 
 Our client wanted an application to keep track of assets in their lawfirm. 
