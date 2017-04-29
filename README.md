@@ -14,8 +14,10 @@ The client wanted a solution to their problem of keeping track of assets that va
 Step 1:
 Save Auto_Project.zip source folder to your computer.
 Import 
+
 Step 2:
 Open Eclipse > Click File > New Project (name your project Auto_Project) > Import > General > Archive > Browse (choose file) > into file (put in newly created project > finish. 
+
 Step 3:
 Place Rs2xml.jar and Sqlite-jdbc-3.8.11.2.jar into Referenced Libraries inside your project folder.
 
